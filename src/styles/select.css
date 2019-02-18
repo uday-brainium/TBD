@@ -1,0 +1,93 @@
+.s-hidden {
+    visibility: hidden;
+    padding-right: 10px;
+}
+
+.select {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    font-size: 14px;
+    color: #9fa5a5;
+    border: 1px solid #cdd4d4;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+    border-radius: 50px;
+    min-height: 50px;
+    line-height: 50px;
+    width: 100%;
+    color: #f2f2f2;
+}
+
+.styledSelect {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 1);
+    padding: 0 30px;
+    text-align: left;
+    -webkit-border-radius: 51px;
+    -moz-border-radius: 51px;
+    -ms-border-radius: 51px;
+    -o-border-radius: 51px;
+    border-radius: 51px;
+    color: #9fa5a5;
+}
+
+.styledSelect:after {
+    content: "";
+    width: 30px;
+    height: 17px;
+    background-image: url(../images/sprite.png);
+    position: absolute;
+    top: 17px;
+    right: 22px;
+    background-position: -67px -26px;
+    background-repeat: no-repeat;
+}
+
+.styledSelect:active, .styledSelect.active {
+    background-color: transparent;
+}
+
+.options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 999;
+    margin: 0 0;
+    padding: 0 0;
+    list-style: none;
+    border: 1px solid #222;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.9);
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.options li {
+    padding: 0 6px;
+    margin: 0 0;
+    padding: 0 10px;
+}
+
+.options li:hover {
+    background-color: #14110e;
+    color: white;
+}
+
+@media(max-width:767px) {
+    .styledSelect {
+        text-align: center;
+    }
+}
