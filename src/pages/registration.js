@@ -64,11 +64,11 @@ class RegistrationPage extends React.Component {
       businessaddress: '',
       state: '1',
       city: '',
-      country: '1',
+      country: 'United States',
       zipcode: '',
       currency: '',
       pointsonsocialpost: '',
-      loyalitycardprice: '',
+      loyalitycardprice: '10',
       minloyalitypoints: '',
       foodpickup: false,
       reservation: false,
@@ -94,7 +94,7 @@ class RegistrationPage extends React.Component {
   }
 
   handleChange(e) {
-    console.log(this.state.closedon);
+    console.log(this.state);
     
     this.setState({ [e.target.name]: e.target.value })
 

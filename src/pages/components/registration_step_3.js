@@ -6,10 +6,10 @@ export default class Step3 extends Component {
   render() { 
     return (
       <div className="animated slideInRight delay-0.5s">
-
+        <p class="info-text ">* Loyality card price</p>
         <div className="inputOuter">
             {/* <input placeholder="Loyality card price" type="text" name="loyalitycardprice" onChange={(e) => this.props.change(e)} /> */}
-            <select onChange={(e) => this.props.change(e)} name="loyalitycardprice">
+            <select defaultValue={10} onChange={(e) => this.props.change(e)} name="loyalitycardprice">
               <option value={5}>$5</option>
               <option value={6}>$6</option>
               <option value={7}>$7</option>

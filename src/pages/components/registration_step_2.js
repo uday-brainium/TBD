@@ -4,7 +4,6 @@ import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
 import ApiService from './../../services/api'
 import Weekly_time_picker from './weekly-time-picker'
-import LoadingOverlay from 'react-loading-overlay';
 
 
 const openTime = moment().hour(10).minute(0);
@@ -19,7 +18,8 @@ export default class Step2 extends Component {
       states: {},
       cities: {},
       statejsx: [],
-      loading: true
+      loading: true,
+      cityLoader: false
     };
   }
 
@@ -32,7 +32,7 @@ export default class Step2 extends Component {
     })
 
     //default country USA states 
-    ApiService.get_states_by_country(231)
+    ApiService.get_states_by_country('US')
     .then((res) => res.json())
     .then((data) => this.setState({states: data.result}))
     .then(() => {
@@ -40,7 +40,7 @@ export default class Step2 extends Component {
     })
 
     //Defult state albama cities
-    ApiService.get_cities_by_state(3919)
+    ApiService.get_cities_by_state('AL')
     .then((res) => res.json())
     .then((data) => this.setState({cities: data.result}))
   }
@@ -59,14 +59,21 @@ export default class Step2 extends Component {
   }
 
   stateChange = (e) => {
-    console.log("EVENT-LOG", e.target);
+    let selected = e.target.options[e.target.selectedIndex].text;
     
-    let stateId = parseInt(e.target.value)
+    this.setState({cityLoader: true})
+    let stateId = `${e.target.value}`
     ApiService.get_cities_by_state(stateId)
     .then((res) => res.json())
-    .then((data) => this.setState({cities: data.result}))
+    .then((data) => this.setState({cities: data.result, cityLoader: false})  )
+    let manupulate = {
+      target: {
+        value: selected,
+        name: 'state'
+      }
+    } 
     //saving data to primary state
-    this.props.change(e)
+    this.props.change(manupulate)
   }
 
   handleFileUpload = (e) => {
@@ -91,13 +98,17 @@ export default class Step2 extends Component {
   }
 
   renderStates() {
+    
     for(var key in this.state.states) {
       if (this.state.states.hasOwnProperty(key)) {
-       this.state.statejsx.push(
-          {'id' : key, name: this.state.states[key]}
-       );
+       if(this.state.statejsx.length < 51) {
+          this.state.statejsx.push(
+            {'id' : key.replace(/['"]+/g, ''), name: this.state.states[key]}
+        );
+       }
       }
     }
+   console.log('STATES',this.state.statejsx.length);
    return this.state.statejsx
   }
 
@@ -106,7 +117,8 @@ export default class Step2 extends Component {
 
     const countriesList = Object.values(this.state.countries)
     const citiList = Object.values(this.state.cities)
-
+    console.log(countriesList);
+    
    // console.log("STATES", this.state.states);
    
 
@@ -175,21 +187,26 @@ export default class Step2 extends Component {
 
         <div className="row">
          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+         
           <div className="inputOuter">
           <select name="city" onChange={(e) => this.props.change(e)}>
-              <option disabled="disabled" selected="selected">Choose city</option>
-              { citiList.map((value, i) => 
-                 <option key={value} value={i}>{value}</option> )
-              }
+              <option disabled="disabled" selected="selected">
+              {this.state.cityLoader ? 'Loading....' : 'Choose city'}</option>
+              { !this.state.cityLoader ?
+                citiList.map((value, i) => 
+                <option key={value} value={value}>{value}</option> ) :
+                <option>Loading...</option>  
+                }
             </select>
           </div>
          </div>
+         
          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
           <div className="inputOuter">
-            <select name="state" value={3919} onChange={(e) => this.stateChange(e)}>
-              <option disabled="disabled" selected="selected">Choose state</option>
+            <select name="state" defaultValue={3919} onChange={(e) => this.stateChange(e)}>
+              <option disabled="disabled">Choose state</option>
               {this.renderStates().map((val, i) => 
-                <option data={val.key} key={i} value={val.id} id={val.id}>{val.name}</option>
+                <option key={i} value={val.id} >{val.name}</option>
               )}
             </select>
           </div>
@@ -208,8 +225,8 @@ export default class Step2 extends Component {
             <select name="country" value={230} onChange={(e) => this.countryChange(e)}>
             <option disabled="disabled" selected="selected">Choose country</option>
               { countriesList.map((value, i) =>
-                i == 230 ?
-                <option key={value} value={i}>{value}</option> :
+                value == 'United States' ?
+                <option key={i} value={value}>{value}</option> :
                 ''
                )
               }
