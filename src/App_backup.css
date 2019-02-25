@@ -888,7 +888,9 @@ button:hover:disabled {
     display: inline-block;
     max-width: 48px;
     max-height: 48px;
-    margin-right: 10px; }
+    margin-right: 10px;
+    height: 45px; 
+  }
   .innerBody .menuContainer .welcomeUser {
     padding-right: 30px;
     margin-right: 30px;

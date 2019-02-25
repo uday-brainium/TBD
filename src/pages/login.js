@@ -82,6 +82,7 @@ class LoginPage extends React.Component {
                                 localStorage.setItem('full-name', response.data.fullName)
                                 localStorage.setItem('user-id', response.data._id)
                                 localStorage.setItem('profile-image-path', imagepath)
+                                localStorage.setItem('userdata', JSON.stringify(response))
 
                                 // disable form fields
                                 this.setState({

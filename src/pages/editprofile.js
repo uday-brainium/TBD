@@ -8,11 +8,8 @@ import {
     Nav
 } from 'reactstrap';
 import Notifications, { notify } from 'react-notify-toast';
-
 import ApiService from '../services/api'
-
 import NoProfileImage from '../images/profile-no-image.jpg'
-
 import LoadingSpinnerView from './views/spinner'
 
 class EditProfilePage extends React.Component {
@@ -102,7 +99,7 @@ class EditProfilePage extends React.Component {
             notify.show('All fields are required', 'error', 5000);
         }
         else if (!(/^\d{10}$/).test(this.state.phone)) {
-            notify.show('Invalid Telephone Number', 'error', 5000);
+            notify.show('Mobile number must be 10 digit', 'error', 5000);
         }
         else {
             let token = localStorage.getItem('access-token-tbd')
@@ -111,7 +108,6 @@ class EditProfilePage extends React.Component {
             var data = {
                 'id': userId,
                 'fullName': fullName,
-                'dob': '1970-01-01',
                 'gender': 'm',
                 'phone': this.state.phone,
                 'address': this.state.address

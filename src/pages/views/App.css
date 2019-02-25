@@ -1125,6 +1125,7 @@ button:hover:disabled {
     max-width: 48px;
     max-height: 48px;
     margin-right: 10px;
+    height: 45px; 
 }
 
 .innerBody .menuContainer .welcomeUser {

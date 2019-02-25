@@ -19,7 +19,7 @@ import ApiService from '../../services/api'
 import logo from '../../images/logo.png'
 import logo2 from '../../images/logo2.png'
 import userImage from '../../images/user.png'
-import noUserImage from '../../images/profile-no-image.jpg'
+import noUserImage from './../../images/profile-no-image.jpg'
 
 
 class AdminLayout extends React.Component {
@@ -84,7 +84,6 @@ class AdminLayout extends React.Component {
 
     componentDidMount() {
         // console.log(this.props.match.params)
-
         if (localStorage.getItem('access-token-tbd') !== null) {
             this.setState({
                 tokenPresent: true
@@ -148,7 +147,7 @@ class AdminLayout extends React.Component {
 
     updateProfilePicture() {
         let userProfilePicture = localStorage.getItem('profile-image-path')
-        if (userProfilePicture !== null) {
+        if (userProfilePicture != null || userProfilePicture != ' ') {
             this.setState({
                 profilePicture: userProfilePicture
             })
@@ -263,22 +262,6 @@ class AdminLayout extends React.Component {
 
         let path = '/' + location
         this.props.history.push(path)
-
-        /*if(location === 'dashboard'){
-            this.props.history.push('/dashboard')
-        }
-        else if(location === 'change_password'){
-            this.props.history.push('/changepassword')
-        }
-        else if(location === 'menu'){
-            this.props.history.push('/menu')
-        }
-        else if(location === 'orders'){
-            this.props.history.push('/orders')
-        }
-        else{
-           // do something
-        }*/
     }
 
     // overlay hide function
@@ -461,7 +444,7 @@ class AdminLayout extends React.Component {
                                         <a><img src={this.state.logoImage} alt="" /></a>
                                         <div className="welcomeUser" style={this.state.menuUserDiv}>
                                             <div className="userPhoto"><img src={this.state.profilePicture} alt="" /></div>
-                                            <div className="userName">Welcome {this.state.userName}</div>
+                                            <div className="userName">Welcome, {this.state.userName}</div>
                                         </div>
                                     </div>
                                     <ul className="dashboardMenu">
@@ -489,7 +472,7 @@ class AdminLayout extends React.Component {
                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Promotions</a></li>
                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Notifications</a></li>
                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Incentives</a></li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Manage Sub User</a></li>
+                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('list_sub_users')}>Manage Sub User</a></li>
                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Social Media Post</a></li>
                                     </ul>
                                 </div>

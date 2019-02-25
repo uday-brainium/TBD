@@ -8,7 +8,7 @@ import {
 import { Link, withRouter, Redirect, NavLink as RRNavLink } from 'react-router-dom'
 
 import userImage from '../../images/user.png'
-import noUserImage from '../../images/profile-no-image.jpg'
+import noUserImage from './../../images/profile-no-image.jpg'
 
 class AdminHeaderView extends React.Component {
     constructor(props) {
@@ -143,7 +143,7 @@ class AdminHeaderView extends React.Component {
                                                     <div className="topHeader">
                                                         <div className="logo">
                                                             <a href="https://www.google.com/">
-                                                                <img src="images/logo.png" alt="" />
+                                                                <img src="images/logo.png" alt="helol" />
                                                             </a>
                                                         </div>
                                                         <div className="menuContainer">

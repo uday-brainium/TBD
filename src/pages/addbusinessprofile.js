@@ -361,11 +361,6 @@ class AddBusinessProfilePage extends React.Component {
                                     {menulist}
 
                                 </div>
-
-
-
-
-
                                 <button className="button" >Submit</button>
                             </fieldset>
                         </form>

@@ -13,6 +13,11 @@ class DashboardPage extends React.Component {
         super(props)
     }
 
+    componentDidMount(){
+        // let userwdata = localStorage.getItem('userdata')
+        // console.log("Userdata", JSON.parse(userwdata));
+    }
+
     render(){
         return(
             <div className="right">

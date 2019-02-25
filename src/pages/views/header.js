@@ -7,9 +7,7 @@ import {
     Nav
 } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom'
-
 import $ from "jquery"
-
 import logo from '../../images/logo.png'
 import phoneImg from '../../images/phone-img.png'
 
@@ -30,8 +28,8 @@ class HeaderView extends React.Component {
         };
     }
 
-    componentDidMount(){
-        this.showMenuRenderer()
+    componentDidMount(){ 
+      this.showMenuRenderer()
     }
 
     toggle() {

@@ -73,8 +73,6 @@ class AdminLeftMenuView extends React.Component {
     }
 
     componentWillReceiveProps() {
-        console.log(this.props.menuClicked)
-
         this.setState({
             menuOpen: this.props.menuDisplayed,
             menuClicked: this.props.menuClicked

@@ -96,6 +96,20 @@ const EditProfilePage = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const createSubUsers = Loadable({
+  loader: () => import("./pages/create_sub_users"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const listSubusers = Loadable({
+  loader: () => import("./pages/list_sub_users"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
 const ChangePasswordPage = Loadable({
   loader: () => import("./pages/changepassword"),
   loading: LoadingView,
@@ -247,6 +261,8 @@ class App extends React.Component {
           <Route path="/business-profile" component={BusinessProfilePage} />
           <AdminLayout path="/add-business-profile/" component={AddBusinessProfilePage} />
           <AdminLayout path="/edit-business-profile/" component={AddBusinessProfilePage} />
+          <AdminLayout path="/create_sub_users/" component={createSubUsers} />
+          <AdminLayout path="/list_sub_users/" component={listSubusers} />
           {/* <AdminLayout path="/editprofile" component={DashboardPage} /> */}
           {/* <MainLayout path="/public" component={PublicPage} />
                     <Route path="/login" component={LoginPage} />

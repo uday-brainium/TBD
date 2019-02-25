@@ -219,3 +219,71 @@
   pointer-events: none;
   opacity: 0.2;
 }
+
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Above css is for step signup form                   @
+
+Below css is for create sub users                   @
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+
+
+.breadcumb-icon {
+  font-size: 25px;
+  color: gray
+}
+
+.breadcumb-text {
+  font-size: 18px;
+  border-left: 1px solid gray;
+  margin-left: 5px;
+}
+
+.left-space{
+  margin-left: 10px;
+}
+
+.container-inside{
+  padding: 10px;
+  text-align: center
+}
+.privilage-text {
+  text-align: left;
+  margin: 10px;
+  font-size: 16px;
+  text-decoration: underline;
+}
+.privilage-info-text {
+  margin-top: 25px;
+}
+.err {
+  color:red
+}
+.left {
+  float: left
+}
+.right {
+  float: right
+}
+.add-btn {
+  padding: 10px;
+  border-radius: 20px;
+  background-color: orangered;
+  color: #ffffff
+}
+
+.link {
+  cursor: pointer;
+}
+.modal-title {
+  font-size: 16px;
+}
+.modal-view{
+  padding-top: 5%;
+}
+.modal-body {
+  margin: 10px
+}

@@ -464,6 +464,68 @@ class ApiService {
     );
   }
 
+  static create_sub_user(userdata) {
+    return fetch(
+      Config.Api_Address + 'users/create_sub_user',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userdata)
+      }
+    );
+  }
+
+  static get_sub_user(userid) {
+    return fetch(
+      Config.Api_Address + 'users/get_sub_users',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({userid})
+      }
+    );
+  }
+
+  static delete_sub_user(userid) {
+    return fetch(
+      Config.Api_Address + 'users/delete_sub_user',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({userid})
+      }
+    );
+  }
+
+  static edit_sub_user(userdata) {
+    return fetch(
+      Config.Api_Address + 'users/edit_sub_user',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userdata)
+      }
+    );
+  }
+
+
+
 }
 
 
