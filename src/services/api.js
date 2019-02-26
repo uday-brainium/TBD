@@ -494,6 +494,21 @@ class ApiService {
     );
   }
 
+  static filter_sub_user(filter) {
+    return fetch(
+      Config.Api_Address + 'users/filter_sub_user',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filter)
+      }
+    );
+  }
+
   static delete_sub_user(userid) {
     return fetch(
       Config.Api_Address + 'users/delete_sub_user',

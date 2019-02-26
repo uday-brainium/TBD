@@ -4,6 +4,9 @@ import '../styles/style_sheet.css'
 import { Route, Link, Redirect, withRouter } from "react-router-dom";
 import Notifications, { notify } from 'react-notify-toast';
 import { Modal, Button, Row, Col } from 'react-bootstrap';
+import Loader from './components/simpleloader'
+import Skeleton from 'react-skeleton-loader';
+import Empty from './components/empty'
 
 class Sub_users_list extends Component {
   constructor(props) {
@@ -11,6 +14,9 @@ class Sub_users_list extends Component {
     this.state = {
       subUserList: [],
       modal: false,
+      loading: false,
+      dataLoading: false,
+      searchkey: '',
 
       editPrivilage: 'admin',
       editFirstName: '',
@@ -22,12 +28,13 @@ class Sub_users_list extends Component {
   }
 
   componentDidMount() {
+    this.setState({dataLoading: true})
       let userId = localStorage.getItem('user-id')
   
       Apiservice.get_sub_user(String(userId))
       .then((res) =>  res.json())
       .then((response) => {
-          this.setState({subUserList: response.response})
+          this.setState({subUserList: response.response, dataLoading: false})
       })
   }
 
@@ -41,6 +48,9 @@ class Sub_users_list extends Component {
   }
 
   editSubUser = (userdata) => {
+    let firstname = userdata.fullName.substr(0,userdata.fullName.indexOf(' '))
+    let lastname = userdata.fullName.substr(userdata.fullName.indexOf(' ')+1)
+    
     this.setState({
       modal: true,
       editFirstName: '',
@@ -51,8 +61,8 @@ class Sub_users_list extends Component {
       editUserid: ''
      }, () => {
        this.setState({
-         editFirstName: userdata.fullName,
-         editLastName: userdata.fullName,
+         editFirstName: firstname,
+         editLastName: lastname,
          editPrivilage: userdata.privilage,
          editMobile: userdata.phone,
          editEmail: userdata.email,
@@ -71,6 +81,7 @@ class Sub_users_list extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    this.setState({loading: true})
     let editData = {
       userid: this.state.editUserid,
       firstname: this.state.editFirstName,
@@ -84,7 +95,9 @@ class Sub_users_list extends Component {
     .then((response) => {
        if(response.status == 200) {
         notify.show('Edit successfull', 'success', 3000);
-        this.setState({modal: false})
+        this.setState({modal: false}, () => {
+          this.setState({loading: false})
+        })
         this.update()
        } else {
         notify.show('Failed to edit user', 'error', 3000);
@@ -97,11 +110,14 @@ class Sub_users_list extends Component {
   }
 
   deleteSubUSer = (userid) => {
+    this.setState({loading: true})
     Apiservice.delete_sub_user(userid)
     .then((res) => res.json())
     .then((response) => {
       if(response.status == 200) {
         notify.show('Sub user deleted successfully', 'success', 5000);
+        this.update()
+        this.setState({loading: false})
       } else {
         notify.show('Failed to delete user', 'error', 5000);
       }
@@ -125,6 +141,22 @@ class Sub_users_list extends Component {
     })
   }
 
+  searchUsers = () => {
+    this.setState({dataLoading: true}) 
+    let key = this.state.searchkey
+    let userid = localStorage.getItem('user-id')
+    let filter = {
+      userid: userid,
+      searchkey: key,
+    }
+    Apiservice.filter_sub_user(filter)
+    .then((res) => res.json())
+    .then((response) => {
+      this.setState({subUserList: response.response, dataLoading: false})
+    })
+    
+  }
+
   render() {
   const {editPrivilage} = this.state
    const list = this.state.subUserList
@@ -144,6 +176,7 @@ class Sub_users_list extends Component {
     return (
       <div className="right">
       <Notifications />
+      <Loader loading={this.state.loading}/>
       <Modal show={this.state.modal} onHide={this.toggle} className="modal-view">
           <Modal.Header closeButton>
             <Modal.Title className="modal-title">Edit sub user</Modal.Title>
@@ -183,7 +216,7 @@ class Sub_users_list extends Component {
                   <select name="privilage" value={this.state.editPrivilage} onChange={(e) => this.setState({editPrivilage: e.target.value})}>
                     <option value="admin">Administrator</option>
                     <option value="manager">Manager</option>
-                    <option value="editor">Editor</option>
+                    <option value="associate">Associate</option>
                   </select>
                 </div>
               </div>
@@ -217,24 +250,43 @@ class Sub_users_list extends Component {
           </ul>
         </div>
         <div>
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-
+          <div className="row">
+            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-0">
+             <div className="form gap">
+              <Row>
+                <Col xs={6} lg={6} md={6}>
+                  <div className="inputOuter">
+                      <input className="search-input" name="searchkey" type="text"  placeholder="Search users" onChange={this.handleChange}/>
+                  </div>
+                </Col>
+                <Col xs={6} lg={6} md={6}>
+                 <button onClick={this.searchUsers} type="submit" disabled={false} className="button search-btn">Search</button>
+                </Col>
+                </Row>
+              </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <button className="add-btn right" onClick={this.goToCreateSub}>Add sub user</button>
+            <div className="col-lg-2 col-md-2 col-sm-2">
+            </div>
+            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <button onClick={this.goToCreateSub} className="add-btn right" >Add sub user</button>
             </div>
           </div>
         </div>
         
-         <div className="searchTable">
+         <div className="searchTable top-fix">
             <div className="header">
               <div className="">Username</div>
               <div className="">Email</div>
               <div className="">Privilage</div>
               <div className="">Action</div>
             </div>
-            {list}
+  
+            {this.state.dataLoading ? 
+              <Skeleton count={5} width='90%' /> : 
+              list.length > 0 ? 
+              list :
+              <Empty text="No sub useres found !"/>
+            }
           </div>
           <div className="paginationWrapper">
             <ul className="pagination">

@@ -269,10 +269,11 @@ Below css is for create sub users                   @
   float: right
 }
 .add-btn {
-  padding: 10px;
-  border-radius: 20px;
-  background-color: orangered;
-  color: #ffffff
+  padding: 12px;
+  border-radius: 35px;
+  background-color: #ff6400;
+  color: #ffffff;
+  width: 100%;
 }
 
 .link {
@@ -286,4 +287,54 @@ Below css is for create sub users                   @
 }
 .modal-body {
   margin: 10px
+}
+.custom-loader{
+  padding: 20px;
+  color: #ffffff
+}
+.loader-container {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: transparent;
+}
+
+.loader-body {
+  border-radius: 20px;
+  position: relative;
+  height: 120px;
+  width: 120px;
+  background-color: #2ab5ae;
+  padding: 30px;
+  margin-top: 160px;
+}
+.loader-text{
+  color: #ffffff
+}
+.empty-body {
+  height: 160px;
+  width: 65%;
+  text-align: center;
+  margin-top: 16%;
+}
+.empty-text {
+  color: #fff;
+  padding: 10px;
+  background-color: #2ab5ae;
+  border-radius: 15px;
+}
+.search-btn {
+  margin-top: 5px !important;
+}
+.gap {
+  margin-left: 5px;
+}
+.search-input{
+  padding: 10px !important;
+}
+.top-fix {
+  margin-top: 0px !important;
 }

@@ -80,7 +80,7 @@ class RegistrationPage extends React.Component {
       pointsonusersignup: '',
       offerdetails: '',
 
-      currentStep: 2,
+      currentStep: 1,
       movedfromstep: 1,
       loading: false,
       emailExist: Boolean

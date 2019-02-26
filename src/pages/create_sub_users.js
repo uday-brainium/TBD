@@ -4,6 +4,7 @@ import { Route, Link, Redirect, withRouter } from "react-router-dom";
 import { Alert } from 'reactstrap';
 import ApiService from '../services/api'
 import Notifications, { notify } from 'react-notify-toast';
+import Loader from './components/simpleloader'
 
 class Create_sub_users extends Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class Create_sub_users extends Component {
       mobile: '',
       priviliage: 'admin',
 
-      emailErr: false
+      emailErr: false,
+      submitLoading: false
     };
 
     console.log(this.props.history);
@@ -40,6 +42,7 @@ class Create_sub_users extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    this.setState({submitLoading: true})
     let data = {
       businessid: localStorage.getItem('user-id'),
       usertype: 'subuser',
@@ -51,6 +54,7 @@ class Create_sub_users extends Component {
     }
     if(!this.validate()) {
       notify.show('Email is invalid', 'error', 3000);
+      this.setState({submitLoading: false})
     } else {
     ApiService.create_sub_user(data)
     .then((res) => res.json())
@@ -59,10 +63,12 @@ class Create_sub_users extends Component {
          notify.show('Sub user registered successfully', 'success', 3000);
          setTimeout(() => {
           this.props.history.push('/list_sub_users')
+          this.setState({submitLoading: false})
          }, 3000)
       } else if(response.status == 409) {
         // alert('email already exist')
         notify.show('Email already exist', 'error', 3000);
+        this.setState({submitLoading: false})
       }
     })
   }
@@ -79,6 +85,8 @@ class Create_sub_users extends Component {
                 <li className="breadcumb-text"><span className="left-space">Create sub users</span></li>
             </ul>
           </div>
+
+          <Loader loading={this.state.submitLoading}/>
 
           <div className="container-inside">
           <form className="form" onSubmit={this.handleSubmit}>
@@ -115,7 +123,7 @@ class Create_sub_users extends Component {
                   <select name="privilage" onChange={(e) => this.setState({priviliage: e.target.value})}>
                     <option value="admin">Administrator</option>
                     <option value="manager">Manager</option>
-                    <option value="editor">Editor</option>
+                    <option value="associate">Associate</option>
                   </select>
                 </div>
               </div>
