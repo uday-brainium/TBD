@@ -24,7 +24,8 @@
     }
 
    .info-text {
-     color: cornflowerblue
+     color: cornflowerblue;
+     margin-left: 10px;
    }
 
    .business-banner-upload {
@@ -258,6 +259,8 @@ Below css is for create sub users                   @
 }
 .privilage-info-text {
   margin-top: 25px;
+  text-align: left;
+  font-size: 14px;
 }
 .err {
   color:red
@@ -334,7 +337,101 @@ Below css is for create sub users                   @
 }
 .search-input{
   padding: 10px !important;
+  padding-right: 40px !important
 }
 .top-fix {
   margin-top: 0px !important;
+}
+.input-clear {
+  position: absolute;
+  left: 80%;
+  top: 35%;
+  cursor: pointer;
+}
+.pagination-active {
+  padding: 5px;
+  background: #2ab5ae;
+}
+.pagination-active-link {
+  color: #fff !important;
+}
+.pagination-item {
+  padding: 5px;
+  border: 1px solid #2ab5ae;
+}
+.pagination-link-class {
+  padding: 5px !important;
+}
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Event management part
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+.date-picker {
+  padding: 10px;
+  border: 2px solid #d3d9d9;
+  width: 100%;
+  border-radius: 30px;
+  box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1);
+}
+.left {
+  float: left;
+}
+.top-box {
+  margin-top: 10px !important;
+}
+.event-banner {
+  height: 200px;
+  /* width: 100%; */
+  border: 1px solid gray;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin-top: -20px;
+  margin-bottom: 35px;
+}
+.event-banner img {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.banner-container {
+  padding-bottom: 25px;
+  padding-top: 10px;
+}
+
+#event_banner {
+  height: 35px !important;
+  top: -28px !important;
+  width: 100%;
+}
+.event-banner-button{
+  border: 1px solid gray;
+  height: 35px;
+  background-color: #2ab5ae;
+  color: #fff;
+  text-align: center;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.add-more-btn {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #ff6400;
+  margin-top: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+.remove-btn {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #ff2323f2;
+  margin-top: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+.gap-bottom {
+  margin-bottom: 20px;
 }

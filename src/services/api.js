@@ -479,7 +479,7 @@ class ApiService {
     );
   }
 
-  static get_sub_user(userid) {
+  static get_sub_user(userid, offset) {
     return fetch(
       Config.Api_Address + 'users/get_sub_users',
       {
@@ -489,7 +489,7 @@ class ApiService {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({userid})
+        body: JSON.stringify({userid, offset})
       }
     );
   }
@@ -539,6 +539,53 @@ class ApiService {
     );
   }
 
+  static add_new_event(eventdata) {
+    console.log("API_data", eventdata);
+    
+    return fetch(
+      Config.Api_Address + 'events/create_new_event',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventdata)
+      }
+    );
+  }
+
+
+  static get_all_events(data) {
+    return fetch(
+      Config.Api_Address + 'events/get_all_events',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      }
+    );
+  }
+
+  static delete_event(eventid) {
+    return fetch(
+      Config.Api_Address + 'events/delete_event',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({eventid})
+      }
+    );
+  }
 
 
 }

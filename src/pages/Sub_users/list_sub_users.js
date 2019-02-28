@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import Apiservice from './../services/api'
-import '../styles/style_sheet.css'
+import Apiservice from '../../services/api'
+import './../../styles/style_sheet.css'
 import { Route, Link, Redirect, withRouter } from "react-router-dom";
 import Notifications, { notify } from 'react-notify-toast';
 import { Modal, Button, Row, Col } from 'react-bootstrap';
-import Loader from './components/simpleloader'
+import Loader from '../components/simpleloader'
 import Skeleton from 'react-skeleton-loader';
-import Empty from './components/empty'
+import Empty from '../components/empty'
+import Pagination from "react-js-pagination";
+
 
 class Sub_users_list extends Component {
   constructor(props) {
     super(props);
     this.state = {
       subUserList: [],
+      totalSubUser: 0,
+      currentPage: 1,
+      offset: 0,
       modal: false,
       loading: false,
       dataLoading: false,
@@ -30,20 +35,21 @@ class Sub_users_list extends Component {
   componentDidMount() {
     this.setState({dataLoading: true})
       let userId = localStorage.getItem('user-id')
-  
       Apiservice.get_sub_user(String(userId))
       .then((res) =>  res.json())
       .then((response) => {
-          this.setState({subUserList: response.response, dataLoading: false})
+          this.setState({subUserList: response.response, totalSubUser: response.count, dataLoading: false})
       })
   }
 
   update = () => {
+    this.setState({dataLoading: true})
     let userId = localStorage.getItem('user-id')
-    Apiservice.get_sub_user(String(userId))
+    let offset = this.state.offset
+    Apiservice.get_sub_user(String(userId), offset)
     .then((res) =>  res.json())
     .then((response) => {
-        this.setState({subUserList: response.response})
+        this.setState({subUserList: response.response, totalSubUser: response.count, dataLoading: false})
     })
   }
 
@@ -70,7 +76,6 @@ class Sub_users_list extends Component {
        })
      })
     
-
   }
 
   handleChange = (e) => {
@@ -157,6 +162,20 @@ class Sub_users_list extends Component {
     
   }
 
+  clearSearchInput = () => {
+    this.setState({searchkey: ''})
+    this.update()
+  }
+
+  paginate = (page) => {
+    let offset = ((page -1) * 10)
+    console.log("page", page, offset);
+    this.setState({currentPage: page, offset}, () => {
+      this.update()
+    })
+    
+  }
+
   render() {
   const {editPrivilage} = this.state
    const list = this.state.subUserList
@@ -172,6 +191,11 @@ class Sub_users_list extends Component {
         </div>
       );
     })
+
+    let totalresult = this.state.totalSubUser
+    let perpage = 10
+    let currentpage = this.state.currentPage
+
 
     return (
       <div className="right">
@@ -211,7 +235,7 @@ class Sub_users_list extends Component {
 
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-6">
-                <p className="privilage-text">Select privilages</p>
+                <p className="privilage-text">Select privileges</p>
                 <div className="inputOuter">
                   <select name="privilage" value={this.state.editPrivilage} onChange={(e) => this.setState({editPrivilage: e.target.value})}>
                     <option value="admin">Administrator</option>
@@ -256,7 +280,8 @@ class Sub_users_list extends Component {
               <Row>
                 <Col xs={6} lg={6} md={6}>
                   <div className="inputOuter">
-                      <input className="search-input" name="searchkey" type="text"  placeholder="Search users" onChange={this.handleChange}/>
+                      <i onClick={this.clearSearchInput} className="far fa-times-circle input-clear"></i>
+                      <input className="search-input" name="searchkey" type="text"  placeholder="Search users" value={this.state.searchkey} onChange={this.handleChange}/>
                   </div>
                 </Col>
                 <Col xs={6} lg={6} md={6}>
@@ -288,19 +313,30 @@ class Sub_users_list extends Component {
               <Empty text="No sub useres found !"/>
             }
           </div>
+
           <div className="paginationWrapper">
-            <ul className="pagination">
-              <li>
-                <span className="prev">prev</span>
-              </li>
-              <li>
-                <a href="#">1</a>
-              </li>
-              <li>
-                <span className="next">next</span>
-              </li>
-            </ul>
+          <Pagination
+            activePage={this.state.currentPage}
+            itemsCountPerPage={perpage}
+            totalItemsCount={totalresult}
+            pageRangeDisplayed={5}
+            onChange={this.paginate}
+            prevPageText="Prev"
+            nextPageText="Next"
+            activeClass = "pagination-active"
+            activeLinkClass="pagination-active-link"
+            itemClass="pagination-item"
+            hideFirstLastPages={true}
+            linkClass="pagination-link-class"
+          />
+            {/* <Pagination_component
+             totaldata = {totalresult}
+             perpage = {perpage}
+             currentpage = {this.state.currentPage}
+             paginate = {(page) => this.paginate(page)}
+             />   */}
           </div>
+
      </div>
     );
   }

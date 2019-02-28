@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import '../styles/style_sheet.css'
+import './../../styles/style_sheet.css'
 import { Route, Link, Redirect, withRouter } from "react-router-dom";
 import { Alert } from 'reactstrap';
-import ApiService from '../services/api'
+import ApiService from '../../services/api'
 import Notifications, { notify } from 'react-notify-toast';
-import Loader from './components/simpleloader'
+import Loader from '../components/simpleloader'
+
 
 class Create_sub_users extends Component {
   constructor(props) {
@@ -118,7 +119,7 @@ class Create_sub_users extends Component {
 
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-6">
-                <p className="privilage-text">Select privilages</p>
+                <p className="privilage-text">Select privileges</p>
                 <div className="inputOuter">
                   <select name="privilage" onChange={(e) => this.setState({priviliage: e.target.value})}>
                     <option value="admin">Administrator</option>
@@ -129,23 +130,19 @@ class Create_sub_users extends Component {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="privilage-info-text">
-                  {priviliage == 'admin' &&
-                    <div className="alert alert-success animated pulse">
-                     * Administrator has the access to create update & delete 
-                    food menu, food item, view orders , manage orders, etc. 
-                    </div>
-                  }
-                  {priviliage == 'manager' &&
-                    <div className="alert alert-info animated pulse">
-                    * Manager can access to orders , users and food items but manager
-                    can not delete any records. 
-                    </div>
-                  }
-                  {priviliage == 'editor' &&
-                    <div className="alert alert-warning animated pulse">
-                      * Editor has access to create & edit food menu, food item.
-                    </div>
-                  }
+                  <ul>
+                    <li>
+                    <b>Administrator</b> has the access to create update & delete 
+                      food menu, food item, view orders , manage orders, etc. 
+                    </li>
+                    <li>
+                    <b>Manager</b> can access to orders , users and food items but manager
+                    can not delete any records.
+                    </li>
+                    <li>
+                    <b>Associate</b> has access to create & edit food menu, food item.
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

@@ -97,14 +97,14 @@ const EditProfilePage = Loadable({
 });
 
 const createSubUsers = Loadable({
-  loader: () => import("./pages/create_sub_users"),
+  loader: () => import("./pages/Sub_users/create_sub_users"),
   loading: LoadingView,
   delay: 300, // 0.3 seconds
   timeout: 10000 // 10 seconds
 });
 
 const listSubusers = Loadable({
-  loader: () => import("./pages/list_sub_users"),
+  loader: () => import("./pages/Sub_users/list_sub_users"),
   loading: LoadingView,
   delay: 300, // 0.3 seconds
   timeout: 10000 // 10 seconds
@@ -191,6 +191,21 @@ const AddBusinessProfilePage = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const EventPage = Loadable({
+  loader: () => import("./pages/Events"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const createEventPage = Loadable({
+  loader: () => import("./pages/Events/create_event"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+
 
 const RecursiveExample = Loadable({
   loader: () => import("./pages/routingexample"),
@@ -263,6 +278,8 @@ class App extends React.Component {
           <AdminLayout path="/edit-business-profile/" component={AddBusinessProfilePage} />
           <AdminLayout path="/create_sub_users/" component={createSubUsers} />
           <AdminLayout path="/list_sub_users/" component={listSubusers} />
+          <AdminLayout path="/events/" component={EventPage} />
+          <AdminLayout path="/add_new_event/" component={createEventPage} />
           {/* <AdminLayout path="/editprofile" component={DashboardPage} /> */}
           {/* <MainLayout path="/public" component={PublicPage} />
                     <Route path="/login" component={LoginPage} />

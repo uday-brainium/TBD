@@ -472,6 +472,7 @@ class AdminLayout extends React.Component {
                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Promotions</a></li>
                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Notifications</a></li>
                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Incentives</a></li>
+                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('events')}>Events managment</a></li>
                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('list_sub_users')}>Manage Sub User</a></li>
                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Social Media Post</a></li>
                                     </ul>
