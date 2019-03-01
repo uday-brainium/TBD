@@ -52,15 +52,11 @@ class Events extends Component {
   }
 
   editEvent = (data) => {
-    this.setState({
-      modal: true,
-      businessid: localStorage.getItem('user-id'),
-      editDate: data.date,
-      editDetails: data.description,
-      editTitle: data.title,
-      editPrice: data.ticketPrice,
-      editStartTime: data.startTime,
-      editEndTime: data.endTime
+    console.log("Props", this.props);
+    
+    this.props.history.push({
+      pathname: '/edit_event',
+      state: data
     })
   }
 
@@ -153,67 +149,7 @@ class Events extends Component {
         <div className="right">
         <Notifications />
         <Loader loading={this.state.loading}/>
-        <Modal show={this.state.modal} onHide={this.toggle} className="modal-view">
-            <Modal.Header closeButton>
-              <Modal.Title className="modal-title">Edit event</Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="modal-body">
-            <Row>
-            <form className="form" onSubmit={this.handleSubmit}>
-              <div className="row">
-                <div className="col-lg-6 col-md-6 col-sm-6">
-                  <div className="inputOuter">
-                      <input name="editTitle" type="text" value={this.state.editTitle} placeholder="Event title" onChange={this.handleChange} required/>
-                  </div>
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6">
-                  <div className="inputOuter">
-                      <input name="editDate" type="date" className="date-picker" value={this.state.editDate} placeholder="Last name" onChange={this.handleChange} required/>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-lg-6 col-md-6 col-sm-6">
-                  <div className="inputOuter">
-                      <input value={this.state.editStartTime} name="editStartTime" type="text" placeholder="Start time" onChange={this.handleChange} required/>
-                  </div>
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6">
-                  <div className="inputOuter">
-                      <input name="editEndTime" type="text" value={this.state.editEndTime} placeholder="Mobile number" onChange={this.handleChange} required/>
-                  </div>
-                </div>
-              </div>
-  
-              <div className="row">
-                <div className="col-lg-6 col-md-6 col-sm-6">
-                  <div className="inputOuter">
-                  <input name="editPrice" type="text" value={this.state.editPrice} placeholder="Ticket price" onChange={this.handleChange} required/>
-                  </div>
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-6">
-                  
-                </div>
-              </div>
-              
-  
-              <div className="row">
-                <div className="col-lg-3 col-md-3 col-sm-3">
-                </div>
-  
-                <div className="col-lg-6 col-md-6 col-sm-6">
-                  <button type="submit" disabled={false} className="button">Edit event</button>
-                </div>
-  
-                <div className="col-lg-3 col-md-3 col-sm-3">
-                </div>
-              </div>
-              
-             </form>
-            </Row>
-            </Modal.Body>
-            
-          </Modal>
+        
           <div className="rightSideHeader">
             <ul className="breadcrumbNavigation">
                 <li><i className="fas fa-calendar-week breadcumb-icon"></i></li>

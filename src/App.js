@@ -206,6 +206,14 @@ const createEventPage = Loadable({
 });
 
 
+const editEventPage = Loadable({
+  loader: () => import("./pages/Events/edit_event"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+
 
 const RecursiveExample = Loadable({
   loader: () => import("./pages/routingexample"),
@@ -280,6 +288,7 @@ class App extends React.Component {
           <AdminLayout path="/list_sub_users/" component={listSubusers} />
           <AdminLayout path="/events/" component={EventPage} />
           <AdminLayout path="/add_new_event/" component={createEventPage} />
+          <AdminLayout path="/edit_event/" component={editEventPage} />
           {/* <AdminLayout path="/editprofile" component={DashboardPage} /> */}
           {/* <MainLayout path="/public" component={PublicPage} />
                     <Route path="/login" component={LoginPage} />

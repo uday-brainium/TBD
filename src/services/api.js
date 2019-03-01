@@ -587,6 +587,20 @@ class ApiService {
     );
   }
 
+  static edit_event(eventData) {
+    return fetch(
+      Config.Api_Address + 'events/edit_event',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({eventData})
+      }
+    );
+  }
 
 }
 

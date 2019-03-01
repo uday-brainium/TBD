@@ -1,0 +1,1 @@
+export const Base_url = "https://www.doublesat.com:8080"

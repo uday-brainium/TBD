@@ -8,6 +8,7 @@ import Loader from '../components/simpleloader'
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import { Modal, Button, Row, Col } from 'react-bootstrap';
+import {Base_url} from './../../utilities/config'
 import moment from 'moment';
 
 let weekday = 1
@@ -17,18 +18,23 @@ const openTime = moment().hour(10).minute(0);
 const closeTime = moment().hour(20).minute(0);
 const format = 'h:mm a';
 
-class Add_events extends Component {
+class Edit_event extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      eventid: '',
       eventtitle: '',
       eventdate: '',
-      oncestarttime: '10:00 am',
-      timestart: moment(),
-      timeend: moment(),
-      onceendtime: '8:00 pm',
+      oncestarttime: '',
+      timestart: '',
+      timeend: '',
+      onceendtime: '',
       eventdescription: '',
       ticketprice: '',
+      totalcapacity: '',
+      oncestarttime: 0,
+      onceendtime: 0,
+      oncedate: '',
       eventList: [],
 
       submitLoading: false,
@@ -37,19 +43,50 @@ class Add_events extends Component {
       eventBanner: require('./../../images/img_place.png'),
 
       fieldArray: [],
-      test: false
+      test: false,
+
+      editData: []
     };
   }
 
 
   componentDidMount() {
-    let fieldObj = {
-      dayname: `weekday_${weekday}`,
-      timename: `weektime_${weektime}`
-    }
-    this.setState({
-      fieldArray: [fieldObj]
-    })
+    if(typeof this.props.location.state == 'undefined') {
+      this.props.history.push('/events')
+    } else {
+      this.setState({editData: this.props.location.state}, () => {
+        this.setState({
+          eventid: this.state.editData._id,
+          eventBanner: `${Base_url}${this.state.editData.eventbanner}`,
+          eventtitle: this.state.editData.title,
+          eventdescription: this.state.editData.description,
+          ticketprice: this.state.editData.ticketprice,
+          entryfee: this.state.editData.freeformembers,
+          eventtype: this.state.editData.eventtype,
+          totalcapacity: this.state.editData.totalcapacity,
+          oncestarttime: this.state.editData.eventonce.starttime,
+          onceendtime: this.state.editData.eventonce.endtime,
+          oncedate: this.state.editData.eventonce.date,
+          timestart: this.state.editData.eventday.timestart,
+          timeend: this.state.editData.eventday.timeend
+          //fieldArray: this.state.editData.weeklyevent
+         }, () => {
+          let weeklyData = this.state.editData.weeklyevent
+          weeklyData.map((data, i) => {
+           if(data !== null) {
+             weekday = weekday + 1
+            this.state.fieldArray.push(data)
+           }
+          })
+          console.log("ARRAY", this.state.fieldArray.length);
+          this.setState({test: !this.state.test})
+        })
+      })
+      
+      console.log("PROPS", this.props.location.state);
+     // console.log("ARRAY", this.props.location.state.eventonce.starttime);
+      
+    } 
   }
 
   addMoreFields = () => {
@@ -60,6 +97,7 @@ class Add_events extends Component {
         timename: `weektime_${weekday}`
       }
       this.state.fieldArray.push(pushObj)
+      //For re-rendering the component
       this.setState({test: !this.state.test})
     }
   }
@@ -68,7 +106,6 @@ class Add_events extends Component {
     if(index > 0) {
       this.state.fieldArray.splice(index, 1)
       this.setState({test: !this.state.test})
-      console.log('index', index);
     } 
   }
 
@@ -78,7 +115,6 @@ class Add_events extends Component {
     name == 'entryfee' ? this.setState({entryfee: e.target.checked}) :
     this.setState({[name]: value})
    // this.validate()
-   console.log('STATE', this.state);
   }
 
   handleTimeChange = (value, type) => {
@@ -89,7 +125,7 @@ class Add_events extends Component {
     this.setState({submitLoading: true})
     e.preventDefault()
     let evetData = {
-      businessid: localStorage.getItem('user-id'),
+      eventid: this.state.eventid,
       title: this.state.eventtitle,
       date: this.state.eventdate,
       eventtype: this.state.eventtype,
@@ -124,7 +160,7 @@ class Add_events extends Component {
         timeend: this.state.timeend
       }
     }
-    ApiService.add_new_event(evetData)
+    ApiService.edit_event(evetData)
     .then((res) => res.json())
     .then((response) => {
       console.log(response);
@@ -153,9 +189,6 @@ class Add_events extends Component {
       reader.readAsDataURL(file); 
       }
     }
-  
-
-
   render() {
     return (
         <div className="right">
@@ -163,7 +196,7 @@ class Add_events extends Component {
           <div className="rightSideHeader">
             <ul className="breadcrumbNavigation">
                 <li><i className="fas fa-calendar-week breadcumb-icon"></i></li>
-                <li className="breadcumb-text"><span className="left-space">Create new event</span></li>
+                <li className="breadcumb-text"><span className="left-space">Edit event</span></li>
             </ul>
           </div>
 
@@ -198,12 +231,12 @@ class Add_events extends Component {
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="inputOuter">
-                    <input name="eventtitle" type="text" placeholder="Event title" onChange={this.handleChange} required/>
+                    <input name="eventtitle" value={this.state.eventtitle} type="text" placeholder="Event title" onChange={this.handleChange} required/>
                 </div>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="inputOuter">
-                  <select name="eventtype" onChange={this.handleChange} required>
+                  <select name="eventtype" value={this.state.eventtype} onChange={this.handleChange} required>
                     <option value="">Choose event type</option>
                     <option value="once">Only once</option>
                     <option value="daily">Daily</option>
@@ -218,7 +251,7 @@ class Add_events extends Component {
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="inputOuter">
                 <div className="">
-                    <input name="oncedate" className="date-picker" type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                  <input name="oncedate" value={moment(this.state.oncedate).format('YYYY-MM-DD')} className="date-picker" type="date" onChange={this.handleChange} required/>
                 </div>
                 
                 </div>
@@ -230,8 +263,7 @@ class Add_events extends Component {
                     <TimePicker
                       id="timepickerEnd"
                       showSecond={false}
-                      defaultValue={openTime}
-                      className="xxx"
+                      value={moment(this.state.oncestarttime)}
                       onChange={(value) => this.handleTimeChange(value, 'oncestarttime')}
                       format='h:mm a'
                       use12Hours
@@ -245,7 +277,7 @@ class Add_events extends Component {
                     <TimePicker
                       id="timepickerEnd"
                       showSecond={false}
-                      defaultValue={openTime}
+                      defaultValue={moment(this.state.onceendtime)}
                       className="xxx"
                       onChange={(value) => this.handleTimeChange(value, 'onceendtime')}
                       format='h:mm a'
@@ -268,7 +300,7 @@ class Add_events extends Component {
                 <TimePicker
                   id="timepickerStart"
                   showSecond={false}
-                  defaultValue={openTime}
+                  defaultValue={moment(this.state.timestart)}
                   className="xxx"
                   onChange={(value) => this.handleTimeChange(value, 'timestart')}
                   format='h:mm a'
@@ -283,7 +315,7 @@ class Add_events extends Component {
                 <TimePicker
                   id="timepickerEnd"
                   showSecond={false}
-                  defaultValue={openTime}
+                  defaultValue={moment(this.state.timeend)}
                   className="xxx"
                   onChange={(value) => this.handleTimeChange(value, 'timeend')}
                   format='h:mm a'
@@ -297,11 +329,12 @@ class Add_events extends Component {
 
             {this.state.eventtype == "weekly" &&
               this.state.fieldArray.map((data, index) => (
+
                 <div className="row animated fadeInDown">
                   <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div className="inputOuter">
                     <div className="">
-                      <select name={data.dayname} onChange={this.handleChange}>
+                      <select name={`weekday_${index + 1}`}  defaultValue={Object.values(data)[0]} onChange={this.handleChange}>
                         <option>Select day</option>
                         <option value="sunday">Sunday</option>
                         <option value="monday">Monday</option>
@@ -322,8 +355,8 @@ class Add_events extends Component {
                       <TimePicker
                         id={data.timename}
                         showSecond={false}
-                        defaultValue={openTime}
-                        onChange={(value) => this.handleTimeChange(value, data.timename)}
+                        defaultValue={moment(data.weektime_1)}
+                        onChange={(value) => this.handleTimeChange(value, `weektime_${index + 1}`)}
                         format='h:mm a'
                         use12Hours
                         inputReadOnly
@@ -357,24 +390,24 @@ class Add_events extends Component {
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-6">
               <div className="inputOuter">
-                <textarea placeholder="Erite some event description" name="eventdescription" onChange={this.handleChange}>  
+                <textarea placeholder="Erite some event description" value={this.state.eventdescription} name="eventdescription" onChange={this.handleChange}>  
                 </textarea>
               </div>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="singleCheckbox top-fix">
-                    <input id="terms" type="checkbox" name="entryfee" defaultChecked={this.state.entryfee} onChange={this.handleChange} />
+                    <input id="terms" type="checkbox" name="entryfee" checked={this.state.entryfee} defaultChecked={this.state.entryfee} onChange={this.handleChange} />
                     <label htmlFor="terms"><span></span> Free entry for members</label>
                 </div>
                 <div className="inputOuter">
-                    <input name="ticketprice" type="text" placeholder="Ticket price" onChange={this.handleChange} required/>
+                    <input name="ticketprice" type="text" value={this.state.ticketprice} placeholder="Ticket price" onChange={this.handleChange} required/>
                 </div>
               </div>
             </div>
 
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-6">
-              <input name="attendeecapacity" type="text" placeholder="Attendee capacity" onChange={this.handleChange} required/>
+              <input name="attendeecapacity" type="text" value={this.state.totalcapacity} placeholder="Attendee capacity" onChange={this.handleChange} required/>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6">
               
@@ -403,4 +436,4 @@ class Add_events extends Component {
   }
 }
 
-export default withRouter(Add_events)
+export default withRouter(Edit_event)
