@@ -176,7 +176,7 @@ class Events extends Component {
               <div className="col-lg-2 col-md-2 col-sm-2">
               </div>
               <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-              <button onClick={this.goToCreateSub} className="add-btn right" ><i class="fas fa-plus-circle "></i> Add new event</button>
+              <button onClick={this.goToCreateSub} className="add-btn right" ><i className="fas fa-plus-circle "></i> Add new event</button>
               </div>
             </div>
           </div>

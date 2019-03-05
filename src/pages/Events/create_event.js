@@ -45,7 +45,8 @@ class Add_events extends Component {
   componentDidMount() {
     let fieldObj = {
       dayname: `weekday_${weekday}`,
-      timename: `weektime_${weektime}`
+      starttimename: `weektime_start_${weektime}`,
+      endtimename: `weektime_end_${weektime}`
     }
     this.setState({
       fieldArray: [fieldObj]
@@ -57,7 +58,8 @@ class Add_events extends Component {
       weekday = weekday + 1
       let pushObj = {
         dayname: `weekday_${weekday}`,
-        timename: `weektime_${weekday}`
+        starttimename: `weektime_start_${weekday}`,
+        endtimename: `weektime_end_${weekday}`
       }
       this.state.fieldArray.push(pushObj)
       this.setState({test: !this.state.test})
@@ -68,7 +70,6 @@ class Add_events extends Component {
     if(index > 0) {
       this.state.fieldArray.splice(index, 1)
       this.setState({test: !this.state.test})
-      console.log('index', index);
     } 
   }
 
@@ -100,19 +101,26 @@ class Add_events extends Component {
       freeformembers: this.state.entryfee,
       weeklyevent: [
         {weekday_1: this.state.weekday_1,
-        weektime_1: this.state.weektime_1},
+        weektime_start_1: this.state.weektime_start_1,
+        weektime_end_1: this.state.weektime_end_1 },
         {weekday_2: this.state.weekday_2,
-        weektime_2: this.state.weektime_2},
+        weektime_start_2: this.state.weektime_start_2,
+        weektime_end_2: this.state.weektime_end_2 },
         {weekday_3: this.state.weekday_3,
-        weektime_3: this.state.weektime_3},
+        weektime_start_3: this.state.weektime_start_3,
+        weektime_end_3: this.state.weektime_end_3 },
         {weekday_4: this.state.weekday_4,
-         weektime_4: this.state.weektime_4},
+        weektime_start_4: this.state.weektime_start_4,
+        weektime_end_4: this.state.weektime_end_4},
         {weekday_5: this.state.weekday_5,
-        weektime_5: this.state.weektime_5},
+        weektime_start_5: this.state.weektime_start_5,
+        weektime_end_5: this.state.weektime_end_5},
         {weekday_6: this.state.weekday_6,
-        weektime_6: this.state.weektime_6},
+        weektime_start_6: this.state.weektime_start_6,
+        weektime_end_6: this.state.weektime_end_6},
         {weekday_7: this.state.weekday_7,
-        weektime_7: this.state.weektime_7}       
+        weektime_start_7: this.state.weektime_start_7,
+        weektime_end_7: this.state.weektime_end_7 }       
       ],
       eventonce: {
         date: this.state.oncedate,
@@ -142,7 +150,8 @@ class Add_events extends Component {
   
     reader.addEventListener("load", function () {
       //console.log(reader);
-      base64 = reader.result;
+      base64 = reader.result
+      //console.log("reader", reader);
     }, false);
   
     setTimeout(() => {
@@ -150,7 +159,8 @@ class Add_events extends Component {
     },1000)
   
     if (file) {
-      reader.readAsDataURL(file); 
+      reader.readAsDataURL(file);
+      console.log("FILE", file);
       }
     }
   
@@ -179,7 +189,7 @@ class Add_events extends Component {
               <div className="event-banner">
               <img src={this.state.eventBanner} width="100%" height="100%"/> 
               <div className="event-banner-button">
-               <span className="upload-banner-text-store">Upload store banner</span>
+               <span className="upload-banner-text-store">Upload event banner</span>
                 <input
                   type="file"
                   name="event_banner"
@@ -216,6 +226,7 @@ class Add_events extends Component {
             {this.state.eventtype == 'once' &&
               <div className="row animated fadeInDown">
               <div className="col-lg-6 col-md-6 col-sm-6">
+              <span class="label-small left">Choose date</span>
                 <div className="inputOuter">
                 <div className="">
                     <input name="oncedate" className="date-picker" type="date" placeholder="Event date" onChange={this.handleChange} required/>
@@ -226,6 +237,7 @@ class Add_events extends Component {
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="row">
                   <div className="col-lg-6 col-md-6 col-sm-6">
+                  <span class="label-small left">Start time</span>
                    <div className="inputOuter">
                     <TimePicker
                       id="timepickerEnd"
@@ -241,6 +253,7 @@ class Add_events extends Component {
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-6">
+                  <span class="label-small left">End time</span>
                     <div className="inputOuter">
                     <TimePicker
                       id="timepickerEnd"
@@ -264,7 +277,7 @@ class Add_events extends Component {
               <div className="row animated fadeInDown">
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="inputOuter">
-                <span class="info-text left">Start time</span>
+                <span class="label-small left">Start time</span>
                 <TimePicker
                   id="timepickerStart"
                   showSecond={false}
@@ -279,7 +292,7 @@ class Add_events extends Component {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="inputOuter">
-                <span class="info-text left">End time</span>
+                <span class="label-small left">End time</span>
                 <TimePicker
                   id="timepickerEnd"
                   showSecond={false}
@@ -299,10 +312,11 @@ class Add_events extends Component {
               this.state.fieldArray.map((data, index) => (
                 <div className="row animated fadeInDown">
                   <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                  <span className="label-small left">Select day</span>
                     <div className="inputOuter">
                     <div className="">
-                      <select name={data.dayname} onChange={this.handleChange}>
-                        <option>Select day</option>
+                      <select name={data.dayname} onChange={this.handleChange} required>
+                        <option value="">Select day</option>
                         <option value="sunday">Sunday</option>
                         <option value="monday">Monday</option>
                         <option value="tuesday">Tuesday</option>
@@ -317,25 +331,41 @@ class Add_events extends Component {
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div className="row">
-                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <Col lg={4} sm={4} md={4} xs={6}>
+                    <span className="label-small left">Start time</span>
                       <div className="inputOuter">
                       <TimePicker
-                        id={data.timename}
+                        id="weekly_timepicker"
                         showSecond={false}
                         defaultValue={openTime}
-                        onChange={(value) => this.handleTimeChange(value, data.timename)}
+                        onChange={(value) => this.handleTimeChange(value, data.starttimename)}
                         format='h:mm a'
                         use12Hours
                         inputReadOnly
                       />
                       </div>
-                    </div>
+                    </Col>
+
+                    <Col lg={4} sm={4} md={4} xs={6}>
+                    <span className="label-small left">End time</span>
+                     <div className="inputOuter">
+                      <TimePicker
+                        id="weekly_timepicker"
+                        showSecond={false}
+                        defaultValue={moment()}
+                        onChange={(value) => this.handleTimeChange(value, data.endtimename)}
+                        format='h:mm a'
+                        use12Hours
+                        inputReadOnly
+                      />
+                      </div>
+                    </Col>
           
-                    <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <Col lg={4} sm={4} md={4} xs={12}>
                       <Row className="gap-bottom">
                         <Col lg={6} md={6} sm={6} xs={6}>
                            <div className="add-more-btn" onClick={this.addMoreFields}>
-                           <span><i class="fas fa-plus-circle"></i> Add</span> 
+                           <span><i class="fas fa-plus-circle"></i></span> 
                          </div>
                         </Col>
                         <Col lg={6} md={6} sm={6} xs={6}>
@@ -345,7 +375,7 @@ class Add_events extends Component {
                         </Col>
                       </Row>
                      
-                    </div>
+                    </Col>
                     </div>
                   
                   </div>

@@ -588,6 +588,9 @@ class ApiService {
   }
 
   static edit_event(eventData) {
+    if(eventData.eventbanner.length < 500) {
+      delete eventData.eventbanner
+    }
     return fetch(
       Config.Api_Address + 'events/edit_event',
       {
@@ -597,7 +600,7 @@ class ApiService {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({eventData})
+        body: JSON.stringify(eventData)
       }
     );
   }
