@@ -2797,6 +2797,7 @@ input[type="file"] {
     display: block; }
 
   .setings {
+    color: #fff !important;
     width: auto;
     bottom: 90px;
     right: -10px;

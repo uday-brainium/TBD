@@ -3,6 +3,7 @@ import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
 
+
 const openTime = moment().hour(10).minute(0);
 const closeTime = moment().hour(20).minute(0);
 
@@ -14,13 +15,22 @@ export default class Weekly_time_picker extends Component {
     this.state = {
        closedday: ''
     };
+     
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.setState({
+      closedday: this.props.closedon
+    })
+  }
   
   closed_day_change = (e) => {
     this.setState({closedday: e.target.value})
     this.props.change(e)
   }
     render() {
+      console.log('.aasda', this.props.mondayOpen);
+      
         return(
           <div style={{marginBottom: '30px'}}>
            <div className="choose-times">
@@ -67,7 +77,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={openTime}
+                        key={this.props.mondayOpen}
+                        defaultValue={this.props.mondayOpen != null ? moment(this.props.mondayOpen) : openTime}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'mondayOpen')}
                         format='h:mm a'
@@ -82,7 +93,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={closeTime}
+                        key={this.props.mondayClose}
+                        defaultValue={this.props.mondayClose == null ? closeTime : moment(this.props.mondayClose)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'mondayClose')}
                         format='h:mm a'
@@ -100,7 +112,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={openTime}
+                        key={this.props.tuesdayOpen}
+                        defaultValue={this.props.tuesdayOpen == null ? closeTime : moment(this.props.tuesdayOpen)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'tuesdayOpen')}
                         format='h:mm a'
@@ -115,7 +128,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={closeTime}
+                        key={this.props.tuesdayClose}
+                        defaultValue={this.props.tuesdayClose == null ? closeTime : moment(this.props.tuesdayClose)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'tuesdayClose')}
                         format='h:mm a'
@@ -133,7 +147,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={openTime}
+                        key={this.props.wednesdayOpen}
+                        defaultValue={this.props.wednesdayOpen == null ? openTime : moment(this.props.wednesdayOpen)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'wednesdayOpen')}
                         format='h:mm a'
@@ -148,7 +163,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={closeTime}
+                        key={this.props.wednesdayClose}
+                        defaultValue={this.props.wednesdayClose == null ? closeTime : moment(this.props.wednesdayClose)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'wednesdayClose')}
                         format='h:mm a'
@@ -166,7 +182,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={openTime}
+                        key={this.props.thursdayOpen}
+                        defaultValue={this.props.thursdayOpen == null ? openTime : moment(this.props.thursdayOpen)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'thursdayOpen')}
                         format='h:mm a'
@@ -181,7 +198,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={closeTime}
+                        key={this.props.thursdayClose}
+                        defaultValue={this.props.thursdayClose == null ? closeTime : moment(this.props.thursdayClose)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'thursdayClose')}
                         format='h:mm a'
@@ -199,7 +217,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={openTime}
+                        key={this.props.fridayOpen}
+                        defaultValue={this.props.fridayOpen == null ? openTime : moment(this.props.fridayOpen)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'fridayOpen')}
                         format='h:mm a'
@@ -214,7 +233,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={closeTime}
+                        key={this.props.fridayClose}
+                        defaultValue={this.props.fridayClose == null ? closeTime : moment(this.props.fridayClose)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'fridayClose')}
                         format='h:mm a'
@@ -232,7 +252,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={openTime}
+                        key={this.props.saturdayOpen}
+                        defaultValue={this.props.saturdayOpen == null ? openTime : moment(this.props.saturdayOpen)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'saturdayOpen')}
                         format='h:mm a'
@@ -247,7 +268,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={closeTime}
+                        key={this.props.saturdayClose}
+                        defaultValue={this.props.saturdayClose == null ? closeTime : moment(this.props.saturdayClose)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'saturdayClose')}
                         format='h:mm a'
@@ -265,7 +287,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={openTime}
+                        key={this.props.sundayOpen}
+                        defaultValue={this.props.sundayOpen == null ? openTime : moment(this.props.sundayOpen)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'sundayOpen')}
                         format='h:mm a'
@@ -280,7 +303,8 @@ export default class Weekly_time_picker extends Component {
                       <TimePicker
                         id="timepickerDays"
                         showSecond={false}
-                        defaultValue={closeTime}
+                        key={this.props.sundayClose}
+                        defaultValue={this.props.sundayClose == null ? closeTime : moment(this.props.sundayClose)}
                         className="xxx"
                         onChange={(value) => this.props.changeProp(value, 'sundayClose')}
                         format='h:mm a'
@@ -292,7 +316,7 @@ export default class Weekly_time_picker extends Component {
                 </div>
 
                 <div>
-                  <select className="closed-day" name="closedon" onChange={(e) => this.closed_day_change(e)}>
+                  <select className="closed-day" defaultValue={this.props.closedon} name="closedon" onChange={(e) => this.closed_day_change(e)}>
                     <option value="all">All day open</option>
                     <option value="Sunday" >Sunday</option>
                     <option value="Monday">Monday</option>

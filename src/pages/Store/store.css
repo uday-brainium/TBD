@@ -1,0 +1,252 @@
+.businessProfileBanner{
+    width: 100% !important
+}
+.time-modal {
+    font-size: 16px;
+    color: gray
+}
+
+.time-row {
+    /* border-bottom: 1px solid black */
+}
+
+.closed {
+  color: #f00c
+}
+.show-time {
+    color: orangered !important;
+    cursor: pointer;
+}
+
+.banner-container{
+    border: 1px solid #c8baba;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: -25px;
+}
+.store-edit-banner-button {
+  cursor: pointer;
+    border: 1px #8a999b solid;
+    height: 35px;
+    margin-top: 0px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background: #17d2e6;
+}
+#edit_store_banner, #edit_offer_banner {
+  height: 35px;
+  width: 100%;
+  margin-top: 212px !important;
+  position: absolute !important;
+  cursor: pointer;
+}
+.save-image-btn {
+  margin-top: 20px;
+  width: 100%;
+  background-color: orangered;
+  height: 50px;
+  border-radius: 10px;
+  color: #fff;
+}
+.full-width {
+  width: 100%
+}
+.details {
+  margin-top: 20px;
+}
+
+textarea {
+  margin-bottom: 25px;
+  -webkit-box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  -ms-border-radius: 50px;
+  border: 1px solid #cdd4d4;
+  height: 110px;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  font-size: 14px;
+  color: #000000;
+  /* width: 100%; */
+  padding: 10px 25px;
+  /* resize: none; */
+  vertical-align: top;
+}
+
+.open {
+  background-color: transparent !important;
+}
+
+.setings {
+  color: #fff !important;
+}
+/* 
+@@@@@@ Social media post CSS @@@@@@
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+.post_type_div {
+  width: 100%;
+  padding: 15px;
+  overflow: hidden;
+}
+
+.top_detail {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.singleProfile {
+  padding: 10px;
+  background-color: hsla(0, 16%, 96%, .27);
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  margin-bottom: 20px !important;
+}
+
+.photo {
+  max-width: 35px;
+  max-height: 35px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+  float: left;
+}
+
+.photo img {
+  max-width: 100%;
+  height: 35px;
+  width: 35px;
+}
+
+.name-add-time {
+  float: left;
+}
+
+.name-add-time h4 {
+  color: #494e4e;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.name-add-time p {
+  margin: 0;
+  color: #c7cbcb;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.post_detail {
+  margin: 0;
+  padding: 0;
+}
+
+.postedinfacebook {
+  float: right;
+}
+
+.postedinfacebook a {
+  color: #9c9b9a;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.fa-facebook:before {
+  color: #3e5c9a;
+  margin: 4px;
+}
+
+.post_middle_sec {
+  width: 100%;
+  margin: 20px 0; 
+  padding: 0;
+}
+
+.post_middle_sec p {
+  color: #c7cbcb;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.post_img img {
+  width: 100%;
+  height: 100%;
+}
+
+.post_reaction_box {
+  margin: 10px 0 0 0;
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.post_reaction_box ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.post_reaction_box ul li {
+  margin: 0;
+  padding: 0 4px;
+  float: left;
+}
+
+.reactions {
+  font-size: 14px;
+  text-align: right;
+  margin: 5px;
+}
+
+.reaction-icon img {
+  height: 30px;
+  margin: 3px;
+}
+.body-content {
+  height: 255px;
+  overflow-x: hidden;
+  overflow-y: scroll
+}
+/* =============================================================================
+  Responsive Part
+========================================================================== */
+@media (min-width: 1281px) {}
+
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .reaction-icon img {
+    height: 16px;
+    margin: 1px;
+  }
+  
+  .reactions {
+    font-size: 12px;
+    text-align: right;
+    margin: 0px;
+  }
+}
+
+@media (max-width: 767px) {
+  .post_detail {
+      display: none;
+  }
+
+}

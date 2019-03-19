@@ -17,7 +17,7 @@ import Step3 from './components/registration_step_3'
 import Step4 from './components/registration_step_4'
 import '../styles/style_sheet.css'
 import LoadingOverlay from 'react-loading-overlay';
-
+import moment from 'moment';
 
 const md5 = require('md5');
 const format = 'h:mm a';
@@ -45,20 +45,20 @@ class RegistrationPage extends React.Component {
       bannerImage: '',
       offerImage: '',
       urlextension: '',
-      mondayOpen: '10:00 am',
-      mondayClose: '08:00 pm',
-      tuesdayClose: '08:00 pm',
-      tuesdayOpen: '10:00 am',
-      wednesdayClose: '08:00 pm',
-      wednesdayOpen: '10:00 am',
-      thursdayClose: '08:00 pm',
-      thursdayOpen: '10:00 am',
-      fridayClose: '08:00 pm',
-      fridayOpen: '10:00 am',
-      saturdayClose: '08:00 pm',
-      saturdayOpen: '10:00 am',
-      sundayClose: '08:00 pm',
-      sundayOpen: '10:00 am',
+      mondayColse: moment('10:00 PM', 'HH:mm a'),
+      mondayOpen: moment('08:00 PM', 'HH:mm a'),
+      tuesdayClose: moment('08:00 PM', 'HH:mm a'),
+      tuesdayOpen: moment('10:00 PM', 'HH:mm a'),
+      wednesdayClose: moment('08:00 PM', 'HH:mm a'),
+      wednesdayOpen: moment('10:00 PM', 'HH:mm a'),
+      thursdayClose: moment('08:00 PM', 'HH:mm a'),
+      thursdayOpen: moment('10:00 PM', 'HH:mm a'),
+      fridayClose: moment('08:00 PM', 'HH:mm a'),
+      fridayOpen: moment('10:00 PM', 'HH:mm a'),
+      saturdayClose: moment('08:00 PM', 'HH:mm a'),
+      saturdayOpen: moment('10:00 PM', 'HH:mm a'),
+      sundayClose: moment('08:00 PM', 'HH:mm a'),
+      sundayOpen: moment('10:00 PM', 'HH:mm a'),
       closedon: '',
       businesscontact: '',
       businessaddress: '',
@@ -158,8 +158,8 @@ class RegistrationPage extends React.Component {
   }
 
   saveOCtimes = (value, day) => {
-    let val = value.format(format)
-    this.setState({[day]: val})
+    //let val = value.format(format)
+    this.setState({[day]: value})
   }
 
   checkEmail = () => {
@@ -300,8 +300,8 @@ class RegistrationPage extends React.Component {
               saturdayClose: this.state.saturdayClose,
               saturdayOpen: this.state.saturdayOpen,
               sundayClose: this.state.sundayClose,
-              sundayOpen: this.state.sundayOpen,
-             }
+              sundayOpen: this.state.sundayOpen
+              }
           }
           try {
             this.setState({loading: true})

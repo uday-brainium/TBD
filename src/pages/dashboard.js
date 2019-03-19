@@ -1,24 +1,39 @@
 import React,{ Component } from "react";
 import ReactDOM from 'react-dom'
+import {connect} from 'react-redux'
+import { fetchUserData, set_usertype } from '../actions/user_action'
 import { Route, Link, Redirect, withRouter } from "react-router-dom"
-import {
-    Container,
-    Row,
-    Col,
-    Nav
-} from 'reactstrap';
+
 
 class DashboardPage extends React.Component {
     constructor(props){
         super(props)
+      this.state = {
+        usertype: ''
+      }
     }
 
     componentDidMount(){
-        // let userwdata = localStorage.getItem('userdata')
-        // console.log("Userdata", JSON.parse(userwdata));
+      let userid = localStorage.getItem('user-id')
+      let token = localStorage.getItem('access-token-tbd')
+        this.props.fetchUserData(userid, token).then(() => {
+          console.log("PROPS", this.props);
+        })
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps, prevState) {
+     if(nextProps.userdata.userdata != null) {
+        let usertype = nextProps.userdata.userdata.userType
+        let privilage = nextProps.userdata.userdata.privilage
+        this.setState({usertype, privilage})
+        localStorage.setItem('user-type', usertype)
+        localStorage.setItem('subuser-access', privilage)
+     }
     }
 
     render(){
+      const {usertype} = this.state
+
         return(
             <div className="right">
                 <div className="rightSideHeader">
@@ -84,4 +99,10 @@ class DashboardPage extends React.Component {
     }
 }
 
-export default DashboardPage
+function mapStateToProps (state) {
+  return {
+    userdata: state.primaryuserdata
+  }
+}
+
+export default connect(mapStateToProps, {fetchUserData, set_usertype})(withRouter(DashboardPage))

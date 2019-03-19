@@ -36,6 +36,7 @@ class AdminLayout extends React.Component {
         // this.eventHandler = this.eventHandler.bind(this)
 
         this.state = {
+            storeUrl: '',
             isOpen: false,
             transform: '',
             overlayStyle: {
@@ -95,7 +96,10 @@ class AdminLayout extends React.Component {
                 userName: localStorage.getItem('full-name')
             })
         }
-
+        let data = localStorage.getItem('userdata')
+        let url =  JSON.parse(data).data.url
+        
+        this.setState({storeUrl: url})
         // set logo image
         if (window.innerWidth < 767) {
             this.setState({
@@ -336,6 +340,8 @@ class AdminLayout extends React.Component {
                         localStorage.removeItem('access-token-tbd')
                         localStorage.removeItem('full-name')
                         localStorage.removeItem('user-id')
+                        localStorage.removeItem('user-type')
+                        localStorage.removeItem('subuser-access')
                         localStorage.removeItem('profile-image-path')
                         this.setState({
                             redirectedHome: true
@@ -363,6 +369,10 @@ class AdminLayout extends React.Component {
     }
 
     render() {
+        let usertype = localStorage.getItem('user-type')
+        let privilage = localStorage.getItem('subuser-access')
+        console.log('ddd', privilage, usertype);
+        
         // component to be rendered
         const DisplayComp = this.props.component
 
@@ -456,25 +466,44 @@ class AdminLayout extends React.Component {
                                                 <li><a className="editProfile" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Menu</a></li>
                                             </ul>
                                         </li>*/}
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('changepassword')}>Change Password</a></li>
+                                    
+                                       <li><a className="" onClick={(e) => this.sideMenuLinkClicked('changepassword')}>Change Password</a></li>
+                                       {usertype != 'subuser' || privilage == 'admin' ?
                                         <li><a className="" onClick={(e) => this.showSubMenu('business-profile')}>Business Profile</a>
-                                            <span className={this.state.editBusinessProfileIcon} onClick={(e) => this.showSubMenu('business-profile')}></span>
-                                            <ul style={this.state.editBusinessSubMenuStyle}>
-                                                <li><a onClick={(e) => this.sideMenuLinkClicked('business-profile')}>View Profile</a></li>
-                                                <li><a onClick={(e) => this.sideMenuLinkClicked(BusinessProfileLink)}>Edit Profile</a></li>
-                                                <li><a onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Upload Banner Photo</a></li>
-                                                <li><a onClick={(e) => this.sideMenuLinkClicked('menu')}>Menu</a></li>
+                                        <span className={this.state.editBusinessProfileIcon} onClick={(e) => this.showSubMenu('business-profile')}></span>
+                                        <ul style={this.state.editBusinessSubMenuStyle}>
+                                            <li><a onClick={(e) => this.sideMenuLinkClicked(this.state.storeUrl)}>View Profile</a></li>
+                                            <li><a onClick={(e) => this.sideMenuLinkClicked(BusinessProfileLink)}>Edit Profile</a></li>
+                                            <li><a onClick={(e) => this.sideMenuLinkClicked('edit_banner')}>Upload Banner Photo</a></li>
+                                            <li><a onClick={(e) => this.sideMenuLinkClicked('edit_offer')}>Edit offer details</a></li>
                                             </ul>
-                                        </li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>My Orders</a></li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Payment History</a></li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Reservations</a></li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Promotions</a></li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Notifications</a></li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Incentives</a></li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('events')}>Events managment</a></li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('list_sub_users')}>Manage Sub User</a></li>
-                                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Social Media Post</a></li>
+                                        </li> : ''
+                                       }
+                                       <li><a onClick={(e) => this.sideMenuLinkClicked('menu')}>Food Menu</a></li>
+                                       {usertype != 'subuser' || privilage == 'manager' || privilage == 'admin' ?
+                                        <div>
+                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Reports</a></li>
+                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Payment History</a></li>
+                                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('events')}>Events managment</a></li>
+                                        </div> : ''
+                                       }
+                                       {usertype != 'subuser' || privilage == 'manager' || privilage == 'admin' || privilage == "associate" ?
+                                        <div>
+                                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Reservations</a></li>
+                                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>My Orders</a></li>
+                                        </div> : ''
+                                       }
+                                      
+                                       <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Promotions</a></li>
+                                       <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Notifications</a></li>
+                                       <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Incentives</a></li>
+                                       {usertype != 'subuser' || privilage == 'admin' ?
+                                       <div>
+                                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('list_sub_users')}>Manage Sub User</a></li>
+                                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Social Media Post</a></li>   
+                                       </div> : ''
+                                       }  
+                                       
                                     </ul>
                                 </div>
                                 {/*<AdminLeftMenuView menuDisplayed={this.state.leftMenuOpen} hideOverlay={this.hideOverlay} topBarFixed={this.state.fixedTopBar} menuClicked={this.state.menuLinkClicked} />*/}

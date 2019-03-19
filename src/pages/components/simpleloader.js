@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './../../styles/style_sheet.css'
 
 export default class SimpleLoader extends Component {
   
@@ -8,9 +8,9 @@ export default class SimpleLoader extends Component {
     return (
      <div>
       {this.props.loading &&
-        <div className="loader-container">
+        <div className={`loader-container loader-${this.props.background}`}>
            <center>
-             <div className="loader-body animated bounceIn">
+             <div className={`loader-body animated bounceIn`}>
               <div className="spinner-border custom-loader" role="status">
                 <span className="sr-only">Loading...</span>
               </div>

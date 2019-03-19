@@ -1,0 +1,311 @@
+html,
+body,
+address,
+blockquote,
+div,
+dl,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+p,
+pre,
+table,
+ul,
+dd,
+dt,
+li,
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr,
+button,
+del,
+ins,
+map,
+object,
+a,
+abbr,
+acronym,
+b,
+bdo,
+big,
+br,
+cite,
+code,
+dfn,
+em,
+i,
+img,
+kbd,
+q,
+samp,
+small,
+span,
+strong,
+sub,
+sup,
+tt,
+var,
+legend,
+fieldset {
+    margin: 0;
+    padding: 0;
+}
+
+article,
+aside,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section,
+video,
+audio,
+mark {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+img,
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: #fff !important;
+}
+
+input[type="text"] {
+    outline: 0;
+}
+
+select {
+    outline: 0;
+}
+
+/* Flexible Embedded Videos */
+
+a {
+    color: #3d3d3d;
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #c1b497;
+    -webkit-transition: all 1s ease-out;
+    -moz-transition: all 1s ease-out;
+    -ms-transition: all 1s ease-out;
+    -o-transition: all 1s ease-out;
+    transition: all 1s ease-out;
+}
+
+a:hover,
+a:active {
+    outline: 0;
+    border: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    line-height: 24px;
+}
+
+h2 {
+    color: #0b3d72;
+    font-size: 30px;
+    font-weight: 800;
+    padding-bottom: 20px;
+}
+
+/* list */
+
+ul,
+li,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Tables */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.clear {
+    font-size: 0;
+    line-height: 0;
+    clear: both;
+    height: 0;
+}
+
+/* =============================================================================
+            Typography
+========================================================================== */
+
+body {
+    color: #282828;
+    font-family: 'Cairo', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+.clear {
+    clear: both;
+}
+
+.post_type_div {
+    width: 100%;
+    overflow: hidden;
+}
+
+.top_detail {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.singleProfile {
+    padding: 10px;
+    background-color: hsla(0, 16%, 96%, .27);
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.photo {
+    max-width: 45px;
+    max-height: 45px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+    float: left;
+}
+
+.photo img {
+    max-width: 100%;
+}
+
+.name-add-time {
+    float: left;
+}
+
+.name-add-time h4 {
+    color: #494e4e;
+    font-size: 14px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.name-add-time p {
+    margin: 0;
+    color: #c7cbcb;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.post_detail {
+    margin: 0;
+    padding: 0;
+}
+
+.postedinfacebook {
+    float: left;
+    margin-right: 15px;
+    font-size: 13px;
+}
+
+.postedinfacebook a {
+    color: #9c9b9a;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.fa-facebook-square:before {
+    color: #3e5c9a;
+}
+
+.post_middle_sec {
+    width: 100%;
+    margin: 20px 0;
+    padding: 0;
+}
+
+.post_middle_sec p {
+    color: #c7cbcb;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.post_img img {
+    width: 100%;
+    height: 100%;
+}
+
+.post_reaction_box {
+    margin: 10px 0 0 0;
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.post_reaction_box ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.post_reaction_box ul li {
+    margin: 0;
+    padding: 0 4px;
+    float: left;
+}
+
+.reactions {
+    font-size: 14px;
+    text-align: right;
+}
+
+
+/* =============================================================================
+    Responsive Part
+========================================================================== */
+@media (min-width: 1281px) {}
+
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {}
+
+@media (max-width: 767px) {
+    .post_detail {
+        display: none;
+    }
+
+}

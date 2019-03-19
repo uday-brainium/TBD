@@ -68,7 +68,7 @@ export default class Step2 extends Component {
     .then((data) => this.setState({cities: data.result, cityLoader: false})  )
     let manupulate = {
       target: {
-        value: selected,
+        value: stateId,
         name: 'state'
       }
     } 
@@ -118,9 +118,6 @@ export default class Step2 extends Component {
     const countriesList = Object.values(this.state.countries)
     const citiList = Object.values(this.state.cities)
     console.log(countriesList);
-    
-   // console.log("STATES", this.state.states);
-   
 
     return (
       <div className="animated slideInRight delay-0.5s">
@@ -145,19 +142,6 @@ export default class Step2 extends Component {
             </div>
         </div>
 
-         {/* <img src={this.state.imagePrev} width="100%" height=""/> 
-          <div className="business-banner-upload">
-            <span className="upload-text">Upload banner</span>
-              <input
-                type="file"
-                name="profile_image"
-                value=""
-                id="banner_image1"
-                onChange={this.handleFileUpload}
-                accept="image/*"
-                //disabled={this.state.submitDisabled}
-              />
-            </div> */}
           </div>
           <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
         </div>

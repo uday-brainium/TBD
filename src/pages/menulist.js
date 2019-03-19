@@ -353,7 +353,8 @@ class MenuListPage extends React.Component {
           <form className="searchContainer form" onSubmit={this.handleSubmit}>
             <div className="left">
               <div className="first">
-                <div className="col-1">
+                <div className="row">
+                
                   <div className="fieldCol">
                     <div className="select" onClick={this.optionClicked}>
                       <select id="menu" name="menuitem" className="s-hidden" value={this.state.option} onChange={this.optionChanged}>

@@ -4,11 +4,17 @@ import Loadable from "react-loadable";
 
 import PrivateRoute from "./utilities/privateroute";
 
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
+import reducers from './reducer';
+
 import MainLayout from "./pages/layouts/main";
 import AdminLayout from "./pages/layouts/admin";
 import ProtectedLayout from "./pages/layouts/protected";
 
 import LoadingView from "./pages/views/loading";
+import {checkPermission} from './utilities/user_restriction'
 // import NotFoundPage from './pages/notfound'
 
 /*import LandingPage from './pages/landing'
@@ -26,12 +32,35 @@ const PublicPage = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const Store = Loadable({
+  loader: () => import("./pages/Store/main_page"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+
 const DashboardPage = Loadable({
   loader: () => import("./pages/dashboard"),
   loading: LoadingView,
   delay: 300, // 0.3 seconds
   timeout: 10000 // 10 seconds
 });
+
+const EditBanner = Loadable({
+  loader: () => import("./pages/Store/update_banner"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const EditOffer = Loadable({
+  loader: () => import("./pages/Store/edit_offer"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
 
 const LoginPage = Loadable({
   loader: () => import("./pages/login"),
@@ -49,6 +78,13 @@ const RegistrationPage = Loadable({
 
 const NotFoundPage = Loadable({
   loader: () => import("./pages/notfound"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const No_permission = Loadable({
+  loader: () => import("./pages/Errors/permission_denied"),
   loading: LoadingView,
   delay: 300, // 0.3 seconds
   timeout: 10000 // 10 seconds
@@ -236,10 +272,12 @@ const RecursiveExample = Loadable({
 class App extends React.Component {
   constructor(props) {
     super(props);
-
+    this.store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     this.state = {
       dataSource: []
     }
+    let path = window.location.pathname
+    checkPermission(props, path)
 
   }
 
@@ -260,6 +298,7 @@ class App extends React.Component {
 
   render() {
     return (
+      <Provider store={this.store}>
       <Router>
         <Switch>
           <MainLayout exact path="/" component={LandingPage} />
@@ -289,15 +328,21 @@ class App extends React.Component {
           <AdminLayout path="/events/" component={EventPage} />
           <AdminLayout path="/add_new_event/" component={createEventPage} />
           <AdminLayout path="/edit_event/" component={editEventPage} />
+          <AdminLayout path="/edit_banner/" component={EditBanner} />
+          <AdminLayout path="/edit_offer/" component={EditOffer} />
+
+          <Route path="/:id" component={Store} />
           {/* <AdminLayout path="/editprofile" component={DashboardPage} /> */}
           {/* <MainLayout path="/public" component={PublicPage} />
                     <Route path="/login" component={LoginPage} />
                     <PrivateRoute authentication={true} path="/private" layout="default" component={PrivatePage} />
                     <PrivateRoute authentication={true} path="/test2" component={PrivatePage} />
                     <MainLayout path="/test" component={LoginPage} /> */}
-          <Route component={NotFoundPage} />
+          <Route path="./page_not_found" component={NotFoundPage} />
+          <Route path="/permission_denied" component={No_permission} />
         </Switch>
       </Router>
+      </Provider>
     );
   }
 }

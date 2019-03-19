@@ -106,6 +106,9 @@
     z-index: -123;
     pointer-events: none !important;
 }
+.rc-time-picker {
+  width: 100% !important;
+}
 
 .choose-times{
   border: 1px solid gray;
@@ -127,6 +130,7 @@
 
 .adjust-time-row {
   margin-right: 0px;
+  margin-top: 5px;
 }
 #timepickerDays {
   height: 30px;
@@ -316,6 +320,16 @@ Below css is for create sub users                   @
   background-color: #2ab5ae;
   padding: 30px;
   margin-top: 160px;
+  box-shadow: 0 0 80px 9px #03a7ff;
+  border: 2px solid #1ea09a;
+}
+
+.loader-fill {
+  background-color: #9af8ff !important
+}
+
+.loader-no-fill {
+  background-color: transparent !important
 }
 .loader-text{
   color: #ffffff
@@ -459,4 +473,18 @@ Event management part
   .gap-bottom {
     margin-top: 20px;
   }
+}
+
+.no-permission {
+  text-align: center;
+  padding-top: 15%
+}
+.error-banner {
+  padding: 45px;
+  background: #ec2b2be6;
+  margin-left: 20%;
+  margin-right: 20%;
+  color: #fff;
+  border-radius: 14px;
+  font-size: 25px;
 }

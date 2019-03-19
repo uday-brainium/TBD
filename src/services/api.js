@@ -372,7 +372,7 @@ class ApiService {
 
 
   // update profile
-  static editbusinessprofile(token, body) {
+  static editbusinessprofile(token, userid, data) {
     return fetch(Config.Api_Address + "users/editbusinessprofile/?token=" + token, {
       // mode: 'no-cors',
       method: "POST",
@@ -380,7 +380,7 @@ class ApiService {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify({'userid': userid, data})
     });
   }
 
@@ -401,17 +401,19 @@ class ApiService {
   //   );
   // }
 
-  static getBusinessProfbyUrl(userid, token) {
+  static getBusinessProfbyUrl(extension) {
     return fetch(
-      Config.Api_Address + "users/userdetails/"+userid+"?token="+token,
+      Config.Api_Address + "users/fetch_store/",
       {
         // mode: 'no-cors',
-        method: "GET",
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          'token' : token
         },
+        body: JSON.stringify({
+          extension
+        })
       }
     );
   }
@@ -601,6 +603,36 @@ class ApiService {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(eventData)
+      }
+    );
+  }
+
+  static edit_offer(token, userid, data) {
+    return fetch(
+      Config.Api_Address + 'users/edit_offer?token='+token+' ',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({userid, data})
+      }
+    );
+  }
+
+
+  static getUserdetails(userid, token) {
+    return fetch(
+      Config.Api_Address + 'users/userdetails/'+userid+'?token='+token+'',
+      {
+        //mode: 'no-cors',
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       }
     );
   }

@@ -59,14 +59,14 @@ class Edit_event extends Component {
           entryfee: JSON.parse(this.state.editData.freeformembers),
           eventtype: this.state.editData.eventtype,
           totalcapacity: this.state.editData.totalcapacity,
-          oncestarttime: moment(this.state.editData.eventonce.starttime),
-          onceendtime: moment(this.state.editData.eventonce.endtime),
+          oncestarttime: this.state.editData.eventonce.starttime != null ? moment(this.state.editData.eventonce.starttime) : moment(),
+          onceendtime: this.state.editData.eventonce.endtime != null ? moment(this.state.editData.eventonce.endtime) : moment(),
           oncedate: this.state.editData.eventonce.date,
           timestart: moment(this.state.editData.eventday.timestart),
           timeend: moment(this.state.editData.eventday.timeend)
           //fieldArray: this.state.editData.weeklyevent
          }, () => {
-           console.log("desc", this.state.eventdescription);
+         // console.log("oncestarttime", this.state.oncestarttime);
            
           let weeklyData = this.state.editData.weeklyevent
           weeklyData.map((data, i) => {
@@ -143,10 +143,17 @@ class Edit_event extends Component {
     this.setState({[type]: value})
   }
 
-  handleSubmit = (e) => {
-    this.setState({submitLoading: true})
-    e.preventDefault()
-    let evetData = {
+  clearWeeklyData = async () => {
+    for(let i=1; i < 8; i++) {
+      let dayKey = `weekday_${i}`.trim()
+      let timeStartKey = `weektime_start_${i}`.trim()
+      let timeEndKey = `weektime_end_${i}`.trim()
+      this.setState({[dayKey]: undefined, [timeStartKey]: undefined, [timeEndKey]: undefined})
+    }
+  }
+
+  organiseDataForSubmit = () => {
+    let eventData = {
       eventid: this.state.eventid,
       title: this.state.eventtitle,
       date: this.state.eventdate,
@@ -189,16 +196,36 @@ class Edit_event extends Component {
         timeend: this.state.timeend
       }
     }
-    console.log("EventData", evetData);
-    
-    ApiService.edit_event(evetData)
-    .then((res) => res.json())
-    .then((response) => {
-      console.log(response);
-      this.setState({eventList: response.response, submitLoading: false}, () => {
-        this.props.history.push('/events')
+  return eventData
+  }
+
+  handleSubmit = (e) => {
+    this.setState({submitLoading: true})
+    e.preventDefault()
+    if(this.state.eventtype != 'weekly') {
+      this.clearWeeklyData()
+      .then(() => {
+        let eventData = this.organiseDataForSubmit();
+        ApiService.edit_event(eventData)
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response);
+          this.setState({eventList: response.response, submitLoading: false}, () => {
+            this.props.history.push('/events')
+          })
+        })
       })
-    })
+    } else {
+      let eventData = this.organiseDataForSubmit();
+      ApiService.edit_event(eventData)
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        this.setState({eventList: response.response, submitLoading: false}, () => {
+          this.props.history.push('/events')
+        })
+      })
+    }
   }
 
 
