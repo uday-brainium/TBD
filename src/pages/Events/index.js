@@ -52,8 +52,6 @@ class Events extends Component {
   }
 
   editEvent = (data) => {
-    console.log("Props", this.props);
-    
     this.props.history.push({
       pathname: '/edit_event',
       state: data

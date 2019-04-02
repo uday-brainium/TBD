@@ -2024,7 +2024,7 @@ input[type="file"] {
 .setings {
     position: fixed;
     width: 220px;
-    top: 40%;
+    top: 35%;
     right: 0;
     z-index: 100;
 }
@@ -2077,6 +2077,14 @@ input[type="file"] {
     background-position: -469px -109px;
 }
 
+.setings ul li a.homenav:before {
+    background-position: 0px -180px;
+}
+
+.setings ul li a.toadmin:before {
+    background-position: -352px -254px;
+}
+
 .setings ul li a.bookAtable:before {
     background-position: -469px -175px;
 }
@@ -2092,6 +2100,11 @@ input[type="file"] {
 .setings ul li a.becomeAmember:hover:before {
     background-position: -425px -109px;
 }
+
+.setings ul li a.homenav:hover:before {
+    background-position: 0px -180px;
+}
+
 
 .setings ul li a.bookAtable:hover:before {
     background-position: -425px -175px;
@@ -3596,7 +3609,7 @@ input[type="file"] {
     }
     .setings {
         width: auto;
-        bottom: -210px;
+        bottom: -390px;
         right: -10px;
         top: auto;
         display: block;
@@ -3667,6 +3680,12 @@ input[type="file"] {
     .setings ul li a.becomeAmember:before {
         background-color: #ff6400;
     }
+    .setings ul li a.homenav:before {
+        background-color: #ba4de6;
+    }
+    .setings ul li a.toadmin:before {
+        background-color: #dddb42;
+    }
     .setings ul li a.bookAtable:before {
         background-color: #3d87ce;
     }
@@ -3678,19 +3697,43 @@ input[type="file"] {
     }
     .setings ul li a.becomeAmember:before {
         background-position: -413px -103px;
+        cursor: pointer;
+    }
+    .setings ul li a.homenav:before {
+        background-position: 10px -170px;
+        cursor: pointer;
+    }
+
+    .setings ul li a.toadmin:before {
+        background-position: -341px -244px;
+        cursor: pointer;
     }
     .setings ul li a.bookAtable:before {
         background-position: -413px -166px;
+        cursor: pointer;
     }
     .setings ul li a.foodItems:before {
         background-position: -414px -231px;
+        cursor: pointer;
     }
     .setings ul li a.games:before {
         background-position: -418px -293px;
+        cursor: pointer;
     }
     .setings ul li a.becomeAmember:hover:before {
         background-position: -413px -103px;
+        cursor: pointer;
     }
+    .setings ul li a.homenav:hover:before {
+        background-position: 10px -170px;
+        cursor: pointer;
+    }
+
+    .setings ul li a.toadmin:hover:before {
+        background-position: -341px -244px;
+        cursor: pointer;
+    }
+
     .setings ul li a.bookAtable:hover:before {
         background-position: -413px -166px;
     }

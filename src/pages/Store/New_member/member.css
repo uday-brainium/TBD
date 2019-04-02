@@ -1,0 +1,246 @@
+.became-member-left {
+  border-right: 2px solid #ff6400;
+  min-height: 200px;
+  padding-right: 0;
+  border-bottom: 2px solid #ff6400;
+  /* padding-left: 30px; */
+}
+.bam-head {
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.bam-cards {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+  
+  .became-member-right {
+    min-height: 200px;
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 2px solid #ff6400;
+  }
+  .bam-right-head {
+    padding: 10px;
+    background-color: #ff6400;
+    color: #fff;
+    font-size: 18px;
+  }
+  .bam-form{
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+  .bam-button{
+    width: 60%
+  }
+  .bam-form-card {
+    width: 80%
+  }
+  .info-text {
+    margin-bottom: 0px;
+  }
+  .full {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  #textarea {
+    -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1) !important;
+  }
+  .validation-err {
+    margin-top: -20px;
+    font-size: 14px;
+    color: red;
+  }
+
+  /* @@@@@@@@@@@@@@ PRICING CARDS 2@@@@@@@@@@@@@@@@@@? */
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  .columns {
+    float: left;
+    width: 33.3%;
+    padding: 8px;
+  }
+  
+  .price {
+    list-style-type: none;
+    border: 1px solid #eee;
+    margin: 0;
+    padding: 0;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+  }
+  
+  .price:hover {
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+  }
+  
+  .price .header {
+    background-color: #111;
+    color: white;
+    font-size: 25px;
+  }
+  
+  .price li {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .price .grey {
+    background-color: #eee;
+    font-size: 20px;
+  }
+
+  .price-card-points {
+    text-transform: capitalize
+  }
+  
+  .button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  .price-Silver {
+    background-color: #7269B4 !important;
+  }
+  .price-Free {
+    background-color: #37b1b1 !important;
+  }
+  .price-Gold {
+    background-color: #c8c139 !important;
+  }
+  @media only screen and (max-width: 600px) {
+    .columns {
+      width: 100%;
+    }
+  }
+
+
+  .form input[type="date"] {
+    border: 1px solid #cdd4d4;
+    height: 50px;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    font-size: 14px;
+    color: #000000;
+    width: 100%;
+    padding: 0 15px 0 20px;
+}
+
+.cross-line {
+  text-decoration: line-through;
+}
+
+.reistraion-done-container {
+  padding: 10px;
+  min-height: 200px;
+  text-align: center;
+}
+.done-icon {
+  font-size: 80px;
+  color: #31a431cc;
+  text-shadow: 3px 1px #40d198;
+}
+.done-head-text {
+  font-size: 25px;
+  padding: 10px;
+}
+.done-sub-text {
+  font-size: 18px;
+}
+.done-btn {
+  margin-top: 25px;
+}
+
+.plan-table {
+  font-size: 14px;
+  text-align: center;
+}
+
+.plan-heading-Free {
+  padding: 10px;
+  background: #37b1b1;
+  color: #fff;
+}
+
+.plan-heading-Silver {
+  padding: 10px;
+  background: #7269B4;
+  color: #fff;
+}
+
+.plan-heading-Gold {
+  padding: 10px;
+  background: #c8c139;
+  color: #fff;
+}
+
+.plan-free-btn {
+  border-radius: 20px;
+}
+.StripeCheckout {
+  border-radius: 20px !important;
+  width: 80%;
+}
+.price-free-btn {
+  border-radius: 20px;
+  width: 80%;
+  height: 35px;
+  text-align: center;
+  padding: 0;
+  background-color: #0e92df;
+  background-image: linear-gradient(rgb(125, 197, 238), rgb(0, 140, 221) 85%, rgb(48, 162, 228));
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  font-size: 14px;
+  position: relative;
+  padding: 0px 12px;
+  line-height: 30px;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+  text-shadow: rgba(0, 0, 0, 0.25) 0px -1px 0px;
+}
+  /* =============================================================================
+  Responsive Part
+========================================================================== */
+@media (min-width: 1281px) {}
+
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+ 
+}
+
+@media (max-width: 767px) {
+  .bam-form-card {
+    width: 100%
+  }
+  .became-member-left {
+    /* display: none; */
+  }
+  .bam-right-head {
+    padding: 10px;
+    background-color: #ff6400;
+    color: #fff;
+    font-size: 18px;
+    margin-left: 15px;
+}
+  .bam-form {
+    padding-top: 0;
+  }
+}

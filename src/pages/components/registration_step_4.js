@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 let place_img = require('./../../images/img_place2.svg')
+var scrollToElement = require('scroll-to-element');
 
 export default class Step3 extends Component {
   constructor(props) {
@@ -7,6 +8,10 @@ export default class Step3 extends Component {
     this.state = {
       bannerImg: require('./../../images/img_place.png')
     }
+  }
+
+  componentDidMount() {
+    scrollToElement("#step4")
   }
 
   handleFileUpload = (e) => {
@@ -34,7 +39,7 @@ export default class Step3 extends Component {
       console.log(this.state.bannerImg);
       
     return (
-      <div className="animated slideInRight delay-0.5s">
+      <div className="animated slideInRight delay-0.5s" id="step4">
         {/* <div className="singleCheckbox">
             <input id="emailsubscription" type="checkbox" name="emailsubscription" defaultChecked={this.props.emailnotification} onChange={(e) => this.props.change(e)} />
             <label htmlFor="emailsubscription"><span></span>Latest offer by Email</label>

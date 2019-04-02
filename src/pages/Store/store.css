@@ -18,14 +18,14 @@
     cursor: pointer;
 }
 
-.banner-container{
+/* .banner-container{
     border: 1px solid #c8baba;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     width: 100%;
     overflow: hidden;
     margin-bottom: -25px;
-}
+} */
 .store-edit-banner-button {
   cursor: pointer;
     border: 1px #8a999b solid;
@@ -148,8 +148,8 @@ textarea {
 
 .name-add-time p {
   margin: 0;
-  color: #c7cbcb;
-  font-size: 12px;
+  color: gray;
+  font-size: 14px;
   line-height: 18px;
 }
 
@@ -175,7 +175,7 @@ textarea {
 
 .post_middle_sec {
   width: 100%;
-  margin: 20px 0; 
+  margin: 5px 0; 
   padding: 0;
 }
 
@@ -186,8 +186,11 @@ textarea {
 }
 
 .post_img img {
+  max-height: 250px;
   width: 100%;
   height: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .post_reaction_box {
@@ -218,12 +221,59 @@ textarea {
 .reaction-icon img {
   height: 30px;
   margin: 3px;
+  transition: 0.5s ease-in-out;
+}
+
+.reaction-icon img:hover {
+  transform: scale(1.1);
 }
 .body-content {
-  height: 255px;
+  /* height: 255px;
   overflow-x: hidden;
-  overflow-y: scroll
+  overflow-y: scroll */
 }
+.heading {
+  padding: 15px;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  color: gray;
+  background: #097ef999;
+  color: #fff;
+}
+.event-image {
+  max-height: 200px;
+}
+.event-icon {
+  margin-right: 5px;
+}
+.footer-details {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  color: gray;
+}
+.footer-details p {
+  margin: 0;
+  padding: 0
+}
+
+.games {
+  cursor: pointer;
+}
+.no-events {
+  text-align: center;
+  font-size: 20px;
+  padding: 15%;
+}
+
+.footer-container {
+  background-color: #097ef999;
+  padding: 10px;
+  color: #fff;
+  margin-top: 20px;
+  min-height: 150px;
+}
+
 /* =============================================================================
   Responsive Part
 ========================================================================== */
@@ -247,6 +297,9 @@ textarea {
 @media (max-width: 767px) {
   .post_detail {
       display: none;
+  }
+  .setings {
+    color: #000 !important;
   }
 
 }

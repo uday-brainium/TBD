@@ -59,6 +59,29 @@ class RegistrationPage extends React.Component {
       saturdayOpen: moment('10:00 PM', 'HH:mm a'),
       sundayClose: moment('08:00 PM', 'HH:mm a'),
       sundayOpen: moment('10:00 PM', 'HH:mm a'),
+
+      free_member_points: 'none',
+      free_member_instant_promotion: 'no',
+      free_member_birthday_promotion: 'yes',
+      free_member_discount: '0',
+      free_member_free_events: 'no',
+      free_member_reservation: 'no',
+
+      silver_member_points: 'double',
+      silver_member_instant_promotion: 'yes',
+      silver_member_birthday_promotion: 'yes',
+      silver_member_discount: '3',
+      silver_member_free_events: 'yes',
+      silver_member_reservation: 'yes',
+      silver_price: '10',
+
+      gold_member_points: 'triple',
+      gold_member_instant_promotion: 'yes',
+      gold_member_birthday_promotion: 'yes',
+      gold_member_discount: '5',
+      gold_member_free_events: 'yes',
+      gold_member_reservation: 'yes',
+
       closedon: '',
       businesscontact: '',
       businessaddress: '',
@@ -94,7 +117,7 @@ class RegistrationPage extends React.Component {
   }
 
   handleChange(e) {
-    console.log(this.state);
+    console.log(this.state.loyalitycardprice);
     
     this.setState({ [e.target.name]: e.target.value })
 
@@ -108,8 +131,8 @@ class RegistrationPage extends React.Component {
         state: e.target.value
       })
     }
-    if (e.target.name === 'city') {
-      this.setState({
+   if (e.target.name === 'city') {
+       this.setState({
         city: e.target.value
       })
     }
@@ -301,7 +324,35 @@ class RegistrationPage extends React.Component {
               saturdayOpen: this.state.saturdayOpen,
               sundayClose: this.state.sundayClose,
               sundayOpen: this.state.sundayOpen
-              }
+              },
+             memberservices: {
+               freemember: {
+                  points: this.state.free_member_points,
+                  instant_promotion: this.state.free_member_instant_promotion,
+                  birthday_promotion: this.state.free_member_birthday_promotion,
+                  discount: this.state.free_member_discount,
+                  free_events: this.state.free_member_free_events,
+                  reservation: this.state.free_member_reservation,
+               },
+               silvermember: {
+                  points: this.state.silver_member_points,
+                  instant_promotion: this.state.silver_member_instant_promotion,
+                  birthday_promotion: this.state.silver_member_birthday_promotion,
+                  discount: this.state.silver_member_discount,
+                  free_events: this.state.silver_member_free_events,
+                  reservation: this.state.silver_member_reservation,
+                  silver_price: this.state.loyalitycardprice
+               },
+               goldmember: {
+                  points: this.state.gold_member_points,
+                  instant_promotion: this.state.gold_member_instant_promotion,
+                  birthday_promotion: this.state.gold_member_birthday_promotion,
+                  discount: this.state.gold_member_discount,
+                  free_events: this.state.gold_member_free_events,
+                  reservation: this.state.gold_member_reservation,
+                  gold_price: (this.state.loyalitycardprice * 2)
+               }
+             }
           }
           try {
             this.setState({loading: true})
@@ -316,7 +367,7 @@ class RegistrationPage extends React.Component {
                   })
                   setTimeout(() => {
                     this.props.history.push('/login')
-                  }, 3500)
+                  }, 2500)
                 }
                 else {
                   notify.show(response.message, 'error', 5000)

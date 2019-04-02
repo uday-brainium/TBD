@@ -1635,22 +1635,32 @@ input[type="file"] {
         display: block;
         position: relative;
         margin-right: 10px; }
+      .setings ul li a.homenav:before {
+        background-position: -469px -109px; cursor: pointer;
+       }
+       .setings ul li a.toadmin:before {
+        background-position: -469px -109px; cursor: pointer;
+       }
       .setings ul li a.becomeAmember:before {
-        background-position: -469px -109px; }
+        background-position: -469px -109px; cursor: pointer; }
       .setings ul li a.bookAtable:before {
-        background-position: -469px -175px; }
+        background-position: -469px -175px; cursor: pointer; }
       .setings ul li a.foodItems:before {
-        background-position: -469px -241px; }
+        background-position: -469px -241px; cursor: pointer;}
       .setings ul li a.games:before {
-        background-position: -469px -304px; }
+        background-position: -469px -304px; cursor: pointer; }
       .setings ul li a.becomeAmember:hover:before {
-        background-position: -425px -109px; }
+        background-position: -425px -109px; cursor: pointer; }
+      .setings ul li a.homenav:hover:before {
+          background-position: -422px -102px; cursor: pointer; }
+      .setings ul li a.toadmin:hover:before {
+          background-position: -422px -102px; cursor: pointer; }
       .setings ul li a.bookAtable:hover:before {
-        background-position: -425px -175px; }
+        background-position: -225px -135px; cursor: pointer;}
       .setings ul li a.foodItems:hover:before {
-        background-position: -425px -241px; }
+        background-position: -425px -241px; cursor: pointer;}
       .setings ul li a.games:hover:before {
-        background-position: -425px -304px; }
+        background-position: -425px -304px; cursor: pointer;}
     .setings ul li:hover {
       right: 0; }
 
@@ -2847,14 +2857,18 @@ input[type="file"] {
           border-radius: 50%; }
         .setings ul li a.becomeAmember:before {
           background-color: #ff6400; }
+        .setings ul li a.homenav:before {
+            background-color: #b95df7; }
+        .setings ul li a.toadmin:before {
+            background-color: #e7f713; }
         .setings ul li a.bookAtable:before {
           background-color: #3d87ce; }
         .setings ul li a.foodItems:before {
           background-color: #48a00b; }
         .setings ul li a.games:before {
           background-color: #dc2a2a; }
-        .setings ul li a.becomeAmember:before {
-          background-position: -413px -103px; }
+        .setings ul li a.homenav:before {
+          background-position: -469px -109px; }
         .setings ul li a.bookAtable:before {
           background-position: -413px -166px; }
         .setings ul li a.foodItems:before {
@@ -2863,6 +2877,14 @@ input[type="file"] {
           background-position: -418px -293px; }
         .setings ul li a.becomeAmember:hover:before {
           background-position: -413px -103px; }
+        .setings ul li a.homenav:hover:before {
+            background-position: -413px -103px; }
+        .setings ul li a.toadmin:hover:before {
+            background-position: -413px -103px; }
+        .setings ul li a.homenav:before {
+            background-position: -469px -109px; }
+        .setings ul li a.homenav:before {
+            background-position: -469px -109px; }
         .setings ul li a.bookAtable:hover:before {
           background-position: -413px -166px; }
         .setings ul li a.foodItems:hover:before {

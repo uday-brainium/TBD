@@ -387,7 +387,7 @@ class Add_events extends Component {
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-6">
               <div className="inputOuter">
-                <textarea placeholder="Erite some event description" name="eventdescription" onChange={this.handleChange}>  
+                <textarea placeholder="Enter event description here" name="eventdescription" onChange={this.handleChange}>  
                 </textarea>
               </div>
               </div>

@@ -4,6 +4,7 @@ import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
 import ApiService from './../../services/api'
 import Weekly_time_picker from './weekly-time-picker'
+var scrollToElement = require('scroll-to-element');
 
 
 const openTime = moment().hour(10).minute(0);
@@ -21,6 +22,7 @@ export default class Step2 extends Component {
       loading: true,
       cityLoader: false
     };
+    scrollToElement('#step2');
   }
 
 
@@ -121,7 +123,7 @@ export default class Step2 extends Component {
 
     return (
       <div className="animated slideInRight delay-0.5s">
-        <div className="row">
+        <div className="row" id="step2">
         <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
          <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 
@@ -174,11 +176,11 @@ export default class Step2 extends Component {
          
           <div className="inputOuter">
           <select name="city" onChange={(e) => this.props.change(e)}>
-              <option disabled="disabled" selected="selected">
+              <option disabled="disabled">
               {this.state.cityLoader ? 'Loading....' : 'Choose city'}</option>
               { !this.state.cityLoader ?
                 citiList.map((value, i) => 
-                <option key={value} value={value}>{value}</option> ) :
+                <option key={i} value={value}>{value}</option> ) :
                 <option>Loading...</option>  
                 }
             </select>
@@ -207,7 +209,7 @@ export default class Step2 extends Component {
          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
          <div className="inputOuter">
             <select name="country" value={230} onChange={(e) => this.countryChange(e)}>
-            <option disabled="disabled" selected="selected">Choose country</option>
+            <option disabled="disabled" >Choose country</option>
               { countriesList.map((value, i) =>
                 value == 'United States' ?
                 <option key={i} value={value}>{value}</option> :

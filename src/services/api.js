@@ -1,5 +1,6 @@
 import Config from "../config";
 import axios from 'axios'
+import qs from 'qs'
 
 class ApiService {
   static apiurl = "https://jsonplaceholder.typicode.com/";
@@ -633,6 +634,81 @@ class ApiService {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+      }
+    );
+  }
+
+  static getEventList(businessid, token) {
+    return fetch(
+      Config.Api_Address + 'events/get_all_events/',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          businessid,
+          limit: 0,
+          searchkey: ''
+        })
+      }
+    );
+  }
+
+  static registerGuesUser(userdata) {
+    return fetch(
+      Config.Api_Address + 'guests/register',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userdata
+        })
+      }
+    );
+  }
+  
+  static update_guest(data) {
+    return fetch(
+      Config.Api_Address + 'guests/update_guest',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          userid: data.userid,
+          member_type: data.member_type,
+          payment_info: data.payment_info,
+        })
+      }
+    );
+  }
+
+  static chargeStripe(data) {
+    return fetch(
+      `https://api.stripe.com/v1/charges`,
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": 'Bearer sk_test_0kb7ef0szWdvnew2LN459SSn00nWhMx4LH'
+        },
+        body: qs.stringify({
+          currency: data.currency,
+          amount: data.amount,
+          source: data.source,
+        })
       }
     );
   }

@@ -39,6 +39,27 @@ const Store = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const StoreEvents = Loadable({
+  loader: () => import("./pages/Store/event_list"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const StoreFeature = Loadable({
+  loader: () => import("./pages/Loyality/index"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const New_member = Loadable({
+  loader: () => import("./pages/Store/New_member/index"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
 
 const DashboardPage = Loadable({
   loader: () => import("./pages/dashboard"),
@@ -330,8 +351,13 @@ class App extends React.Component {
           <AdminLayout path="/edit_event/" component={editEventPage} />
           <AdminLayout path="/edit_banner/" component={EditBanner} />
           <AdminLayout path="/edit_offer/" component={EditOffer} />
+          <AdminLayout path="/store_feature/" component={StoreFeature} />
 
+          <Route path="/:id/register" component={New_member} />
+          <Route path="/:id/events" component={StoreEvents} />
           <Route path="/:id" component={Store} />
+          
+
           {/* <AdminLayout path="/editprofile" component={DashboardPage} /> */}
           {/* <MainLayout path="/public" component={PublicPage} />
                     <Route path="/login" component={LoginPage} />
