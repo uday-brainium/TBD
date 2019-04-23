@@ -19,8 +19,8 @@
   
   .became-member-right {
     min-height: 200px;
-    padding-left: 0;
-    padding-right: 0;
+    /* padding-left: 0;
+    padding-right: 0; */
     border-bottom: 2px solid #ff6400;
   }
   .bam-right-head {
@@ -120,6 +120,10 @@
   }
   .price-Gold {
     background-color: #c8c139 !important;
+  }
+
+  #priceCards {
+    padding: 10px
   }
   @media only screen and (max-width: 600px) {
     .columns {
@@ -238,7 +242,6 @@
     background-color: #ff6400;
     color: #fff;
     font-size: 18px;
-    margin-left: 15px;
 }
   .bam-form {
     padding-top: 0;

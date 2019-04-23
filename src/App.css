@@ -69,9 +69,17 @@ button:hover:disabled {
     -webkit-transition: ease all 0.5s;
     transition: ease all 0.5s;
 }
-
+.unit-field {
+    font-size: 18px;
+    text-align: center; 
+}
 .indexHeader {
+    z-index: 999;
     height: auto;
+}
+
+.link {
+    color: #0d9ad9
 }
 
 .bannerContent {
@@ -1705,7 +1713,6 @@ input[type="file"] {
     top: 0;
     left: 0;
     background-color: rgba(11, 208, 229, 0.95);
-    z-index: 98;
 }
 
 .indexHeader.fixed .topHeader {
@@ -2025,7 +2032,9 @@ input[type="file"] {
     position: fixed;
     width: 220px;
     top: 35%;
-    right: 0;
+    /* right: 0; */
+    right: -165px;
+    margin-left: -165px;
     z-index: 100;
 }
 
@@ -2038,7 +2047,7 @@ input[type="file"] {
 .setings ul li {
     margin-bottom: 8px;
     position: relative;
-    right: -160px;
+    right: 0;
     -moz-transition: ease all 0.8s;
     -o-transition: ease all 0.8s;
     -webkit-transition: ease all 0.8s;
@@ -2046,16 +2055,19 @@ input[type="file"] {
 }
 
 .setings ul li a {
-    padding: 14px 20px;
+    padding: 15px 20px;
+    padding-right: 0;
     background-color: #e5e3e1;
     color: #7d7b79;
     font-size: 14px;
     font-weight: 600;
-    border-radius: 6px 0px 0px 6px;
-    -webkit-border-radius: 6px 0px 0px 6px;
-    -moz-border-radius: 6px 0px 0px 6px;
-    -ms-border-radius: 6px 0px 0px 6px;
+    border-radius: 0px 6px 6px 0px;
+    -webkit-border-radius: 0px 6px 6px 0px;
+    -moz-border-radius: 0px 6px 6px 0px;
+    -ms-border-radius: 0px 6px 6px 0px;
     align-items: center;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .setings ul li a:hover {
@@ -2064,13 +2076,13 @@ input[type="file"] {
     background-color: #ff6400;
 }
 
-.setings ul li a:before {
-    content: "";
-    width: 31px;
+.setings ul li a::before {
+    width: 40px;
     height: 25px;
-    display: block;
-    position: relative;
-    margin-right: 10px;
+    content: '';
+    text-align: center;
+    /* position: absolute; */
+    /* right: 0; */
 }
 
 .setings ul li a.becomeAmember:before {
@@ -2079,11 +2091,20 @@ input[type="file"] {
 
 .setings ul li a.homenav:before {
     background-position: 0px -180px;
-}
+} 
 
 .setings ul li a.toadmin:before {
     background-position: -352px -254px;
 }
+
+/* .setings ul li a.toadmin:after {
+    width: 32px;
+    height: 32px;
+    margin-left: 5px;
+    content: '';
+
+} */
+
 
 .setings ul li a.bookAtable:before {
     background-position: -469px -175px;
@@ -2119,7 +2140,7 @@ input[type="file"] {
 }
 
 .setings ul li:hover {
-    right: 0;
+    right: 160px;
 }
 
 .searchContainer .left {
@@ -3708,6 +3729,7 @@ input[type="file"] {
         background-position: -341px -244px;
         cursor: pointer;
     }
+
     .setings ul li a.bookAtable:before {
         background-position: -413px -166px;
         cursor: pointer;

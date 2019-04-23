@@ -5,7 +5,7 @@ import { Container, Row, Col, Nav } from "reactstrap";
 import Notifications, { notify } from "react-notify-toast";
 import ApiService from "../services/api";
 import selectStyles from "../styles/select.css";
-
+import Loader from './components/simpleloader'
 
 let user_id = localStorage.getItem('user-id')
 
@@ -39,13 +39,17 @@ class AddItemPage extends React.Component {
       itemdescription: "",
       itemcost: "",
       getmenudata: [],
-      fireRedirect: false
+      fireRedirect: false,
+      menuitem: '',
+      loading: false
     };
   }
 
 
 
   componentDidMount() {
+    let selectedMenu = this.props.history.location.state
+    this.setState({menuitem: selectedMenu})
     ApiService.fetchmenuData(user_id)
       .then(res => res.json())
       .then(response => {
@@ -59,13 +63,11 @@ class AddItemPage extends React.Component {
       .catch(function (error) {
         console.log(error)
       })
-
   }
 
   optionClicked(event) {
     event.preventDefault();
     ApiService.fetchmenuData(user_id)
-
   }
 
   displaySelectOptions() {
@@ -121,14 +123,16 @@ class AddItemPage extends React.Component {
       notify.show("All fields are required", "error", 5000);
     } else {
       try {
-
+        this.setState({loading: true})
         ApiService.additem(this.state.option, this.state.itemtitle, this.state.itemdescription, this.state.itemcost, user_id)
           .then(res => res.json())
           .then(response => {
             if (response.success) {
               notify.show("Item added successfully", "success", 3000);
+              this.setState({loading: false})
             } else {
               notify.show(response.message, "error", 5000);
+              this.setState({loading: false})
             }
           })
           .catch(function (error) {
@@ -168,6 +172,7 @@ class AddItemPage extends React.Component {
     return (
       <div className="right" onClick={this.hideSelectOptions}>
         <Notifications />
+        <Loader loading={this.state.loading} />
         <div className="rightSideHeader">
           <ul className="breadcrumbNavigation">
             <li>
@@ -205,7 +210,7 @@ class AddItemPage extends React.Component {
                       id="menu"
                       name="menuitem"
                       className="s-hidden"
-                      value={this.state.option}
+                      value={this.state.menuitem}
                       onChange={this.optionChanged}>
                       {this.state.getmenudata.map((dynamicData, index) => {
                         return (
@@ -256,14 +261,27 @@ class AddItemPage extends React.Component {
                     name="itemdescription"
                   />
                 </div>
-                <div className="inputOuter">
-                  <input
-                    type="text"
-                    placeholder="Cost"
-                    name="itemcost"
-                    onChange={this.handleChange}
-                  />
+                <Row>
+                  <Col lg={3} md={3} sm={3} xs={3}>
+                  <div className="inputOuter unit-field">
+                    <select style={{padding: 10, textAlign: 'center', fontSize: 18}}>
+                      <option value="$">$</option>
+                    </select>
+                  </div>
+                  </Col>
+
+                  <Col lg={9} md={9} sm={9} xs={9}>
+                    <div className="inputOuter">
+                    <input
+                      type="text"
+                      placeholder="Cost"
+                      name="itemcost"
+                      onChange={this.handleChange}
+                    />
                 </div>
+                  </Col>
+                </Row>
+                
                 <div className="s-hidden">
                   <input
                     type="text"
@@ -282,4 +300,4 @@ class AddItemPage extends React.Component {
   }
 }
 
-export default AddItemPage;
+export default withRouter(AddItemPage);

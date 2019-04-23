@@ -1,15 +1,17 @@
 import React,{ Component } from "react";
+import Loader from './../components/simpleloader'
+import './../../styles/style_sheet.css'
 
-class LoadingView extends React.Component{
+class LoadingView extends Component{
     constructor(props){
         super(props)
     }
 
     render(){
         return(
-            <div>
-                <h3>Loading...</h3>
-            </div>
+            <div style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+               <Loader loading={true} background="no-fill"/>
+            </div> 
         )
     }
 }

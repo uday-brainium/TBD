@@ -206,7 +206,7 @@ export default class Became_member extends Component {
        <Loader loading={this.state.loading} background='no-fill' />
       <div className="container-fluid full">
         <Row>
-          <Col lg={4} md={4} sm={4} xs={12} className="became-member-left">
+          {/* <Col lg={4} md={4} sm={4} xs={12} className="became-member-left">
             {this.state.storeDetails != null &&
              <div className="bam-head"><i className="fas fa-hamburger"></i> {this.state.storeDetails.businessname}</div>
             }
@@ -236,11 +236,11 @@ export default class Became_member extends Component {
               </Card>
               </div>
              
-          </Col>
-          <Col lg={8} md={8} sm={8} xs={12} className="became-member-right">
+          </Col> */}
+          <Col className="became-member-right">
            <div className="bam-right-head">
             <i className="fas fa-user-plus"></i> 
-            {this.state.step == 1 ? ' Register as a member' : ` Hi ${this.state.lastCreatedName}, Choose membership type`}
+            {this.state.step == 1 ? ' Register as a member & Get Rewards' : ` Hi ${this.state.lastCreatedName}, Choose membership type`}
            </div>
            <div className="bam-form">
            {this.state.step == 1 &&

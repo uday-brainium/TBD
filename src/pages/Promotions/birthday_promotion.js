@@ -1,57 +1,80 @@
 import React, { Component } from 'react';
-import Notifications, { notify } from 'react-notify-toast';
-import Loader from '../components/simpleloader'
-import ApiService from '../../services/api';
-import {Base_url} from './../../utilities/config';
 import { Row, Col } from 'react-bootstrap';
-import './store.css'
 import './../../styles/style_sheet.css'
-
+import './../Store/store.css'
+import ApiService from '../../services/api';
+import Loader from './../components/simpleloader'
+import {Base_url} from './../../utilities/config'
+import Notifications, { notify } from 'react-notify-toast';
+import Page_head from './../components/page_head';
 
 let userid = localStorage.getItem('user-id')
 let token = localStorage.getItem('access-token-tbd')
 
-export default class Edit_offer extends Component {
+export default class Birthday_promotion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentOfferBanner: '',
-      submitLoading: false,
+      currentImage: '',
       offerDetails: '',
       discountPercent: 0,
       discounttype: 'percentage',
+      loading: false,
+      changed: false
     };
   }
 
   componentDidMount() {
-    ApiService.getUserdetails(userid, token)
-    .then((res) => res.json())
-    .then((response) => {
-      this.setState({
-        currentOfferBanner: `${Base_url}${response.data.offerdetails.image}`,
-        offerDetails: response.data.offerdetails.description,
-        discountPercent: response.data.offerdetails.discount,
-        discounttype: response.data.offerdetails.discounttype
-      })
+    let data = JSON.parse(localStorage.getItem('userdata')).data
+    this.setState({
+      currentImage: `${Base_url}/${data.birthdaypromo.bannerimage}`,
+      offerDetails: data.birthdaypromo.details,
+      discountPercent: data.birthdaypromo.discount,
+      discounttype: data.birthdaypromo.type
     })
   }
 
-  saveBanner = () => {
+  renderOptions = (type) => {
+    let opt = []
+    for(let i = 0; i < 51; i++) {
+      opt.push(<option key={i} value={i}>{type == "Doller"? `$${i}` : `${i}%`}</option>)
+    }
+    return opt
+  }
 
-      this.setState({submitLoading: true})
-      let data = {
-        image: this.state.currentOfferBanner,
-        description: this.state.offerDetails,
-        discounttype: this.state.discounttype,
-        discount: this.state.discountPercent
+  handleChange = (e) => {
+    let val = e.target.value
+    let name = e.target.name
+    this.setState({[name]: val, changed: true})
+    if(name == "discounttype" && this.state.discounttype != e.target.value) {
+      this.setState({discountPercent: 1})
+    }
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.setState({loading: true})
+    let saveData = {
+      userid,
+      bannerimage: this.state.currentImage,
+      discount: this.state.discountPercent,
+      discounttype: this.state.discounttype,
+      details: this.state.offerDetails
+    }
+
+    ApiService.saveBirthdayPromo(saveData, token)
+    .then(res => res.json())
+    .then((response) => {
+      if(response.status == 200) {
+        let newData = {data: response.response}
+        localStorage.setItem('userdata', JSON.stringify(newData))
+        notify.show('Birthday offer updated', 'success', 3000);
+        this.setState({loading: false})
+      } else {
+        notify.show('Something went wrong ! try again', 'error', 3000);
+        this.setState({loading: false})
       }
-      ApiService.edit_offer(token, userid, data)
-      .then((res) => res.json())
-      .then((response) => {
-        notify.show('Offer banner updated succesfully', 'success', 3000);
-        this.setState({submitLoading: false})
-      })
-     
+    })
   }
 
   handleFileUpload = (e) => {
@@ -64,7 +87,7 @@ export default class Edit_offer extends Component {
     }, false);
   
     setTimeout(() => {
-      this.setState({currentOfferBanner: base64})
+      this.setState({currentImage: base64})
     },1000)
   
     if (file) {
@@ -72,47 +95,25 @@ export default class Edit_offer extends Component {
       }
   }
 
-  handleChange = (e) => {
-    let val = e.target.value
-    let name = e.target.name
-    this.setState({[name]: val})
-    if(name == "discounttype" && this.state.discounttype != e.target.value) {
-      this.setState({discountPercent: 1})
-    }
-  }
-
-  renderOptions = (type) => {
-    let opt = []
-    for(let i = 0; i < 51; i++) {
-      opt.push(<option key={i} value={i}>{type == "Doller"? `$${i}` : `${i}%`}</option>)
-    }
-    return opt
-  }
-
-
   render() {
     return (
-      <div className="right">
-      <Notifications />
-        <div className="rightSideHeader">
-          <ul className="breadcrumbNavigation">
-              <i class="fas fa-images breadcumb-icon"></i>
-              <li className="breadcumb-text"><span className="left-space">Update offer details</span></li>
-          </ul>
+      <div className="content-container">
+        <div>
+        <Page_head title = "Birthday promotion" icon="fas fa-birthday-cake"/>
         </div>
-
-        <Loader loading={this.state.submitLoading} background="no-fill"/>
+        <Notifications />
+        <Loader loading={this.state.loading} fill="no-fill" />
         <div className="container-inside">
-        <div className="form">
         <Row>
             <Col lg={3} md={3} sm={3} xs={0}></Col>
 
             <Col lg={6} md={6} sm={6} xs={12}>
+            <form className="form" onSubmit={this.handleSubmit}>
               <div className="banner-container">
-               <img src={this.state.currentOfferBanner} style={{height: 200, width: '100%'}} />
+               <img src={this.state.currentImage} className="image-style" />
               </div>
               <div className="store-edit-banner-button">
-               <span className="upload-banner-text-store">Upload offer banner</span>
+               <span className="upload-banner-text-store">Upload birthday banner</span>
                 <input
                   type="file"
                   name="edit_store_banner"
@@ -122,6 +123,8 @@ export default class Edit_offer extends Component {
                   accept="image/*"
                 />
                 </div>
+                <div>
+
                 <div className="inputOuter details">
                   <div className="label-small left">* Discount type</div>
                     <select name="discounttype" value={this.state.discounttype} onChange={this.handleChange}>
@@ -129,7 +132,7 @@ export default class Edit_offer extends Component {
                       <option value="doller">Doller discount</option>
                     </select>
                   </div>
-               
+                </div>
 
                  <div className="inputOuter details">
                   <div className="label-small left">* Amount</div>
@@ -137,7 +140,6 @@ export default class Edit_offer extends Component {
                       {this.renderOptions(this.state.discounttype == "percentage" ? "%" : "Doller")}
                     </select>
                   </div>
-
 
                 <div className="inputOuter details">
                   <div className="label-small left">* Offer details</div>
@@ -148,13 +150,13 @@ export default class Edit_offer extends Component {
                   </div>
                   
                 <div>
-                <button className="save-image-btn" onClick={this.saveBanner}>Save offer details</button>
+                <button className="save-image-btn" onClick={this.saveBanner}>Save</button>
               </div>
+              </form>
             </Col>
 
-            <Col lg={3} md={3} sm={3} xs={0}></Col>
+            <Col lg={3} md={3} sm={3} xs={12}></Col>
           </Row>
-          </div>
         </div>
       </div>
     );

@@ -72,9 +72,9 @@ class Member_offer_form extends Component {
             
             <div className="member-column-div">
 
-             <div class="small-input disabled-member-field" style={{display: 'block'}}>
-                <span class="small-label">Price/year (AUD)</span>
-                <select class="small-select" name="free_price">
+             <div className="small-input disabled-member-field">
+                <span className="small-label">Price/year (AUD)</span>
+                <select className="small-select" name="free_price">
                   <option value="free"> Free </option>
                 </select>
              </div>
@@ -114,13 +114,13 @@ class Member_offer_form extends Component {
           <Col className="member-column">
             <div className="member-header-silver">
              Silver
-             <div className="member-price">{`$${this.props.loyalityPoints} / Year`}</div>
+             <div className="member-price">{`$${this.props.silverPrice} / Year`}</div>
              </div>
             <div className="member-column-div">
 
-            <div class="small-input">
-              <span class="small-label">Price/year (AUD)</span>
-              <select value={this.props.loyalityPoints} class="small-select" name="silver_price" onChange={this.silverPrice}>
+            <div className="small-input disabled-member-field">
+              <span className="small-label">Price/year (AUD)</span>
+              <select value={this.props.silverPrice} className="small-select" name="silver_price" onChange={this.silverPrice}>
                {this.renderDiscountOptions()}
               </select>
             </div>
@@ -160,13 +160,13 @@ class Member_offer_form extends Component {
           <Col className="member-column no-border">
             <div className="member-header-gold">
               Gold
-              <div className="member-price">{`$${this.props.loyalityPoints * 2} / Year`}</div>
+              <div className="member-price">{`$${this.props.goldPrice} / Year`}</div>
             </div>
             <div className="member-column-div">
 
-              <div class="small-input disabled-member-field" style={{display: 'block'}}>
-                <span class="small-label">Price/year (AUD)</span>
-                 <select value={(this.props.loyalityPoints * 2)} class="small-select" name="gold_price">
+              <div className="small-input disabled-member-field">
+                <span className="small-label">Price/year (AUD)</span>
+                 <select defaultValue={(this.props.goldPrice)} className="small-select" name="gold_price">
                   {this.renderPriceOptions()}
                 </select>
               </div>

@@ -110,7 +110,6 @@ export default class Step2 extends Component {
        }
       }
     }
-   console.log('STATES',this.state.statejsx.length);
    return this.state.statejsx
   }
 
@@ -119,7 +118,6 @@ export default class Step2 extends Component {
 
     const countriesList = Object.values(this.state.countries)
     const citiList = Object.values(this.state.cities)
-    console.log(countriesList);
 
     return (
       <div className="animated slideInRight delay-0.5s">

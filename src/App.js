@@ -53,6 +53,13 @@ const StoreFeature = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const Birthday_promotion = Loadable({
+  loader: () => import("./pages/Promotions/birthday_promotion"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
 const New_member = Loadable({
   loader: () => import("./pages/Store/New_member/index"),
   loading: LoadingView,
@@ -188,8 +195,23 @@ const AddMenuPage = Loadable({
   timeout: 10000 // 10 seconds
 });
 
-const MenuListPage = Loadable({
-  loader: () => import("./pages/menulist"),
+const FoodMenu = Loadable({
+  loader: () => import("./pages/Food_menu"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const MenuItems = Loadable({
+  loader: () => import("./pages/Food_menu/Item_list"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+
+const FoodMenu2 = Loadable({
+  loader: () => import("./pages/menus"),
   loading: LoadingView,
   delay: 300, // 0.3 seconds
   timeout: 10000 // 10 seconds
@@ -302,20 +324,19 @@ class App extends React.Component {
 
   }
 
-  componentDidMount() {
-    const url = 'https://www.doublesat.com:8080/users/getAllMenu/userId/'
-    fetch(url)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({
-          dataSource: responseJson
-        })
-
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-  }
+  // componentDidMount() {
+  //   const url = 'https://www.doublesat.com:8080/users/getAllMenu/userId/'
+  //   fetch(url)
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //       this.setState({
+  //         dataSource: responseJson
+  //       })
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
+  // }
 
   render() {
     return (
@@ -334,13 +355,14 @@ class App extends React.Component {
           <AdminLayout path="/editprofile" component={EditProfilePage} />
           <AdminLayout path="/changepassword" component={ChangePasswordPage} />
           <AdminLayout path="/orders" component={OrdersPage} />
-          <AdminLayout path="/menu" component={MenuListPage} />
+          <AdminLayout path="/menu" component={FoodMenu} />
+          <AdminLayout path="/food_item" component={MenuItems} />
+          <AdminLayout path="/menu2" component={FoodMenu2} />
           <AdminLayout path="/menus" component={MenusPage} />
           <AdminLayout path="/addmenu" component={AddMenuPage} />
           <AdminLayout path="/editmenu" component={EditMenuPage} />
           <AdminLayout data={this.state.dataSource} path="/additem" component={AddItemPage} />
           <AdminLayout path="/edititem" component={EditItemPage} />
-          <AdminLayout path="/search" component={SearchPage} />
           <Route path="/business-profile" component={BusinessProfilePage} />
           <AdminLayout path="/add-business-profile/" component={AddBusinessProfilePage} />
           <AdminLayout path="/edit-business-profile/" component={AddBusinessProfilePage} />
@@ -352,7 +374,8 @@ class App extends React.Component {
           <AdminLayout path="/edit_banner/" component={EditBanner} />
           <AdminLayout path="/edit_offer/" component={EditOffer} />
           <AdminLayout path="/store_feature/" component={StoreFeature} />
-
+          <AdminLayout path="/promotions/" component={Birthday_promotion} />
+          
           <Route path="/:id/register" component={New_member} />
           <Route path="/:id/events" component={StoreEvents} />
           <Route path="/:id" component={Store} />

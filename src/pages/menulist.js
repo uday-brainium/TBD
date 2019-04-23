@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Route, Link, Redirect, withRouter } from "react-router-dom";
-import { Container, Row, Col, Nav } from "reactstrap";
+import { Link, withRouter } from "react-router-dom";
+import { Row, Col } from 'react-bootstrap';
 import Notifications, { notify } from "react-notify-toast";
 import ApiService from "../services/api";
 import selectStyles from "../styles/select.css";
@@ -78,7 +78,7 @@ class MenuListPage extends React.Component {
   optionClicked(event) {
     event.preventDefault();
     ApiService.fetchmenuData(user_id)
-
+    this.setState({[event.target.name]: event.target.value})
   }
   displaySelectOptions() {
     this.setState({
@@ -351,9 +351,32 @@ class MenuListPage extends React.Component {
           </div>
           <h4>Search</h4>
           <form className="searchContainer form" onSubmit={this.handleSubmit}>
-            <div className="left">
-              <div className="first">
-                <div className="row">
+    
+              <Row>
+                <Col lg={4} md={4} sm={4} xs={6}>
+                {/* <div className="select" onClick={this.optionClicked}></div> */}
+                  <select id="menu" name="menuitem" value={this.state.option} onChange={this.optionClicked}>
+                    {this.state.getmenudata.map((dynamicData, index) => {
+                      return (
+                        <option key={dynamicData._id} value={dynamicData._id}>
+                          {dynamicData.title}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </Col>
+                <Col lg={2} md={2} ></Col>
+                <Col lg={3} md={3} sm={6} xs={6}>
+                  <input type="text" name="itemname" placeholder="Item" onChange={this.handleChange} />
+                </Col>
+
+                <Col lg={3} md={3} sm={12} xs={12}>
+                  <div className="right">
+                    <button className="buttonOrange" /*disabled={this.state.submitDisabled}*/>Search </button>
+                  </div>
+                </Col>
+             </Row>
+                {/* <div className="row">
                 
                   <div className="fieldCol">
                     <div className="select" onClick={this.optionClicked}>
@@ -397,13 +420,11 @@ class MenuListPage extends React.Component {
                     <input type="text" name="itemname" placeholder="Item" onChange={this.handleChange}
                     />
                   </div>
-                </div>
-              </div>
-
-            </div>
-            <div className="right">
-              <button className="buttonOrange" /*disabled={this.state.submitDisabled}*/>Search </button>
-            </div>
+                </div> */}
+           
+            {/* <div className="right">
+              <button className="buttonOrange">Search </button>
+            </div> */}
           </form>
           <div className="searchTable">
             <div className="header">

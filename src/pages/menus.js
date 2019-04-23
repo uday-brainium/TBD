@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import { Route, Link, Redirect, withRouter } from "react-router-dom";
-import { Container, Row, Col, Nav } from "reactstrap";
+import { Link, withRouter } from "react-router-dom";
 import Notifications, { notify } from "react-notify-toast";
 import ApiService from "../services/api";
 import selectStyles from "../styles/select.css";
 
 let user_id = localStorage.getItem('user-id');
 
-class MenusPage extends React.Component {
+class MenusPage extends Component {
   constructor(props) {
     super(props);
 
@@ -134,8 +132,6 @@ class MenusPage extends React.Component {
     } else {
       alert("ok");
     }
-
-    console.log("form submited");
   }
 
   /* delete(dynamicMenuList) {
@@ -247,8 +243,6 @@ class MenusPage extends React.Component {
           </ul>
         </div>
 
-
-
         <div className="dashboardBody">
           <div className="topButtons">
             <div className="addRow">
@@ -257,7 +251,8 @@ class MenusPage extends React.Component {
 
             </div>
           </div>
-          <h4>Search</h4>
+          <h4>Search</h4>    
+
           <form className="searchContainer form" onSubmit={this.handleSubmit}>
             <div className="left">
               <div className="first">

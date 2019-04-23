@@ -5,7 +5,7 @@ import {
   Col,
   Nav
 } from 'reactstrap';
-import { Link, withRouter, Redirect, NavLink as RRNavLink } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import Notifications, { notify } from 'react-notify-toast';
 import ApiService from '../services/api'
 import Minheader from './views/minheader'
@@ -81,6 +81,7 @@ class RegistrationPage extends React.Component {
       gold_member_discount: '5',
       gold_member_free_events: 'yes',
       gold_member_reservation: 'yes',
+      gold_price: 20,
 
       closedon: '',
       businesscontact: '',
@@ -102,11 +103,14 @@ class RegistrationPage extends React.Component {
       appnotification: false,
       pointsonusersignup: '',
       offerdetails: '',
+      discounttype: 'percentage',
+      discount: 0,
 
       currentStep: 1,
       movedfromstep: 1,
       loading: false,
-      emailExist: Boolean
+      emailExist: Boolean,
+      urlExist: false
     }
   }
 
@@ -117,7 +121,7 @@ class RegistrationPage extends React.Component {
   }
 
   handleChange(e) {
-    console.log(this.state.loyalitycardprice);
+    // console.log(this.state.discount);
     
     this.setState({ [e.target.name]: e.target.value })
 
@@ -161,6 +165,18 @@ class RegistrationPage extends React.Component {
     if (e.target.name === 'appnotification') {
       this.setState({
         appnotification: e.target.checked
+      })
+    }
+
+    if (e.target.name === 'urlextension') {
+      ApiService.checkUrl(e.target.value)
+      .then((res) => res.json())
+      .then((response) => {
+         if(response.status == '500') {
+           this.setState({urlExist: true})
+         } else {
+          this.setState({urlExist: false})
+         }
       })
     }
 
@@ -239,6 +255,8 @@ class RegistrationPage extends React.Component {
       notify.show('All fields are required', 'error', 3000);
     } else if(this.state.urlextension.indexOf(' ') >= 0 || format.test(this.state.urlextension)) {
       notify.show('URL extension should not contain space or spacial character', 'error', 3000);
+    } else if(this.state.urlExist) {
+      notify.show('Extenstion/URL already exist', 'error', 3000);
     } else {
       this.setState({submitDisabled: false, currentStep: 3})
     }
@@ -285,7 +303,6 @@ class RegistrationPage extends React.Component {
              password : md5(this.state.password),
              email: this.state.email,
              bannerImage: this.state.bannerImage,
-             offerImage: this.state.offerImage,
              url: this.state.urlextension,
              businessname: this.state.businessname,
              openingtime: this.state.openingtime,
@@ -307,8 +324,13 @@ class RegistrationPage extends React.Component {
              pointsperreservation: this.state.pointsperreservation,
              eventbookingpoints: this.state.eventbookingpoints,
              pointsonusersignup: this.state.pointsonusersignup,
-             offerdetails: this.state.offerdetails,
              closedon: this.state.closedon,
+             offerdetails: {
+               image: this.state.offerImage,
+               description: this.state.offerdetails,
+               discounttype: this.state.discounttype,
+               discount: this.state.discount
+             },
              octimes: {
               mondayOpen: this.state.mondayOpen,
               mondayClose: this.state.mondayClose,
@@ -341,7 +363,7 @@ class RegistrationPage extends React.Component {
                   discount: this.state.silver_member_discount,
                   free_events: this.state.silver_member_free_events,
                   reservation: this.state.silver_member_reservation,
-                  silver_price: this.state.loyalitycardprice
+                  silver_price: this.state.silver_price
                },
                goldmember: {
                   points: this.state.gold_member_points,
@@ -350,7 +372,7 @@ class RegistrationPage extends React.Component {
                   discount: this.state.gold_member_discount,
                   free_events: this.state.gold_member_free_events,
                   reservation: this.state.gold_member_reservation,
-                  gold_price: (this.state.loyalitycardprice * 2)
+                  gold_price: this.state.gold_price
                }
              }
           }

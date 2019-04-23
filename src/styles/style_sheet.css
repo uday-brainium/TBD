@@ -544,10 +544,23 @@ Event management part
   margin-bottom: 10px;
 }
 
+.image-style {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 200px; 
+  width: 100%
+}
+
 .small-input input[type="text"] {
   height: 30px;
   padding: 10px;
 }
+
+.content-container {
+  width: 75%;
+  padding: 10px;
+}
+
 
 .small-select {
   height: 30px !important;
@@ -573,4 +586,22 @@ Event management part
 }
 .member-price {
   font-size: 12px;
+}
+
+/* RESPONSIVE PART OF UI */
+
+@media (min-width: 1281px) {}
+
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-container{
+    width: 75%;
+  }
+}
+
+@media (max-width: 767px) {
+  .content-container{
+    width: 100%;
+  }  
 }

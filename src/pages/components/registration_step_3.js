@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Member_form_part from './members-offer-form'
+import { Row, Col } from 'react-bootstrap';
 var scrollToElement = require('scroll-to-element');
 
 
@@ -11,7 +12,9 @@ export default class Step3 extends Component {
       foodpickup : false,
       eventservice: false,
       reservation: false,
-      loyalityPoints: 10
+      loyalityPoints: 10,
+      silver_price: 10,
+      gold_price: 20
     }
     scrollToElement(".step3")
   }
@@ -41,6 +44,18 @@ export default class Step3 extends Component {
     this.setState({loyalityPoints: e.target.value})
     this.props.change(e)
   }
+
+  change = (e) => {
+    if(e.target.name == 'silver_price') {
+      this.setState({silver_price: e.target.value})
+    } else {
+      this.setState({gold_price: e.target.value})
+    }
+    
+    this.props.change(e)
+  }
+
+
   loyalityChange = (e) => {
     console.log(e.target.value);
     
@@ -57,13 +72,29 @@ export default class Step3 extends Component {
   render() {
     return (
       <div className="animated slideInRight delay-0.5s" >
-        <p className="info-text ">* Loyality card price</p>
-        <div className="inputOuter step3">
-            {/* <input placeholder="Loyality card price" type="text" name="loyalitycardprice" onChange={(e) => this.props.change(e)} /> */}
-            <select value={this.state.loyalityPoints} onChange={this.loyalityPoints} name="loyalitycardprice">
-              {this.renderOptions()}
-            </select>
-        </div>
+      
+            <Row>
+              <Col>
+               <div className="inputOuter step3">
+                  <div className=""> * Silver card price</div>
+                    {/* <input placeholder="Loyality card price" type="text" name="loyalitycardprice" onChange={(e) => this.props.change(e)} /> */}
+                    <select value={this.state.silver_price} onChange={this.change} name="silver_price">
+                      {this.renderOptions()}
+                    </select>
+                </div>
+
+              </Col>
+
+              <Col>
+              <div className="inputOuter step3">
+                <div className=""> *Gold card price</div>
+                  {/* <input placeholder="Loyality card price" type="text" name="loyalitycardprice" onChange={(e) => this.props.change(e)} /> */}
+                  <select defaultValue={this.state.gold_price} value={this.state.gold_price} onChange={this.change} name="gold_price">
+                    {this.renderOptions()}
+                  </select>
+              </div>
+              </Col>
+            </Row>
 
         <div className="inputOuter">
             <input placeholder="Loyality points need to get promotion" type="text" name="minloyalitypoints" onChange={(e) => this.props.change(e)} />
@@ -110,7 +141,8 @@ export default class Step3 extends Component {
             foodpickup = {this.state.foodpickup}
             reservation = {this.state.reservation}
             eventbooking = {this.state.eventservice}
-            loyalityPoints = {this.state.loyalityPoints}
+            silverPrice = {this.state.silver_price}
+            goldPrice = {this.state.gold_price}
             changeLoyalityPrice = {(e) => this.loyalityChange(e)}
             defaults = {0} //Important to render
             change = {this.props.change}/>

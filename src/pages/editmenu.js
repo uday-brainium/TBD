@@ -4,13 +4,12 @@ import { Route, Link, Redirect, withRouter } from "react-router-dom"
 import { Container, Row, Col, Nav } from 'reactstrap';
 import selectStyles from "../styles/select.css";
 import Notifications, { notify } from 'react-notify-toast';
-
 import ApiService from '../services/api'
-
 import NoProfileImage from '../images/profile-no-image.jpg'
-
 import LoadingSpinnerView from './views/spinner'
 let user_id = localStorage.getItem('user-id')
+
+
 class EditItemPage extends React.Component {
   constructor(props) {
     super(props)
@@ -53,8 +52,6 @@ class EditItemPage extends React.Component {
       spinnerShowing: true
     })
 
-
-
     let itemid = this.props.location.state.dynamicMenuListid;
 
     ApiService.getItembyID(itemid)
@@ -70,10 +67,7 @@ class EditItemPage extends React.Component {
           })
 
         }
-        // hide spinner
-        this.setState({
-          spinnerShowing: false
-        })
+        this.setState({spinnerShowing: false})
       })
       .catch(function (error) {
         console.log("Error Found")
@@ -96,12 +90,10 @@ class EditItemPage extends React.Component {
       .catch(function (error) {
         console.log(error)
       })
-
     // show spinner
     this.setState({
       spinnerShowing: true
     })
-
 
 
     let itemid = this.props.location.state.dynamicMenuListid;
@@ -131,7 +123,6 @@ class EditItemPage extends React.Component {
   optionClicked(event) {
     event.preventDefault();
     ApiService.fetchmenuData(user_id)
-
   }
 
   displaySelectOptions() {
@@ -216,7 +207,7 @@ class EditItemPage extends React.Component {
             formDisabled: true
           })
           setTimeout(() => {
-            this.props.history.push('/menus')
+            this.props.history.push('/menu')
           }, 4000)
         }
       })

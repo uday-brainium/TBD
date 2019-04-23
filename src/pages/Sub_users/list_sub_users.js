@@ -8,6 +8,7 @@ import Loader from '../components/simpleloader'
 import Skeleton from 'react-skeleton-loader';
 import Empty from '../components/empty'
 import Pagination from "react-js-pagination";
+import Page_head from '../components/page_head';
 
 
 class Sub_users_list extends Component {
@@ -267,12 +268,7 @@ class Sub_users_list extends Component {
           </Modal.Body>
           
         </Modal>
-        <div className="rightSideHeader">
-          <ul className="breadcrumbNavigation">
-              <li><i className="fas fa-users breadcumb-icon"></i></li>
-              <li className="breadcumb-text"><span className="left-space">Sub users list</span></li>
-          </ul>
-        </div>
+        <Page_head title="Sub users" icon="fas fa-users" />
         <div>
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-6 col-xs-0">

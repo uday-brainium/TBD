@@ -90,7 +90,6 @@ class Events extends Component {
 
   paginate = (page) => {
     let offset = ((page -1) * 10)
-    console.log("page", page, offset);
     this.setState({currentpage: page, offset}, () => {
       this.updateData()
     })

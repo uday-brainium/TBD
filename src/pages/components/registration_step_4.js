@@ -6,12 +6,21 @@ export default class Step3 extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      bannerImg: require('./../../images/img_place.png')
+      bannerImg: require('./../../images/img_place.png'),
+      discountPercent: 0,
+      discounttype: 'percentage',
     }
   }
 
   componentDidMount() {
     scrollToElement("#step4")
+  }
+
+  typeChange = (e) => {
+    let name = e.target.name,
+        value = e.target.value
+    this.setState({[name] : value})
+    this.props.change(e)
   }
 
   handleFileUpload = (e) => {
@@ -35,9 +44,17 @@ export default class Step3 extends Component {
       }
     }
 
+    renderOptions = (type) => {
+      let opt = []
+      for(let i = 0; i < 51; i++) {
+        opt.push(<option key={i} value={i}>{type == "Doller"? `$${i}` : `${i}%`}</option>)
+      }
+      return opt
+    }
+  
+
   render() {
-      console.log(this.state.bannerImg);
-      
+  
     return (
       <div className="animated slideInRight delay-0.5s" id="step4">
         {/* <div className="singleCheckbox">
@@ -70,6 +87,22 @@ export default class Step3 extends Component {
               />
             </div>
         </div>
+        
+        <div className="inputOuter details">
+          <div className="label-small left">* Discount type</div>
+            <select name="discounttype" value={this.state.discounttype} onChange={this.typeChange}>
+              <option value="percentage">Percentage discount</option>
+              <option value="doller">Doller discount</option>
+            </select>
+          </div>
+        
+
+          <div className="inputOuter details">
+          <div className="label-small left">* Amount</div>
+            <select defaultValue={this.state.discountPercent} name="discount" onChange={(e) => this.props.change(e)}>
+              {this.renderOptions(this.state.discounttype == "percentage" ? "%" : "Doller")}
+            </select>
+          </div>
 
        
         <div className="inputOuter space-above">

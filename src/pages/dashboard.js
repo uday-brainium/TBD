@@ -17,7 +17,7 @@ class DashboardPage extends React.Component {
       let userid = localStorage.getItem('user-id')
       let token = localStorage.getItem('access-token-tbd')
         this.props.fetchUserData(userid, token).then(() => {
-          console.log("PROPS", this.props);
+        //   console.log("PROPS", this.props);
         })
     }
 

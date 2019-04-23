@@ -144,4 +144,4 @@ class AddMenuPage extends React.Component {
   }
 }
 
-export default AddMenuPage;
+export default withRouter(AddMenuPage);

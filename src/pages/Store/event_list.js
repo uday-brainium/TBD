@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Base_url } from './../../utilities/config'
 import ApiService from './../../services/api'
 import Loader from './../components/simpleloader'
-import { Button, Modal, Row, Col } from 'react-bootstrap';
-import { Route, Link, Redirect, withRouter } from "react-router-dom"
+import { Row, Col } from 'react-bootstrap';
+import { withRouter } from "react-router-dom"
 import moment from 'moment';
 import LinesEllipsis from 'react-lines-ellipsis'
 import './../../styles/style_sheet.css'
@@ -11,8 +11,8 @@ import './store.css'
 import Header from './header'
 import Navigation from './navigation'
 
-let token = localStorage.getItem('access-token-tbd')
-let userid = localStorage.getItem('user-id')
+// let token = localStorage.getItem('access-token-tbd')
+// let userid = localStorage.getItem('user-id')
 
 let path = window.location.pathname
 let storeName = path.split('/')[1];
@@ -75,7 +75,7 @@ class Event_list extends Component {
   render() {  
     const {events} =this.state
     return (
-      <div className={this.state.animateComponent ? 'animated slideInRight': ''}>
+      <div className="">
         <div className="backoverlay" onClick={this.hideOverlay} style={this.state.overlayStyle}></div>
         <Loader loading={this.state.loading} background='no-fill' />
        {this.state.storeDetails != null &&

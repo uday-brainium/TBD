@@ -6,9 +6,9 @@ class ApiService {
   static apiurl = "https://jsonplaceholder.typicode.com/";
   // static apilink = "http://162.243.110.92:6085/"
 
-  static test() {
+ static test() {
     console.log(Config.Api_Address);
-  }
+  } 
 
   static getUsers(token) {
     return fetch(this.apiurl + "users", {
@@ -206,20 +206,48 @@ class ApiService {
      });
    }*/
 
-  static fetchmenuData(user_id) {
+  static fetchmenuData(user_id, offset, limit, searchkey) {
     console.log(Config.Api_Address);
     return fetch(
-      Config.Api_Address + "users/getAllMenu/" + user_id,
+      Config.Api_Address + "users/getAllMenu/",
       {
         // mode: 'no-cors',
-        method: "GET",
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json"
-        }
+        },
+        body: JSON.stringify({
+          userid: user_id,
+          offset,
+          limit,
+          searchkey
+        })
       }
     );
   }
+
+  static getItems(menuid, offset, limit, searchkey) {
+    console.log(Config.Api_Address);
+    return fetch(
+      Config.Api_Address + "users/get_items_by_id/",
+      {
+        // mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          menuid: menuid,
+          offset,
+          limit,
+          searchkey
+        })
+      }
+    );
+  }
+
 
   static additem(option, itemtitle, itemdescription, itemcost, user_id) {
     return fetch(Config.Api_Address + "users/create_menuitem", {
@@ -275,19 +303,73 @@ class ApiService {
 
 
 
-  static deletemenuitemData(id) {
+  static deleteMenu(id) {
+    let token = localStorage.getItem('access-token-tbd')
     return fetch(
-      Config.Api_Address + "users/itemdelete/" + id,
+      Config.Api_Address + "food/menudelete/" + id,
       {
         // mode: 'no-cors',
         method: "DELETE",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "x-access-token": token
         },
         body: JSON.stringify({
           _id: id
         })
+      }
+    );
+  }
+
+  static deleteItem(id) {
+    let token = localStorage.getItem('access-token-tbd')
+    return fetch(
+      Config.Api_Address + "food/itemdelete/" + id,
+      {
+        // mode: 'no-cors',
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "x-access-token": token
+        },
+        body: JSON.stringify({
+          _id: id
+        })
+      }
+    );
+  }
+
+  static updateItem(data) {
+    let token = localStorage.getItem('access-token-tbd')
+    return fetch(
+      Config.Api_Address + "food/itemedit",
+      {
+        // mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "x-access-token": token
+        },
+        body: JSON.stringify(data)
+      }
+    );
+  }
+  static update_delivery_option(data) {
+    let token = localStorage.getItem('access-token-tbd')
+    return fetch(
+      Config.Api_Address + "users/food_delivery",
+      {
+        // mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "x-access-token": token
+        },
+        body: JSON.stringify(data)
       }
     );
   }
@@ -623,6 +705,37 @@ class ApiService {
     );
   }
 
+  static editLoyality(loyalityData, token) {
+    return fetch(
+      Config.Api_Address + 'users/edit_loyality?token='+token+'',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loyalityData)
+      }
+    );
+  }
+
+  static saveBirthdayPromo(data, token) {
+    return fetch(
+      Config.Api_Address + 'users/birthday_promo?token='+token+'',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      }
+    );
+  }
+  
+
 
   static getUserdetails(userid, token) {
     return fetch(
@@ -652,6 +765,23 @@ class ApiService {
           businessid,
           limit: 0,
           searchkey: ''
+        })
+      }
+    );
+  }
+
+  static checkUrl(url) {
+    return fetch(
+      Config.Api_Address + 'users/check_url',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+         url
         })
       }
     );
