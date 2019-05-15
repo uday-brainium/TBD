@@ -68,12 +68,21 @@ export default class Store_navigation extends Component {
 
   moveToFood = () => {
    // this.props.nav.push(`/${this.props.store}/foods`)
-    this.props.nav.push(`/dashboard`)
+    this.props.nav.push(`/${this.props.store}/foods`)
   }
 
   moveToRegister = () => {
     this.props.nav.push(`/${this.props.store}/register`)
   }
+
+  login = () => {
+    this.props.nav.push(`/${this.props.store}/login`)
+  }
+
+  profile = () => {
+    this.props.nav.push(`/${this.props.store}/profile`)
+  }
+
 
   moveToBookTable = () => {
    // this.props.nav.push(`/${this.props.store}/book_table`)
@@ -81,6 +90,8 @@ export default class Store_navigation extends Component {
   }
 
   render() {
+    let guest_loggedin = JSON.parse(localStorage.getItem('guest-userdata'))
+  
     return (
       <div>
         {this.props.storeData != null &&
@@ -112,6 +123,24 @@ export default class Store_navigation extends Component {
                 </span>
               </a>
             </li>
+
+            {guest_loggedin == null ?
+              <li onClick={this.login} className={this.state.settingsIconClass}>
+              <a className="login">
+                <span>
+                  Login
+                </span>
+              </a>
+            </li> : 
+            <li onClick={this.profile} className={this.state.settingsIconClass}>
+              <a className="profile">
+                <span>
+                  Profile
+                </span>
+              </a>
+            </li>
+
+            }
             {this.props.storeData.tablereservationservice &&
               <li onClick={this.moveToBookTable} className={this.state.settingsIconClass}>
                <a className="bookAtable">

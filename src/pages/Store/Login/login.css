@@ -1,0 +1,35 @@
+.page-container {
+    min-height: 300px;
+    padding: 10px;
+    display: flex;
+    justify-content: center
+}
+.login-form-container {
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0px #5796d6;
+}
+.login-header {
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px;
+    color: #ff6400
+}
+
+.error-alert {
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+.login-row {
+    width: 100%
+}
+.login-subtext {
+    text-align: center;
+    margin-bottom: 10px;
+}

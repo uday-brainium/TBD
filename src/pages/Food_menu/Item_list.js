@@ -105,6 +105,17 @@ class Item_list extends Component {
     this.setState({editModal: false, item: {}})
     this.updateItemData()
   }
+  toggleEnable = (itemid, param) => {
+    console.log('trenn', param);
+    
+    this.setState({loading: true})
+    ApiService.toggleEnableItem(itemid, param)
+    .then(res => res.json())
+    .then(response => {
+      this.setState({loading: false})
+      this.updateItemData()
+    })
+  }
 
 
   render() {
@@ -115,7 +126,9 @@ class Item_list extends Component {
           <div>{items.itemtitle}</div>
           <div>${items.itemcost}</div>
           <div className="edit-delete">
-            <a className="link" onClick={() => this.editMenu(items)}>Edit</a> <span>I</span> <a className="link" onClick={() => this.deleteMenu(items._id)} >Delete</a>
+            <a className="link" onClick={() => this.editMenu(items)}>Edit</a> <span>I
+              </span> <a className="link" onClick={() => this.deleteMenu(items._id)} >Delete</a>
+              I <a className={items.is_active ? "link active" : "link inactive"} onClick={() => this.toggleEnable(items._id, !items.is_active)} >{items.is_active ? 'Disable' : 'Enable'}</a>
           </div>
         </div>
       );
@@ -135,7 +148,7 @@ class Item_list extends Component {
                 <Col xs={6} lg={6} md={6}>
                   <div className="inputOuter">
                       <i onClick={this.clearSearchInput} className="far fa-times-circle input-clear"></i>
-                      <input className="search-input" name="searchkey" type="text"  placeholder="Search users" value={this.state.searchkey} onChange={this.handleChange}/>
+                      <input className="search-input" name="searchkey" type="text"  placeholder="Search items" value={this.state.searchkey} onChange={this.handleChange}/>
                   </div>
                 </Col>
                 <Col xs={6} lg={6} md={6}>

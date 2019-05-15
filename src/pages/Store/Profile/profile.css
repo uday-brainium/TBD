@@ -1,0 +1,320 @@
+.profile-container {
+    min-height: 200px;
+    padding: 10px;
+}
+
+.profile-left {
+  justify-content: center;
+  border-right: 1px solid gray;
+  align-items: center
+}
+
+.field-error {
+    text-align: center;
+    margin-top: 20px;
+    padding: 5px;
+    background-color: #fd5133;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.profile-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 67%;
+  width: 100%;
+  /* border: 1px solid; */
+}
+.username {
+  text-align: center;
+  margin: 10px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.profile-menu {
+  text-align: center;
+  margin-left: 10px; 
+  margin-top: 10px;  
+  font-size: 16px;
+  color: #303a74;
+  background: #6bb1fb4d;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.profile-order-head {
+  padding: 5px;
+  background-color: coral;
+  border-radius: 5px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.profile-order-list {
+    padding: 5px;
+    background-color: #f7f7f7;
+    box-shadow: 0 0 1px 0px #d8c9c9;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 10px;
+    box-shadow: 0 0 1px 0px black;
+}
+.image-edit-icon {
+  position: relative;
+  float: right;
+  margin-top: -85px;
+  padding: 15px;
+  background-color: #ef6305;
+  border-radius: 50%;
+  font-size: 15px;
+  color: #fff;
+  left: -20%;
+}
+
+#guest_image {
+  position: relative !important;
+  height: 65px;
+  width: 65px;
+  float: right;
+  margin-top: -114px;
+  margin-right: -5px;
+}
+
+.guest-user-image {
+  padding-top: 35px;
+  width: 100%;
+}
+
+.close-icon {
+  float: right;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.colored {
+  color: #e6622b;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: capitalize;
+  text-decoration: underline
+}
+
+.colored .name {
+  color: #000 !important
+}
+
+.profile-icon img {
+  border-radius: 67%;
+  border: 1px solid;
+  height: 170px;
+  width: 55%;
+  margin-left: 22%;
+}
+
+.details-list {
+  margin-top: 20px;
+
+}
+
+.details-list div{
+  padding: 10px;
+  margin: 10px;
+  background: #8080804d;
+  width: 95%;
+  border-radius: 10px;
+}
+
+.details-list .address{
+  height: 115px;
+}
+
+.card-input {
+  width: 100%
+}
+
+.profile-value {
+  position: absolute;
+  left: 40%;
+  width: 24%;
+  color: #e6622b;
+  text-shadow: 0 0 0px #e6622b;
+  word-wrap: break-word
+}
+
+.profile-center {
+  width: 20%;
+  padding: 10px;
+}
+
+.payment-section {
+  padding: 10px;
+  border-left: 1px solid gray;
+}
+
+.add-payment {
+  text-align: center;
+  padding: 10px;
+  background-color: #6bb1fb;
+  margin: 10px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 1px 2px 6px 0px #3e5875;
+}
+
+.add-payment:active {
+  box-shadow: 0px 0px 0px 0px #3e5875;
+}
+
+.add-payment.btn{
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  background-color: #6bb1fb;
+  margin: 0px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 1px 2px 6px 0px #3e5875;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.card-input {
+    padding: 7px;
+    border-radius: 5px;
+    border: 0;
+    box-shadow: 1px 2px 7px 0px #3e5875;
+    margin-bottom: 5px;
+    font-style: italic;
+    text-align: center;
+}
+
+.add-payment.btn:active{
+  box-shadow: 0px 0px 0px 0px #3e5875;
+}
+
+.saved-cards {
+  padding: 10px;
+  margin: 10px;
+  background-color: #e663408c;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.no-saved {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+.add-new-card {
+  margin: 10px;
+  padding: 10px;
+  background-color: #e663408c;
+  border-radius: 5px;
+  color: #fff
+}
+
+.card-info {
+  font-size: 14px;
+}
+
+.address {
+  font-size: 14px;
+}
+
+.textarea {
+  height: 100px !important;
+}
+
+.fa-check {
+    padding: 5px;
+    background: #e6622b;
+    border-radius: 20px;
+    box-shadow: 0 0 4px #5f260f;
+}
+
+.edit-icon {
+  /* position: absolute; */
+  float: right;
+  cursor: pointer;
+}
+.save-edit-icon {
+  float: right;
+  color: #fff;
+  cursor: pointer;
+}
+.edit-input {
+  width: 100%;
+  margin-top: -7px;
+  height: 30px;
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 5px;
+}
+.order-content {
+  display: inline-block;
+  width: 80%;
+}
+.reorder-btn {
+  display: inline-block;
+  float: right;
+  margin-top: 5%;
+  padding: 5px;
+  background-color: #4dbd4d;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+@media (min-width: 1281px) {}
+
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .reaction-icon img {
+    height: 16px;
+    margin: 1px;
+  }
+  
+  .reactions {
+    font-size: 12px;
+    text-align: right;
+    margin: 0px;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-left {
+    justify-content: center;
+    border-right: 0px solid gray;
+    align-items: center
+  }
+
+  .details-list div{
+    padding: 10px;
+    margin: 10px;
+    background: #8080804d;
+    width: 95%;
+  }
+
+  .profile-value {
+    position: absolute;
+    left: 50%;
+    width: 33%;
+    color: #e6622b;
+    text-shadow: 0 0 0px #e6622b;
+    word-wrap: break-word
+  }
+  
+
+}

@@ -1,0 +1,315 @@
+.food-left-sidebar {
+  background-color: #fff;
+  min-height: 500px;
+  color: gray;
+  padding: 25px;
+  box-shadow: -5px 2px 17px 0px #845e5e;
+}
+
+.food-item-container {
+  padding: 20px;
+}
+
+.food-card {
+  box-shadow: 0 0 11px #cbdaea;
+  min-width: 200px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.no-item {
+  text-align: center;
+  margin: 50px;
+}
+.card-image {
+  height: 170px;
+  overflow: hidden;
+}
+
+.food-card-body {
+  padding: 10px !important;
+  font-size: 14px;
+  margin-top: -40px;
+}
+.example-title {
+  text-shadow: 0 0 18px black;
+  color: #fff;
+}
+.example-text {
+  font-size: 14px;
+}
+.filter-tab {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px 0px #b9b8b8;
+}
+.veg-lable {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase
+}
+
+.veg {
+  padding: 5px;
+  border-radius: 10px;
+  background-color: green;
+  height: 10px;
+  width: 10px;
+  margin-right: 10px;
+}
+.non-veg {
+  padding: 5px;
+  border-radius: 10px;
+  background-color: red;
+  height: 10px;
+  width: 10px;
+  margin-right: 10px;
+}
+.item {
+  font-weight: bold;
+  width: 50%;
+  margin-bottom: 10px;
+}
+.rating {
+  float: right;
+}
+.order-now {
+  float: right;
+  margin-left: 15px;
+  padding: 2px;
+  background-color: #e7bc03;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 1px 1px 4px #5f5555;
+  transition: 0.3s ease-in-out;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-family: 'Montserrat';
+  font-weight: bold;
+  font-size: 15px;
+  border: 1px solid;
+}
+.order-now:active {
+  box-shadow: 0px 0px 0px #5f5555;
+}
+.inactive-btn {
+  background-color: #8a8181 !important;
+}
+.checked {
+  color: green;
+}
+.inline {
+  display: inline-block;
+}
+.food-item {
+  padding: 10px;
+  margin-top: 10px;
+  box-shadow: 0 0 2px #8a8181;
+  width: 80%
+}
+.food-description {
+  margin-left: 19px;
+  font-size: 12px;
+  width: 50%;
+  margin-bottom: 15px;
+}
+.added-to-cart {
+  font-size: 14px;
+  font-family: 'Montserrat'; 
+  color: green;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  padding: 20px;
+}
+.error-alert {
+  font-size: 14px;
+  font-family: 'Montserrat'; 
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  padding: 20px;
+}
+.price {
+  float: right;
+  font-size: 18px;
+  font-weight: bold;
+  color: #2e932e;
+}
+.cart-counter {
+  float: right;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 0px;
+  background-color: #4d9b4d;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold
+}
+.counter-input {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0;
+}
+
+.counter-up {
+  padding-left: 10px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  font-size: 12px
+}
+.counter-down {
+  padding-right: 10px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* LEFT SIDEBAR */
+
+.menu-head {
+  font-weight: bold
+}
+.menu-list {
+  padding: 15px;
+}
+.menu {
+    padding: 5px;
+    /* background-color: #e7bc02; */
+    border-radius: 5px;
+    color: #000;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.menu-active {
+  padding: 5px;
+  background-color: #e7bc02;
+  border-radius: 5px;
+  color: #fff;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.cart-badge {
+  position: absolute;
+  background-color: green; 
+  height: 20px; 
+  border-radius: 10px; 
+  margin-left: 12px;  
+  margin-top: -32px;
+  width: 20px;  
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.cart-count {
+  font-size: 12px;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+}
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+@media (min-width: 1281px) {}
+
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+ 
+}
+
+@media (max-width: 767px) {
+  .food-left-sidebar {
+    background-color: #fff;
+    min-height: 200px;
+    color: gray;
+    padding: 25px;
+    box-shadow: 2px 3px 14px 0px black;
+  }
+  .food-left-sidebar{
+    display: block;
+  }
+  .food-item {
+    padding: 10px;
+    margin-top: 10px;
+    box-shadow: 0 0 2px #8a8181;
+    width: 100%
+  }
+
+  .order-now {
+    float: right;
+    margin-left: 0px;
+    padding: 2px;
+    background-color: #e7bc03;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 1px 1px 4px #5f5555;
+    transition: 0.3s ease-in-out;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: 'Montserrat';
+    font-weight: bold;
+    font-size: 14px;
+    border: 1px solid;
+  }
+  .food-description {
+    margin-left: 19px;
+    font-size: 12px;
+    width: 40%;
+    margin-bottom: 15px;
+  }
+
+  .counter-input {
+    width: 25px;
+    height: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0;
+  }
+  .counter-down {
+    padding-right: 5px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .counter-up {
+    padding-left: 5px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .counter-input {
+    width: 25px;
+    height: 25px;
+    margin-left: 2px;
+    margin-right: 2px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0;
+  }
+  .price {
+    float: right;
+    font-size: 15px;
+    font-weight: bold;
+    color: #2e932e;
+  }
+
+}

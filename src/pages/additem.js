@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Route, Link, withRouter, Redirect, NavLink as RRNavLink } from 'react-router-dom'
-import { Container, Row, Col, Nav } from "reactstrap";
+import { Container, Row, Col, Modal } from "reactstrap";
 import Notifications, { notify } from "react-notify-toast";
 import ApiService from "../services/api";
 import selectStyles from "../styles/select.css";
 import Loader from './components/simpleloader'
-
+import IngredientsModal from './Food_menu/ingridientModal'
+import './Store/store.css'
 let user_id = localStorage.getItem('user-id')
 
 class AddItemPage extends React.Component {
@@ -38,10 +39,17 @@ class AddItemPage extends React.Component {
       itemtitle: "",
       itemdescription: "",
       itemcost: "",
+      veg: false,
+      glutenFree: false,
       getmenudata: [],
       fireRedirect: false,
       menuitem: '',
-      loading: false
+      loading: false,
+      ingredientModal: false,
+      ingredientname: '',
+      ingredientprice: 0.5,
+      ingredientArray: [],
+      included: ''
     };
   }
 
@@ -105,14 +113,16 @@ class AddItemPage extends React.Component {
   }
 
   optionChanged(event) {
-    /*this.setState({
-      option: e.target.value
-    });*/
     this.setState({ [event.target.name]: event.target.value });
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    let name = event.target.name
+    if(name == "veg" || name == 'glutenFree') {
+      this.setState({ [event.target.name]: event.target.checked });
+    } else {
+      this.setState({ [event.target.name]: event.target.value });
+    }
   }
 
   handleSubmit(event) {
@@ -124,7 +134,7 @@ class AddItemPage extends React.Component {
     } else {
       try {
         this.setState({loading: true})
-        ApiService.additem(this.state.option, this.state.itemtitle, this.state.itemdescription, this.state.itemcost, user_id)
+        ApiService.additem(this.state.option, this.state.itemtitle, this.state.itemdescription, this.state.itemcost, user_id, this.state.veg, this.state.glutenFree, this.state.ingredientArray)
           .then(res => res.json())
           .then(response => {
             if (response.success) {
@@ -156,10 +166,37 @@ class AddItemPage extends React.Component {
     return emptyFields;
   }
 
+  changeIngredient = (e) => {
+    let name = e.target.name
+    let value = e.target.value
+    if(name == 'included') {
+      this.setState({included: e.target.checked})
+    } else {
+      this.setState({[name] : value})
+    } 
+  }
+
+  saveIngredient = () => {
+    let array = {
+      name: this.state.ingredientname,
+      price: this.state.ingredientprice,
+      included: this.state.included
+    }
+    this.state.ingredientArray.push(array)
+    console.log('array', this.state.ingredientArray);
+  }
+
+  removeingredients = (name) => {
+    this.state.ingredientArray.map((data, i) => {
+      if(data.name == name) {
+        this.state.ingredientArray.splice(i, 1)
+        this.setState({test: true})
+      }
+    })
+  }
+
   render() {
-
     const { fireRedirect } = this.state
-
     // console.log(this.props.dataSource);
     var OptionText = "";
     var OptionValueName = "";
@@ -171,6 +208,7 @@ class AddItemPage extends React.Component {
     }
     return (
       <div className="right" onClick={this.hideSelectOptions}>
+      
         <Notifications />
         <Loader loading={this.state.loading} />
         <div className="rightSideHeader">
@@ -202,7 +240,7 @@ class AddItemPage extends React.Component {
         <div className="dashboardBody">
           <div className="loginWrapperOuter">
             <div className="loginWrapper">
-              <header>Menu Item Add</header>
+              <header>Add Item</header>
               <form className="form" onSubmit={this.handleSubmit}>
                 <div className="inputOuter">
                   <div className="select" onClick={this.optionClicked}>
@@ -261,6 +299,53 @@ class AddItemPage extends React.Component {
                     name="itemdescription"
                   />
                 </div>
+                
+                <div className="item-ingredients" onClick={() => this.setState({ingredientModal: true})}>
+                  <div className="plus-btn"><i className="fas fa-plus-circle"></i> ingredients</div>
+                </div>
+                
+                {this.state.ingredientArray.length > 0 &&
+                <div className="ingredients-container">
+                  {this.state.ingredientArray.map(data => {
+                    return (
+                    <div key={data.name} className="ingredient-item">
+                       {data.name}
+                      <div onClick={() => this.removeingredients(data.name)} style={{float: 'right', marginLeft: 10, color: 'red', fontSize: 18, cursor: 'pointer'}}><i className="fas fa-times-circle"></i></div>
+                      <div style={{float: 'right'}}>${data.price}</div> 
+                      <div style={{float: 'right', color: 'green', marginRight: 5}}>{data.included == true ? '(Inc)' : ''}</div> 
+                    </div>
+                    )
+                  })
+                  }
+                </div>}
+                
+                <IngredientsModal
+                 close={() => this.setState({ingredientModal: false})} 
+                 show={this.state.ingredientModal} 
+                 change={(e) => this.changeIngredient(e)}
+                 save = {() => this.saveIngredient()}
+                 />
+                      
+                <Row className="checkbox-row">
+                  <Col>
+                  <div className="">
+                   <label className="checkbox-react">Veg
+                      <input type="checkbox" name="veg" defaultChecked={this.state.veg == "on" ? true : false} onChange={this.handleChange} />
+                    <span className="checkmark"></span>
+                  </label>
+                  </div>
+                  </Col>
+
+                  <Col>
+                    <div className="">
+                    <label className="checkbox-react">Gluten Free
+                      <input type="checkbox" name="glutenFree" defaultChecked={this.state.glutenFree == 'on' ? true : false} onChange={this.handleChange} />
+                      <span className="checkmark"></span>
+                    </label>
+                    </div>
+                  </Col>
+                </Row>
+                
                 <Row>
                   <Col lg={3} md={3} sm={3} xs={3}>
                   <div className="inputOuter unit-field">

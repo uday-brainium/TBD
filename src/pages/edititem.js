@@ -11,6 +11,8 @@ import NoProfileImage from '../images/profile-no-image.jpg'
 
 import LoadingSpinnerView from './views/spinner'
 let user_id = localStorage.getItem('user-id')
+
+
 class EditItemPage extends React.Component {
   constructor(props) {
     super(props)
@@ -247,8 +249,6 @@ class EditItemPage extends React.Component {
   }*/
 
   render() {
-
-
     var OptionText = "";
     var OptionValueName = "";
     if (this.state.option === "") {

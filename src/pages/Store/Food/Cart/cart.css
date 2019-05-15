@@ -1,0 +1,123 @@
+
+.cart-page-container {
+    padding-left: 120px;
+    padding-right: 120px;
+    padding-top: 20px;
+}
+
+.cart-container {
+    padding: 10px;
+    border: 1px solid #0003;
+    border-radius: 5px;
+    text-align: center
+}
+.line {
+    height: 2px;
+    background: #928686;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.product-row {
+    margin-top: 20px;
+    margin-bottom: 20px;    
+    font-size: 14px;   
+    background: #6bb1fb4d;    
+    width: 100%;
+    align-items: center;
+    margin-left: 0%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+}
+.cart-header {
+    font-weight: bold
+}
+
+.cart-item-title {
+    text-align: left
+}
+.item-description {
+    font-size: 12px;
+}
+.cart-empty {
+    margin: 100px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.cart-total-container {
+    border: 1px solid #0003;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+.cart-total-head {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+.left-amount {
+ text-align: left;
+ margin-left: 20px;
+ margin-top: 5px;
+ font-size: 16px;
+}
+.place-order {
+    width: 100%;
+    margin-top: 50px;
+    padding: 5px;
+    background: #fa460f;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+.back-to-menu {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1;
+    color: #fff;
+    background-color: #fa460f
+}
+
+.order-placed {
+    color: green;
+    margin-top: 15%;
+}
+.cart-modify {
+margin-bottom: 5px;
+}
+.cart-remove {
+    /* display: inline-block;
+    width: 50%; */
+}
+.ingredient-select {
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: transparent;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.add-ingredient {
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-left: 10px;
+    background-color: #ee4412;
+    color: #fff;
+}
+
+@media (max-width: 767px) {
+    .cart-page-container {
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 20px;
+    }
+    
+    .cart-total-container {
+        border: 1px solid #0003;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+}

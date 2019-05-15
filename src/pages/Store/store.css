@@ -215,6 +215,7 @@
   color: gray;
   background: #097ef999;
   color: #fff;
+  box-shadow: 0 0 5px 0px black;
 }
 .event-image {
   max-height: 200px;
@@ -249,7 +250,57 @@
   margin-top: 20px;
   min-height: 150px;
 }
+.right-menu {
+  float: right;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 16px;
+  cursor: pointer
+}
 
+/* Add item css */
+.item-ingredients {
+  margin: 20px;
+}
+
+.plus-btn {
+  color: orange;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.ingredients-container {
+  border: 1px solid #bbb3b3;
+  height: 10px;
+  margin: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  min-height: 100px;
+  height: auto
+}
+.ingredient-item {
+  margin-bottom: 5px;
+}
+.input-amount input {
+  width: 90%;
+  margin-top: 5px; 
+  border-radius: 23px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+.input-label {
+  margin-top: 10px;
+}
+.input-unit select {
+  width: 80%;
+  margin-top: 5px;
+  border-radius: 23px; 
+  margin-bottom: 10px;
+  padding: 5px;
+  text-align: left;
+  border: 1px solid gray;
+}
 /* =============================================================================
   Responsive Part
 ========================================================================== */

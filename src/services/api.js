@@ -1,6 +1,8 @@
 import Config from "../config";
 import axios from 'axios'
 import qs from 'qs'
+let token = localStorage.getItem('access-token-tbd')
+
 
 class ApiService {
   static apiurl = "https://jsonplaceholder.typicode.com/";
@@ -227,7 +229,7 @@ class ApiService {
     );
   }
 
-  static getItems(menuid, offset, limit, searchkey) {
+  static getItems(menuid, offset, limit, searchkey, vegOnly, glutenFree) {
     console.log(Config.Api_Address);
     return fetch(
       Config.Api_Address + "users/get_items_by_id/",
@@ -242,14 +244,29 @@ class ApiService {
           menuid: menuid,
           offset,
           limit,
-          searchkey
+          searchkey,
+          vegOnly,
+          glutenFree  
         })
       }
     );
   }
 
+  static toggleEnableItem(itemid, toggle) {
+    
+    return fetch(Config.Api_Address + "food/toggle_enable_item", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        'x-access-token': token
+      },
+      body: JSON.stringify({itemid, toggle})
+    });
+  }
 
-  static additem(option, itemtitle, itemdescription, itemcost, user_id) {
+
+  static additem(option, itemtitle, itemdescription, itemcost, user_id, veg, glutenFree, ingredients) {
     return fetch(Config.Api_Address + "users/create_menuitem", {
       method: "POST",
       headers: {
@@ -261,17 +278,20 @@ class ApiService {
         itemtitle: itemtitle,
         itemdescription: itemdescription,
         itemcost: itemcost,
-        user_id: user_id
+        is_veg: veg,
+        glutenfree: glutenFree,
+        user_id: user_id,
+        ingredients: ingredients
       })
     });
   }
 
 
-  static fetchmenuitemData(user_id, page) {
-    console.log(Config.Api_Address);
+  static fetchmenuitemData(user_id, veg, glutenFree) {
+    
     return fetch(
       //Config.Api_Address + "users/getitemAllMenu/" + user_id + "/?page=" + page + "&limit=5",
-      Config.Api_Address + "users/getitemAllMenu/" + user_id,
+      Config.Api_Address + "users/getitemAllMenu/" + user_id+'?is_veg='+veg+'&gluten_free='+glutenFree+'',
       {
         // mode: 'no-cors',
         method: "GET",
@@ -823,6 +843,79 @@ class ApiService {
     );
   }
 
+  static saveCard(data) {
+    return fetch(
+      Config.Api_Address + 'guests/add_card',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          userid: data.userid,
+          cardnumber: data.cardnumber,
+          name: data.name,
+          expiry: data.expiry
+        })
+      }
+    );
+  }
+
+  static edit_guest_image(data) {
+    return fetch(
+      Config.Api_Address + 'guests/edit_guest_image',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          userid: data.userid,
+          image: data.image
+        })
+      }
+    );
+  }
+
+  static deleteCard(data) {
+    return fetch(
+      Config.Api_Address + 'guests/delete_card',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          userid: data.userid,
+          card: data.cardnumber,
+        })
+      }
+    );
+  }
+
+
+
+  static edit_guest_one(data) {
+    return fetch(
+      Config.Api_Address + 'guests/edit_guest',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    );
+  }
+
   static chargeStripe(data) {
     return fetch(
       `https://api.stripe.com/v1/charges`,
@@ -838,6 +931,43 @@ class ApiService {
           currency: data.currency,
           amount: data.amount,
           source: data.source,
+        })
+      }
+    );
+  }
+
+  static guest_login(data) {
+    return fetch(
+      Config.Api_Address + 'guests/login',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    );
+  }
+
+  static add_order(id, data) {
+    console.log({
+      userid: id,
+      cart: data});
+    
+    return fetch(
+      Config.Api_Address + 'guests/add_orders',
+      {
+        //mode: 'no-cors',
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userid: id,
+          cart: data
         })
       }
     );

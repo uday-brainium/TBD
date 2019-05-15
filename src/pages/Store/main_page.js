@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom'
-import { Route, Link, Redirect, withRouter } from "react-router-dom"
-import { Button, Modal, Row, Col } from 'react-bootstrap';
+import { withRouter } from "react-router-dom"
+import { Row, Col } from 'react-bootstrap';
 import moment from 'moment';
 import LinesEllipsis from 'react-lines-ellipsis'
 import noUserImage from './../../images/profile-no-image.jpg'

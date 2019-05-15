@@ -200,7 +200,7 @@ class Food_menu extends Component {
                   <Col xs={6} lg={6} md={6}>
                     <div className="inputOuter">
                       <i onClick={this.clearSearchInput} className="far fa-times-circle input-clear"></i>
-                      <input className="search-input" name="searchkey" type="text" placeholder="Search users" value={this.state.searchkey} onChange={this.handleChange} />
+                      <input className="search-input" name="searchkey" type="text" placeholder="Search menu" value={this.state.searchkey} onChange={this.handleChange} />
                     </div>
                   </Col>
                   <Col xs={6} lg={6} md={6}>
@@ -230,7 +230,7 @@ class Food_menu extends Component {
             <Skeleton count={5} width='90%' /> :
             menuList.length > 0 ?
               menuList :
-              <Empty text="No sub useres found !" />
+              <Empty text="No menu found !" />
           }
         </div>
 

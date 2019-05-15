@@ -199,10 +199,10 @@ export default class Became_member extends Component {
            modalShow = {this.state.timeModal}
            timings = {this.state.storeDetails.timings}
            closedon = {this.state.storeDetails.closedon}
-         />
+         />   
         }
        <Notifications />
-       <Title_head title = "Became an member" fa_icon_class ="fas fa-user-plus"/>
+       <Title_head title = "Membership" fa_icon_class ="fas fa-user-plus"/>
        <Loader loading={this.state.loading} background='no-fill' />
       <div className="container-fluid full">
         <Row>
