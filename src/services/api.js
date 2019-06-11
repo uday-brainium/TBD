@@ -951,10 +951,7 @@ class ApiService {
     );
   }
 
-  static add_order(id, data) {
-    console.log({
-      userid: id,
-      cart: data});
+  static add_order(guestid, businessid, data) {
     
     return fetch(
       Config.Api_Address + 'guests/add_orders',
@@ -966,8 +963,225 @@ class ApiService {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userid: id,
-          cart: data
+         cart: data,
+         guestid,
+         businessid
+        })
+      }
+    );
+  }
+
+  static saveReservation(userid, data) {
+    return fetch(
+      Config.Api_Address + 'users/add_seats',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'x-access-token': token
+        },
+        body: JSON.stringify({
+          userid,
+          totalseats: data.tables,
+          preferred: data.preferred,
+          indoorseats: data.indoortables,
+          outdoorseats: data.outdoortables
+        })
+      }
+    );
+  }
+
+  static addReservationCount(userid, count) {
+    return fetch(
+      Config.Api_Address + 'users/add_seats',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'x-access-token': token
+        },
+        body: JSON.stringify({
+          userid,
+          bookedseats: count
+        })
+      }
+    );
+  }
+
+  static saveNewReservation(data) {
+    return fetch(
+      Config.Api_Address+'guests/new_reservation',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      }
+    );
+  }
+
+  static getReservations(data) {
+    return fetch(
+      Config.Api_Address+'guests/get_reservations',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      }
+    );
+  }
+
+  static getBookingDetails(id) {
+    return fetch(
+      Config.Api_Address+'users/get_tables',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'x-access-token': token
+        },
+        body: JSON.stringify({
+          resturentId: id
+        })
+      }
+    );
+  }
+
+  static getBookingDetails(id) {
+    return fetch(
+      Config.Api_Address+'users/get_tables',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'x-access-token': token
+        },
+        body: JSON.stringify({
+          resturentId: id
+        })
+      }
+    );
+  }
+
+  static getUserReservation(userid, stage) {
+    return fetch(
+      Config.Api_Address+'guests/reservations_by_userid',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'x-access-token': token
+        },
+        body: JSON.stringify({userid, stage})
+      }
+    );
+  }
+
+  static get_guest(resturentId) {
+    return fetch(
+      Config.Api_Address+'guests/get_guest_list',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({resturentId})
+      }
+    );
+  }
+
+  static updateStage(data) {
+    return fetch(
+      Config.Api_Address+'guests/update_stage',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          rid: data.rid,
+          stage: data.stage,
+          startTime: data.startTime,
+          endTime: data.endTime
+        })
+      }
+    );
+  }
+
+  static deleteReservation(rid) {
+    return fetch(
+      Config.Api_Address+'guests/delete_reservation',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          rid,
+        })
+      }
+    );
+  }
+
+  static getWaitTime(rid) {
+    return fetch(
+      Config.Api_Address+'guests/get_wait_time',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          rid,
+        })
+      }
+    );
+  }
+
+  static fetchOrdersByGuest(guestid) {
+    return fetch(
+      Config.Api_Address+'guests/fetch_orders',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          guestid
+        })
+      }
+    );
+  }
+
+  static ordersByResturent(data) {
+    return fetch(
+      Config.Api_Address+'users/fetch_orders_by_resturent',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          businessid: data.userId,
+          status: data.status,
+          startDate: data.startDate,
+          endDate: data.endDate
         })
       }
     );

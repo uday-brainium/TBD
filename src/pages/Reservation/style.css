@@ -1,0 +1,374 @@
+.reservation-container {
+    width: 75%;
+}
+
+.top-buttons {
+    margin-top: -5%;
+    display: inline-block;
+    width: 100%
+}
+.inline-top-buttons {
+    display: inline-block;
+    width: 25%
+}
+.right {
+    float: right
+}
+.new-button {
+    background-color: #ff6400;
+    color: #fff;
+    padding: 10px;
+    border-radius: 40px;
+    width: auto;
+    font-weight: 400;
+}
+.reservation-menu {
+    border-right: 1px solid gray;
+    min-height: 500px;
+    align-items: center;
+}
+.reservation-right-content {
+    background-color: aliceblue
+}
+.r-btn {
+    padding-bottom: 15px;
+    cursor: pointer; 
+    color: #e14a35 !important;
+}
+.reservation-heading {
+    font-size: 20px;
+    color: #e14a35;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #f0f8ff
+}
+.settings-container {
+    background-color: #fff
+}
+.reservation-form {
+    width: 100%
+}
+.reservation-blocks .block {
+    padding: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 10px;
+    border-radius: 10px;
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.block1 {
+    background-color: #e14a35
+}
+.block2 {
+    background-color: skyblue;
+}
+.block3 {
+    background-color: hotpink
+}
+.block4 {
+    background-color: yellowgreen
+}
+.block-head {
+    font-size: 16px;
+}
+.block-text {
+    font-size: 22px;
+}
+.reservation-list-head {
+  font-size: 16px;
+  margin-top: 20px;
+  text-align: left
+}
+.pagination {
+    background: #fff !important
+}
+.r_list {
+    text-align: left;
+    font-size: 14px;
+    margin: 10px;
+    padding: 5px;
+    border: 0px solid #80808099;
+    border-radius: 10px;
+    box-shadow: 1px 0px 11px 3px #87ceeb;
+    overflow: hidden
+}
+.inrow {
+    display: inline-block;
+    width: 30%
+}
+.r_date {
+  float: right;
+}
+.inrow span {
+    color: green
+}
+
+.list-container {
+    margin-top: 35px;
+}
+
+.list-container span {
+    color: green;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.small-input input {
+    padding: 10px !important;
+    border: 1px solid gray
+}
+.small-input input[type="date"] {
+    height: 45px;
+}
+.gold {
+    background-color: #ffda1080;
+}
+.preffered-badge {
+    text-align: center;
+    font-size: 20px;
+    color: green;
+    margin-bottom: -29px;
+}
+
+.reservation-form input[type="text"], .reservation-form input[type="email"], input[type="date"], .reservation-form input[type="tel"], .reservation-form input[type="password"] {
+    border: 1px solid #cdd4d4;
+    height: auto;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    font-size: 14px;
+    color: #000000;
+    width: 100%;
+    padding: 10px;
+}
+
+.reservation-form select {
+    border: 1px solid #cdd4d4;
+    height: auto;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    font-size: 14px;
+    color: #000000;
+    width: 100%;
+    padding: 10px;
+}
+
+.checkbox-react {
+    padding-left: 0 !important
+}
+.user-select {
+    padding: 2px !important;
+    /* height: 40px !important; */
+}
+
+.user-select-res__value-container {
+    padding: 5px !important;
+    height: 40px !important;
+}
+
+.user-select-res__control {
+ border-radius: 40px !important;
+}
+
+.user-select-res__input {
+    margin-top: -10px !important;  
+}
+.p-image {
+    width: 68px;
+    height: 68px;
+    overflow: hidden;
+    border-radius: 50px;
+}
+.gap {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+#dateModal .modal-content {
+    background-color: transparent
+}
+.button-div {
+    position: absolute;
+    bottom: 0;
+    right: -85.5px;
+    width: 112.1%;
+    background-color: #fff;
+}
+.button-div button {
+    float: right;
+    margin: 10px;
+    margin-right: 30px;
+    background: orange;
+    width: 108px;
+    border-radius: 20px;
+    padding: 2px;
+    color: #fff;
+}
+.r_status {
+    position: absolute;
+    top: 70px;
+    transform: rotate(-22deg);
+    font-weight: bold;
+    color: orange;
+    margin-left: 5px;
+    font-size: 16px;
+}
+.preffred-badge {
+    position: absolute;
+    right: 20px;
+    padding: 3px;
+    background-color: gold;
+    border-bottom-left-radius: 5px;
+    margin-top: -5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: -1px 2px 8px 0px #9e9d98;
+}
+.top-gap {
+    margin-top: 25px;
+}
+.daterange-input {
+    padding: 8px;
+    border-radius: 50px;
+    border: 1px solid #cccccc;
+    text-align: center;
+}
+.inside-input {
+    position: absolute;
+    top: 12px;
+    left: 65px;
+    font-size: 20px;
+    color: #cccccc;
+}
+.r-stages {
+    justify-content: center;
+    align-items: center;
+    background: #878382;
+    color: white;
+    border-radius: 10px;
+}
+.r-stage1 {
+    padding: 8px;
+    border-right: 2px solid #fff;
+    cursor: pointer;
+}
+.r-stage2 {
+    padding: 8px;
+    border-right: 2px solid #fff;
+    cursor: pointer;
+}
+.r-stage3 {
+    padding: 8px;
+    border-right: 2px solid #fff;
+    cursor: pointer;
+}
+.r-stage4 {
+    padding: 8px;
+    cursor: pointer;
+    /* border-right: 2px solid #fff; */
+}
+.stage-active {
+    background: yellowgreen;
+}
+.time-modal-container {
+    width: 100%;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center
+}
+.wait-input {
+    border-radius: 20px;
+    width: 50%;
+    padding: 5px;
+    padding-left: 10px;
+    border: 1px solid #80808091;
+}
+.wait-time-btn {
+    background-color: red;
+    border: 1px solid gray;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    color: #fff;
+    border-radius: 20px;
+}
+.time-btn-div {
+    margin: 20px;
+}
+.wait-time-block {
+    position: absolute;
+    top: -5px;
+    padding: 5px;
+    background-color: #ffd700;
+}
+.wait-text {
+    font-size: 14px;
+}
+.time-counter {
+    font-size: 16px;
+}
+.cancle-btn {
+    position: absolute;
+    right: 37px;
+    bottom: 5px;
+    padding: 2px;
+    background: red;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+.modal-desc-text {
+    font-size: 14px;
+    margin: 5px;
+    color: tomato;
+}
+.btn-row {
+    width: 88%;
+    margin: 15px;
+}
+.wait-time-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: green;
+}
+.date-cross {
+    position: absolute;
+    right: 70px;
+    top: 10px;
+    cursor: pointer;
+}
+/* RESPONSIVE PART OF UI */
+
+@media (min-width: 1281px) {}
+
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .top-buttons {
+        margin-top: 0%
+    }
+}
+
+@media (max-width: 767px) {
+    .top-buttons {
+        margin-top: 0%
+    }
+    .reservation-container {
+        width: 100%;
+    }
+    .reservation-menu {
+        border-right: 0px solid gray;
+        border-bottom: 1px solid gray;
+        margin-bottom: 10px;
+        min-height: 100px;
+        align-items: center;
+    }
+    .checkbox-react {
+        padding-left: 35px !important
+    }
+}

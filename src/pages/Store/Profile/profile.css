@@ -271,6 +271,13 @@
   color: #fff;
   cursor: pointer;
 }
+.head-date {
+  padding: 5px;
+  background-color: #6bb1fb;
+  border-radius: 5px;
+  color: #fff;
+  margin-top: 10px;
+}
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -315,6 +322,4 @@
     text-shadow: 0 0 0px #e6622b;
     word-wrap: break-word
   }
-  
-
 }

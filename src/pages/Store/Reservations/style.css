@@ -1,0 +1,156 @@
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+
+.center-content {
+    margin-top: 30px;
+}
+.block {
+    padding: 10px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 6px 0px #9da3ab;
+    color: #fff;
+    margin: 20px;
+}
+
+.block1 {
+ background-color: #e7440d;
+}
+
+.block3 {
+    background-color: #28a745;
+}
+
+.block2 {
+background-color: #b93dc7d4;
+}
+
+.block-head {
+    font-size: 18px;
+    font-weight: bold
+}
+
+.block-value {
+    font-size: 30px;
+    font-weight: bold
+}
+
+.sub {
+    font-size: 12px;
+}
+.fc-title {
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+.small-input input {
+    padding: 10px !important;
+    border: 1px solid gray
+}
+.small-input input[type="date"] {
+    height: 45px;
+}
+
+.reservation-form input[type="text"], .reservation-form input[type="email"], input[type="date"], .reservation-form input[type="tel"], .reservation-form input[type="password"] {
+    border: 1px solid #cdd4d4;
+    height: auto;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    font-size: 14px;
+    color: #000000;
+    width: 100%;
+    padding: 10px;
+}
+
+.reservation-form select {
+    border: 1px solid #cdd4d4;
+    height: auto;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    font-size: 14px;
+    color: #000000;
+    width: 100%;
+    padding: 10px;
+}
+.my-booked-head {
+    text-align: left;
+    font-family: 'Montserrat';
+    color: gray;
+    font-size: 18px;
+}
+.my-booked-head i {
+    font-size: 20px;
+    padding-right: 5px;
+    border-right: 1px solid;
+}
+.no-booking {
+    margin-top: 40px;
+    font-size: 18px;
+    color: gray;
+    margin-bottom: 40px;
+}
+.reservations-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 6px 0px #716464;
+}
+.list-row {
+  margin: 5px;
+}
+.left-image {
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+.justified {
+  justify-items: center;
+  align-items: center;
+}
+.person-image {
+  border: 1px solid;
+  border-radius: 40px;
+  overflow: hidden;
+}
+.status-heading {
+  position: absolute;
+bottom: -10px;
+transform: rotate(-35deg);
+left: 15px;
+color: #ff6400;
+font-weight: bold;
+text-transform: capitalize;
+text-shadow: 0 0 1px #9c7e6a;
+}
+.filter-container {
+  width: 90%;
+  margin-top: 10px;
+  
+}
+.f-tab {
+  padding: 5px;
+  background-color: gray;
+  border: 1px solid;
+  cursor: pointer;
+}
+.f-active {
+  background-color: #ff6400 !important;
+}
+.f-row {
+  /* border: 1px solid #7bb3fc; */
+  color: #fff;
+}

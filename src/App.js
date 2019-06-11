@@ -39,6 +39,29 @@ const Store = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const Myorders = Loadable({
+  loader: () => import("./pages/Myorders"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+
+const Reservations = Loadable({
+  loader: () => import("./pages/Store/Reservations"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const Reservation_admin = Loadable({
+  loader: () => import("./pages/Reservation"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+
 const GuestProfile = Loadable({
   loader: () => import("./pages/Store/Profile"),
   loading: LoadingView,
@@ -404,8 +427,11 @@ class App extends React.Component {
           <AdminLayout path="/edit_offer/" component={EditOffer} />
           <AdminLayout path="/store_feature/" component={StoreFeature} />
           <AdminLayout path="/promotions/" component={Birthday_promotion} />
+          <AdminLayout path="/reservation/" component={Reservation_admin} />
+          <AdminLayout path="/my_orders/" component={Myorders} />
           
           {/* //Routes of guest user  */}
+          <Route path="/:id/reservation" component={Reservations} />
           <Route path="/:id/mycart" component={CartPage} />
           <Route path="/:id/foods" component={FoodStore} />
           <Route path="/:id/profile" component={GuestProfile} />

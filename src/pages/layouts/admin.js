@@ -509,11 +509,11 @@ class AdminLayout extends Component {
                     {usertype != 'subuser' || privilage == 'manager' || privilage == 'admin' || privilage == "associate" ?
                       <div>
                         {foodPickUp &&
-                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>My Orders</a></li>
+                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('my_orders')}>My Orders</a></li>
                         }
 
                         {reservation ?
-                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Reservations</a></li> : ''}
+                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('Reservation')}>Reservations</a></li> : ''}
                       </div> : ''
                     }
                     {(usertype != 'subuser' || privilage == 'manager' || privilage == 'admin') && eventService ?

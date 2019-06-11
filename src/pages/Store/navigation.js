@@ -86,7 +86,7 @@ export default class Store_navigation extends Component {
 
   moveToBookTable = () => {
    // this.props.nav.push(`/${this.props.store}/book_table`)
-   this.props.nav.push(`/dashboard`)
+   this.props.nav.push(`/${this.props.store}/reservation`)
   }
 
   render() {

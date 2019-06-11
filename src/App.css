@@ -678,7 +678,9 @@ button:hover:disabled {
     vertical-align: top;
 }
 
-.form input[type="text"], .form input[type="email"], .form input[type="tel"], .form input[type="password"] {
+
+
+.form input[type="text"], .form input[type="email"], input[type="date"], .form input[type="tel"], .form input[type="password"] {
     border: 1px solid #cdd4d4;
     height: 50px;
     border-radius: 50px;

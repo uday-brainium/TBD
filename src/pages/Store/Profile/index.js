@@ -14,8 +14,9 @@ import Card_list from './card_list'
 import {AddToCart} from './../../Store/Food/Cart/'
 import './profile.css'
 
-let path = window.location.pathname
-let storeName = path.split('/')[1];
+const path = window.location.pathname
+const storeName = path.split('/')[1];
+const guest = JSON.parse(localStorage.getItem('guest-userdata'))
 
 class Guest_profile extends Component {
 
@@ -52,7 +53,7 @@ class Guest_profile extends Component {
 
     addCard: false,
     cards: [],
-
+    orders: [],
     profileImg: 'http://www.kitsunemusicacademy.com/wp-content/uploads/avatars/1/57e809f0cf20c-bpfull.jpg'
   }
 
@@ -80,6 +81,7 @@ class Guest_profile extends Component {
         })
       this.setUserdata()
       this.fetchAllPlaces()
+      this.fetchOrders()
     }
   }
 
@@ -186,6 +188,16 @@ class Guest_profile extends Component {
     }
   }
 
+  fetchOrders = () => { 
+    ApiService.fetchOrdersByGuest(guest._id)
+    .then(res => res.json())
+    .then(response => {
+      console.log(response.response);
+      
+      this.setState({orders: response.response})
+    })
+  }
+
 
   saveCard = (e) => {
     e.preventDefault()
@@ -278,6 +290,20 @@ class Guest_profile extends Component {
       this.props.history.push('mycart')
     })
 
+  }
+
+  renderItems = (items) => {
+    let listView = []
+    items.map(item => {
+      listView.push(
+        <div>
+          {item.itemname}
+        <div onClick={() => this.reorderItem(item)}           className="reorder-btn">Reorder
+        </div>
+        </div>
+      )
+    })
+    return listView
   }
 
 
@@ -485,23 +511,21 @@ class Guest_profile extends Component {
                 <div>
                   <div className="profile-orders"> 
                     <div className="profile-order-head">My orders</div>
-                      {this.state.userdata.orders.slice(0, 5).map((data, i) => {
+                      {this.state.orders.map((data, i) => { 
                         return (
-                          <div key={i} className="profile-order-list">
-                          <div className="order-content">
-                            <div>Item name: {data.itemname}</div>
-                            <div> price: {data.itemprice}</div>
-                            <div>Description: {data.itemdescription}</div>
-                            <div>Quantity: {data.count}</div>
+                          <div key={i} >
+                            <div className="head-date">
+                            {new Date(data.createdAt).toDateString()}
                           </div>
-                          <div onClick={() => this.reorderItem(data)} className="reorder-btn">Reorder</div>
-                          
+                          <div className="profile-order-list">
+                           {this.renderItems(data.items)}
+                           </div>
                          </div>
                         )
                       })
                     }
                   </div>
-                </div>
+                </div>   
               }
 
             </Col>
