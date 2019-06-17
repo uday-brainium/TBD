@@ -951,7 +951,7 @@ class ApiService {
     );
   }
 
-  static add_order(guestid, businessid, data) {
+  static add_order(guestid, deliveryaddress, promodiscount, businessid, data) {
     
     return fetch(
       Config.Api_Address + 'guests/add_orders',
@@ -965,7 +965,9 @@ class ApiService {
         body: JSON.stringify({
          cart: data,
          guestid,
-         businessid
+         businessid,
+         deliveryaddress,
+         promodiscount
         })
       }
     );
@@ -1181,7 +1183,88 @@ class ApiService {
           businessid: data.userId,
           status: data.status,
           startDate: data.startDate,
-          endDate: data.endDate
+          endDate: data.endDate,
+          limit: data.limit,
+          skip: data.skip
+        })
+      }
+    );
+  }
+
+  static updateOrderStatus(data) {
+    return fetch(
+      Config.Api_Address+'users/change_order_stage',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "x-access-token": token,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+            orderId: data.orderid,
+            status: data.status,
+        })
+      }
+    );
+  }
+
+  static addNewAddress(data) {
+    return fetch(
+      Config.Api_Address+'guests/add_address',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "x-access-token": token,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+           guestid: data.guestid,
+           address: data.address,
+           zipcode: data.zipcode,
+           state: data.state,
+           city: data.city,
+           country: data.country
+        })
+      }
+    );
+  }
+
+  static add_promo_code(data) {
+    return fetch(
+      Config.Api_Address+'users/add_promo',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "x-access-token": token,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+           businessid: data.businessid,
+           promocode: data.promocode,
+           discountvalue: data.discountvalue,
+           discounttype: data.discounttype,
+           details: data.details,
+           expirydate: data.expirydate
+        })
+      }
+    );
+  }
+
+  static get_promocodes(businessid) {
+    return fetch(
+      Config.Api_Address+'users/get_promos',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "x-access-token": token,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+           businessid
         })
       }
     );

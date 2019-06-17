@@ -278,6 +278,51 @@
   color: #fff;
   margin-top: 10px;
 }
+
+.promo-list {
+  margin-top: 10px;
+  width: 70%;
+  min-height: 20px;
+  border: 1px solid orange;
+  padding: 10px;
+  border-radius: 5px;
+}
+.redeme-button {
+  padding: 5px;
+  border: 0px;
+  background-color: #ef6305;
+  color: #fff;
+  border-radius: 5px;
+}
+.promo {
+  padding: 1px;
+  border: 2px dashed green;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.discount {
+  font-size: 16px;
+  font-weight: normal;
+}
+.btn-row {
+  width: 88%;
+  margin: 15px;
+}
+.modal-desc-text {
+  font-size: 14px;
+  margin: 5px;
+  color: tomato;
+}
+.redemed {
+  font-weight: bold;
+  color: green;
+  font-size: 18px;
+  float: right;
+}
+
+
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -321,5 +366,13 @@
     color: #e6622b;
     text-shadow: 0 0 0px #e6622b;
     word-wrap: break-word
+  }
+  .promo-list {
+    margin-top: 10px;
+    width: 100%;
+    min-height: 20px;
+    border: 1px solid orange;
+    padding: 10px;
+    border-radius: 5px;
   }
 }

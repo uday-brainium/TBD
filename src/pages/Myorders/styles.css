@@ -61,24 +61,33 @@
     margin-top: 15px;
 }
 .card-head {
+    padding: 5px !important;
     background-color: #9acd32a6;
     color: #000;
     font-size: 14px;
 }
 .bold {
     font-weight: bold;
+    margin-left: 10px;
+}
+.r-stages{
+    margin-bottom: 10px !important;
 }
 .r-stage1 {
     padding: 5px !important;
+    border-right: 5px solid #fff !important;
 }
 .r-stage2 {
     padding: 5px !important;
+    border-right: 5px solid #fff !important;
 }
 .r-stage3 {
     padding: 5px !important;
+    border-right: 5px solid #fff !important;
 }
 .r-stage4 {
     padding: 5px !important;
+    border-right: 5px solid #fff !important;
 }
 .item-box {
     font-size: 14px;
@@ -94,6 +103,26 @@
     padding: 2px;
     border: 1px solid;
     border-radius: 5px;
+}
+.pagination-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.refund-btn {
+    font-size: 14px;
+    background-color: #999b9e;
+    color: #fff;
+    border-radius: 5px;
+    border: 0px;
+}
+.ref-active {
+    background-color: yellowgreen !important;
+}
+.head-cols {
+    display: flex;
+    justify-content: center;
+    align-items: center
 }
 @media (max-width: 767px) {
     .r-bottom {

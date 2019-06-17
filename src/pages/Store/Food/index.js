@@ -131,7 +131,8 @@ export default class Foods extends Component {
       ingredients: data.ingredients,
       selectedIngredients: [],
       ingredientPrice: 0,
-      count: this.state[data._id]
+      count: this.state[data._id],
+      status: 'ORDERED'
     }
     
     AddToCart(userid, item).then(res => {

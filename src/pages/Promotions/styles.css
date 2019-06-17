@@ -1,0 +1,38 @@
+.list-promocodes {
+    border-right: 1px solid #d1dfe0;
+    min-height: 300px;
+}
+
+.heading {
+    font-size: 18px;
+    border-bottom: 1px solid #d1dfe0;
+    margin-bottom: 20px;
+}
+.promocodes {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: left;
+    border: 2px solid orange;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.code {
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 10px;
+    border: 2px solid yellowgreen;
+    border-style: dashed;
+    float: right;
+    padding-right: 10px;
+}
+.create-form {
+    width: 80%
+}
+.code-input {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}

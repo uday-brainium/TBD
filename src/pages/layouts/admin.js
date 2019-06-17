@@ -516,6 +516,14 @@ class AdminLayout extends Component {
                           <li><a className="" onClick={(e) => this.sideMenuLinkClicked('Reservation')}>Reservations</a></li> : ''}
                       </div> : ''
                     }
+                    
+
+                    {usertype != 'subuser' || privilage == 'manager' || privilage == 'admin' ?
+                      <div> 
+                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('promotion')}>Promotions</a></li>
+                      </div> : ''
+                    }
+                    
                     {(usertype != 'subuser' || privilage == 'manager' || privilage == 'admin') && eventService ?
                       <div>
                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('events')}>Events managment</a></li>

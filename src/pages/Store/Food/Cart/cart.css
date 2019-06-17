@@ -70,7 +70,7 @@
     cursor: pointer;
 }
 .back-to-menu {
-    padding: 5px;
+    padding: 1px;
     border-radius: 5px;
     border: 1;
     color: #fff;
@@ -103,6 +103,78 @@ margin-bottom: 5px;
     margin-left: 10px;
     background-color: #ee4412;
     color: #fff;
+}
+.my-address {
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.deliver-btn {
+  text-align: center;
+  padding: 5px;
+  background-color: #ee4412;
+  width: 100%;
+  color: #fff;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-address {
+    width: 70% !important;
+    background-color: darkgrey !important;
+    text-align: center;
+    padding: 5px;
+    color: #fff;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.input-wrapper {
+    width: 100%
+}
+.input-wrapper input, textarea {
+    width: 100%;
+}
+.label-small {
+    margin-bottom: 0 !important;
+}
+
+/* Promotion css */
+
+.promotion-container {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+.pcode-row {
+
+}
+.payment-view {
+    text-align: center;
+    justify-content: center;
+    align-items: center
+}
+.payment-price {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: green;
+}
+.promocode {
+    border: 1px dashed green;
+    font-weight: bold
+}
+.applied {
+    margin-top: 15px;
+    font-weight: bold;
+    color: green;
 }
 
 @media (max-width: 767px) {

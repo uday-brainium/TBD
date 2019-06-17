@@ -10,10 +10,13 @@ import ApiService from './../../../../services/api'
 import Loader from './../../../components/simpleloader'
 import { removeItem, updateCart } from './../Cart/index'
 import Modify_modal from './modify_modal'
+import Delivery_modal from './delivery_pop'
 import './cart.css'
+import Promotion from './promotion'
 
-let path = window.location.pathname
-let storeName = path.split('/')[1];
+const path = window.location.pathname
+const storeName = path.split('/')[1];
+const user = JSON.parse(localStorage.getItem('guest-userdata'))
 
 let totalPrice = 0
 
@@ -25,7 +28,11 @@ let totalPrice = 0
     cart: [],
     deletedid: '',
     modifyModal: false,
-    modifyItem: {}
+    deliveryModal: false,
+    modifyItem: {},
+    promoList: [],
+    promoDiscount: 0,
+    hidePromos: false
   }
 
   getCartDetails = () => {
@@ -47,7 +54,6 @@ let totalPrice = 0
             storeDetails: response.response,
             loading: false
           })
-         
         } else {
           this.props.history.push('/')
         }
@@ -55,6 +61,16 @@ let totalPrice = 0
       .catch(function (error) {
         console.log('err', error)
       })
+      this.fetchPromoCodes()
+  }
+
+  fetchPromoCodes = () => {
+    ApiService.get_promocodes(user.businessid)
+    .then(res => res.json())
+    .then(response => {
+      if(response.status == 200)
+        this.setState({promoList: response.response})
+    })
   }
 
   getTotalCartPrice = () => {
@@ -75,7 +91,8 @@ let totalPrice = 0
         itemname: data.itemname,
         itemprice: data.itemprice,
         itemdescription: data.itemdescription,
-        count: this.state[data.itemid]
+        count: this.state[data.itemid],
+        status: 'ORDERED'
       }
       updateCart(item).then(() => {
         this.getCartDetails()
@@ -92,7 +109,8 @@ let totalPrice = 0
         itemname: data.itemname,
         itemprice: data.itemprice,
         itemdescription: data.itemdescription,
-        count: this.state[data.itemid]
+        count: this.state[data.itemid],
+        status: 'ORDERED'
       }
       updateCart(item).then( () => {
         this.getCartDetails()
@@ -115,22 +133,28 @@ let totalPrice = 0
     this.setState({modifyModal: true, modifyItem: data})
   }
 
-  saveOrder = () => {
-    let {cart} = this.state
-    const userid = JSON.parse(localStorage.getItem('guest-userdata'))._id
-    const businessId = JSON.parse(localStorage.getItem('guest-userdata')).businessid
-    console.log('userid---', userid );
-    
-    ApiService.add_order(userid, businessId, cart)
+  placeOrderClick = () => {
+    this.setState({deliveryModal: true})
+  }
+
+  saveOrder = (deliveryAddress) => {
+    this.setState({loading: true})
+    let {cart, promoDiscount} = this.state
+    const userid = user._id
+    const businessId = user.businessid
+   
+    ApiService.add_order(userid, deliveryAddress, promoDiscount, businessId, cart)
     .then(res => res.json())
     .then(response => {
-      //remove all cart items 
+      if(response.status == 200) {
+         //remove all cart items 
       localStorage.setItem('cart', JSON.stringify({cart: []}))
       this.setState({cart: []}, () => {
        // localStorage.setItem('guest-userdata', JSON.stringify(response.response))
         this.getCartDetails()
-        this.setState({orderplaced: true})
+        this.setState({orderplaced: true, deliveryModal: false, promoDiscount: 0, loading: false})
       })
+      }
       //Update userdate
     })
   }
@@ -148,14 +172,27 @@ let totalPrice = 0
     return total.toFixed(2)
   }
 
+  applyPromocode = async (promo) => {
+    const amount = promo.discountvalue
+    const type = promo.discounttype
+    
+    const cartTotal = JSON.parse(totalPrice) + JSON.parse(this.ingredientsTotal())
+    const discount = await type === 'doller' ? (amount) : ((cartTotal * amount / 100))
+    this.setState({promoDiscount: discount, hidePromos: true})
+
+  }
+
 
   render() {
 
-    const {cart} = this.state
+    const {cart, promoDiscount} = this.state
     totalPrice = 0 
      let price = cart.map((data, i) => {
       return totalPrice = totalPrice + (parseInt(data.itemprice) * data.count)
     })
+    const overAllPrice = JSON.parse(totalPrice) + JSON.parse(this.ingredientsTotal()) - promoDiscount
+    console.log((overAllPrice));
+    
     return (
       <div>
          <Header
@@ -173,6 +210,12 @@ let totalPrice = 0
         <Title_head title="Cart" fa_icon_class="far fa-id-badge" hasRightmenu={true} showcart={true} />
         <Loader loading={this.state.loading} background='no-fill' />
         <Modify_modal show={this.state.modifyModal} close={() => this.closeModifyModal()} item={this.state.modifyItem} />
+        <Delivery_modal 
+          placeOrder={(deliveryAddress) => this.saveOrder(deliveryAddress)} 
+          show={this.state.deliveryModal} userdata={user} 
+          close={() => this.setState({deliveryModal: false})} 
+          overallPrice = {overAllPrice}
+          />
         <div className="cart-page-container">
         <Row>
           <Col lg={8} md={8} sm={8} xs={12}>
@@ -218,6 +261,7 @@ let totalPrice = 0
             </div> : 
             <h2 className="order-placed">Order placed successfully.</h2>
           }
+         
           </Col>
 
           <Col lg={4} md={4} sm={4} xs={12}>
@@ -227,9 +271,17 @@ let totalPrice = 0
                 Total items : {cart.length} items
               </div>
               <div className="left-amount">
-                Total amount : ${JSON.parse(totalPrice) + JSON.parse(this.ingredientsTotal())}
+                Total amount : ${overAllPrice}
               </div>
-              <button onClick={this.saveOrder} disabled={cart.length == 0 ? true : false} className="place-order">
+
+              {!this.state.hidePromos ?
+                this.state.promoList.map(data => (
+                    <Promotion key={data._id} promo={data} onApply={(promo) => this.applyPromocode(promo)} />
+                )) :
+                <div className="applied">Promocode applied successfully</div>
+              }
+              
+              <button onClick={this.placeOrderClick} disabled={cart.length == 0 ? true : false} className="place-order">
                 Place order
               </button>
             </div>

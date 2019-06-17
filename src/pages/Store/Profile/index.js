@@ -12,6 +12,7 @@ import * as config from './../../../utilities/config'
 import Add_card from './add_card'
 import Card_list from './card_list'
 import {AddToCart} from './../../Store/Food/Cart/'
+import Redeme_confirm from './confirm_pop'
 import './profile.css'
 
 const path = window.location.pathname
@@ -54,7 +55,9 @@ class Guest_profile extends Component {
     addCard: false,
     cards: [],
     orders: [],
-    profileImg: 'http://www.kitsunemusicacademy.com/wp-content/uploads/avatars/1/57e809f0cf20c-bpfull.jpg'
+    profileImg: 'http://www.kitsunemusicacademy.com/wp-content/uploads/avatars/1/57e809f0cf20c-bpfull.jpg',
+    promoList: [],
+    redemeConfirm: false
   }
 
 
@@ -82,7 +85,17 @@ class Guest_profile extends Component {
       this.setUserdata()
       this.fetchAllPlaces()
       this.fetchOrders()
+      this.fetchPromos()
     }
+  }
+
+  fetchPromos = () => {
+    ApiService.get_promocodes(guest.businessid)
+    .then(res => res.json())
+    .then(response => {
+      if(response.status)
+       this.setState({promoList: response.response})
+    })
   }
 
   fetchAllPlaces = () => {
@@ -306,9 +319,17 @@ class Guest_profile extends Component {
     return listView
   }
 
+  redemePromo = () => {
+    this.setState({[this.state.selectedPromo]: 'REDEMED', redemeConfirm: false})
+  }
+
+  redemePromoClick = (promoid) => {
+    this.setState({selectedPromo: promoid, redemeConfirm: true})
+  }
+
 
   render() {
-    const { userdata } = this.state
+    const { userdata, promoList } = this.state
     const citiList = Object.values(this.state.allCities)
     // console.log(this.state.userdata.saved_cards);
 
@@ -330,6 +351,7 @@ class Guest_profile extends Component {
         <Notifications />
         <Title_head title="Profile" fa_icon_class="far fa-id-badge" hasRightmenu={true} username={`${userdata.firstname} ${userdata.lastname}`} />
         <Loader loading={this.state.loading} background='no-fill' />
+        <Redeme_confirm show={this.state.redemeConfirm} close={() => this.setState({redemeConfirm: false})} onRedeme={() => this.redemePromo()}/>
         <div className="profile-container">
           <Row className="profile-row">
             <Col lg={4} md={4} sm={12} xs={12} className="profile-left">
@@ -358,6 +380,7 @@ class Guest_profile extends Component {
               <div className="profile-menu" onClick={() => this.setState({ screen: 'profileinfo' })}>Profile information </div>
               <div className="profile-menu" onClick={() => this.setState({ screen: 'savedcards' })}>Saved cards </div>
               <div className="profile-menu" onClick={() => this.setState({ screen: 'myorders' })}>My orders </div>
+              <div className="profile-menu" onClick={() => this.setState({ screen: 'myoffers' })}>My Offers </div>
             </Col>
 
             <Col lg={6} md={6} sm={8} xs={12} className="profile-center">
@@ -510,7 +533,9 @@ class Guest_profile extends Component {
               {this.state.screen == "myorders" && 
                 <div>
                   <div className="profile-orders"> 
-                    <div className="profile-order-head">My orders</div>
+                  <div className="colored">
+                     My orders
+                  </div>
                       {this.state.orders.map((data, i) => { 
                         return (
                           <div key={i} >
@@ -526,6 +551,41 @@ class Guest_profile extends Component {
                     }
                   </div>
                 </div>   
+              }
+
+              {this.state.screen == "myoffers" && 
+                <div className="promolist-container">
+                 <div className="colored">
+                    Offers
+                  </div>
+                  {promoList.map(data => (
+                    <div key={data._id} className="promo-list">
+                    <Row>
+                      <Col>
+                      <div className="promo">
+                        {data.promocode}
+                      </div>
+                       <div className="discount">
+                           { data.discounttype === 'doller' ?
+                            `$${data.discountvalue}`  :
+                            `${data.discountvalue}%`
+                        } Discount
+                       </div>   
+                      </Col>
+  
+                      <Col>
+                        <button disabled={this.state[data._id] === 'REDEMED' ? true : false} onClick={() => this.redemePromoClick(data._id)} className="redeme-button">Redeem At Store</button>
+                        {this.state[data._id] === 'REDEMED' &&
+                        <div className="redemed">Redeemed</div>
+                      }
+                      </Col>
+                    </Row>
+                    <div>
+                        Expire on - {data.expirydate}
+                       </div>
+                   </div>
+                  ))}
+                </div>
               }
 
             </Col>

@@ -53,7 +53,7 @@ export default class Reservation_list extends Component {
                      <div className="wait-text">Wait Time: <span className="time-clock">{this.props.state[`countDown_${data.reservation._id}`]}</span></div>
                    </div> 
                   }
-                  <div onClick={() => this.deleteReservation(data)} className="cancle-btn">
+                  <div onClick={() => this.props.deleteReservation(data)} className="cancle-btn">
                    cancel
                   </div>
                  

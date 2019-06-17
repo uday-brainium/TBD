@@ -11,9 +11,7 @@ export default class Payment_stripe extends Component {
     super();
     this.state = {stripe: null};
   }
-  componentDidMount() {
-
-  }
+ 
    onToken = token => {
     const body = {
       currency: "aud",

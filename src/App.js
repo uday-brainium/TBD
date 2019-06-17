@@ -54,6 +54,14 @@ const Reservations = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const PromoCode = Loadable({
+  loader: () => import("./pages/Promotions/create_promo"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+
 const Reservation_admin = Loadable({
   loader: () => import("./pages/Reservation"),
   loading: LoadingView,
@@ -429,6 +437,7 @@ class App extends React.Component {
           <AdminLayout path="/promotions/" component={Birthday_promotion} />
           <AdminLayout path="/reservation/" component={Reservation_admin} />
           <AdminLayout path="/my_orders/" component={Myorders} />
+          <AdminLayout path="/promotion/" component={PromoCode} />
           
           {/* //Routes of guest user  */}
           <Route path="/:id/reservation" component={Reservations} />
