@@ -6,15 +6,15 @@ export default class ConfirmPop extends Component {
 
   state = {
     refundAmount: 0,
-    selectRefund: 1
+    selectRefund: 0
   }
 
   getTotalPrice = (items) => {
     let price = 0
     let ingredientPrice = 0
     items.map(item => {
-      price += JSON.parse(item.itemprice)
-      ingredientPrice += JSON.parse(item.ingredientPrice)
+      price += (JSON.parse(item.itemprice) * item.count )
+      ingredientPrice += ( JSON.parse(item.ingredientPrice) * item.count)
     })
     return (price + ingredientPrice)
   }
@@ -26,6 +26,10 @@ export default class ConfirmPop extends Component {
   render() {
     const {status, data} = this.props
     const {selectRefund, refundAmount} = this.state
+    const chargeId = data.order ? data.order.paymentinfo.chargeId : 0
+    console.log("data", data);
+    
+
     return (
       <div>
           <Modal
@@ -79,7 +83,7 @@ export default class ConfirmPop extends Component {
                 }
               </div>
               <div className="row btn-row">
-                  <button onClick={() => this.props.onContinue(refundAmount)} style={{backgroundColor: '#ff6400', marginRight: 10}} className="col wait-time-btn">Continue</button>
+                  <button disabled={selectRefund === 0 ? true : false} onClick={() => this.props.onContinue(refundAmount, chargeId)} style={{backgroundColor: '#ff6400', marginRight: 10}} className="col wait-time-btn">Continue</button>
                   <button onClick={this.props.close} className="col wait-time-btn" >Cancel</button>
               </div>
             </center>

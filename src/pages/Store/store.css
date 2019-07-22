@@ -18,6 +18,18 @@
     cursor: pointer;
 }
 
+.delete-btn {
+  width: 100%;
+  background-color: #ff8470;
+  color: #fff;
+  border: 0px solid;
+  border-radius: 20px;
+}
+.btn-row {
+  width: 90%;
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
 /* .banner-container{
     border: 1px solid #c8baba;
     border-top-left-radius: 20px;
@@ -167,6 +179,7 @@
   height: 100%;
   margin-top: 5px;
   margin-bottom: 5px;
+  cursor: pointer;
 }
 
 .post_reaction_box {
@@ -174,6 +187,7 @@
   padding: 0;
   width: 100%;
   overflow: hidden;
+  border-top: 1px solid gray
 }
 
 .post_reaction_box ul {

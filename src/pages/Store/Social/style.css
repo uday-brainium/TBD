@@ -1,0 +1,57 @@
+.add-input {
+    width: 80%
+}
+
+.add-input input {
+    padding-left: 10px;
+    width: 100%;
+    padding: 7px !important;
+    border: 1px solid gray;
+    border-radius: 25px;
+}
+.add-input input[type="file"] {
+    height: 50px;
+    top: 77%;
+    margin-top: -22px;
+}
+.add-input textarea {
+    padding-left: 10px;
+    width: 100%;
+    padding: 5px !important;
+    border: 1px solid gray;
+    border-radius: 25px;
+}
+
+.label-small {
+    float: left;
+    margin-left: 10px !important;
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+}
+.modal-body {
+    margin: 0px !important;
+}
+.upload-zone {
+    /* height: 110px; */
+    border: 1px solid gray;
+    border-radius: 25px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+.upload-btn {
+    padding: 5px;
+    border: 1px solid gray;
+    margin-top: 15px;
+    border-radius: 25px;
+    margin-bottom: -22px;
+    cursor: pointer;
+}
+.facebook-share {
+    border: 1px solid;
+    margin-top: 30px;
+    padding: 5px;
+    border-radius: 20px;
+    width: 80%;
+    background-color: #3578e5;
+    color: #fff !important
+}

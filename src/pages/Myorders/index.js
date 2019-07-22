@@ -12,6 +12,7 @@ import ApiService from '../../services/api';
 import Order_list from './order_list'
 import Pagination from "react-js-pagination";
 import Confirm_pop from './confirm_pop'
+import AlertBox from './../components/alertBox'
 import * as type from './order_types'
 
 const userId = JSON.parse(localStorage.getItem('userdata')).data._id
@@ -34,7 +35,11 @@ export default class Myorders extends Component {
     confirm_pop: false,
     selectedStatus: '',
     orderId: '',
-    selectedOrder: {}
+    selectedOrder: {},
+
+    alertBox: false,
+    alertMsg: '',
+    alertType: ''
   }
 
   componentDidMount() {
@@ -127,7 +132,7 @@ export default class Myorders extends Component {
    }
   }
 
-  popupContinue = (refundAmount = 0) => {
+  popupContinue = (refundAmount = 0, chargeId = '0') => {
     const {selectedStatus, orderId} = this.state 
     if(selectedStatus === type.NOT_ACCEPTED) {
       //Send user a message notification
@@ -138,8 +143,37 @@ export default class Myorders extends Component {
       //SImply cancel the order
       this.changeOrderStep(orderId, selectedStatus)
     } else if(selectedStatus === type.REFUND) {
-      alert(refundAmount)
-      this.changeOrderStep(orderId, selectedStatus)
+      console.log(refundAmount, chargeId);
+      this.setState({loading: true})
+      ApiService.refund_amount(refundAmount * 100, chargeId)
+      .then(res => res.json())
+      .then(response => {
+        if(response.status == "succeeded") {
+          console.log('Refund-test', response);
+          this.changeOrderStep(orderId, selectedStatus)
+          this.setState({
+            loading: false, 
+            alertBox: true, 
+            alertMsg: 'Refund successfull',
+            alertType: 'ok'
+          }, () => {
+            setTimeout(() => {
+              this.setState({alertBox: false})
+            }, 1500)
+          })
+        } else {
+          this.setState({
+            loading: false, 
+            alertBox: true, 
+            alertMsg: 'Refund failed !',
+            alertType: 'failed'
+          }, () => {
+            setTimeout(() => {
+              this.setState({alertBox: false})
+            }, 1500)
+          })
+        }
+      })
     }
   }
 
@@ -165,12 +199,13 @@ export default class Myorders extends Component {
           <Page_head title="My orders" icon="fas fa-pizza-slice" />
         </div>
         <Notifications />
+        <AlertBox show={this.state.alertBox} type={this.state.alertType} message={this.state.alertMsg} />
         <Confirm_pop 
           show={this.state.confirm_pop}
           close={() => this.setState({confirm_pop: false})}
           status = {this.state.selectedStatus}
           data = {this.state.selectedOrder}
-          onContinue={(refundAmount) => this.popupContinue(refundAmount)}
+          onContinue={(refundAmount, chargeId) => this.popupContinue(refundAmount, chargeId)}
         />
         <Loader loading={this.state.loading} fill="no-fill" />
         <div className="container-inside">

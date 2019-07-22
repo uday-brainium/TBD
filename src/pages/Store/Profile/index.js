@@ -13,7 +13,10 @@ import Add_card from './add_card'
 import Card_list from './card_list'
 import {AddToCart} from './../../Store/Food/Cart/'
 import Redeme_confirm from './confirm_pop'
+import {isBirthday} from './../../components/isBirthday'
+import {Base_url} from './../../../utilities/config'
 import './profile.css'
+import moment from 'moment'
 
 const path = window.location.pathname
 const storeName = path.split('/')[1];
@@ -89,12 +92,34 @@ class Guest_profile extends Component {
     }
   }
 
+  checkBirthdayPromo = () => {
+   const bday = isBirthday()
+    if(bday) {
+      ApiService.birthday_promo_fetch(guest.businessid)
+      .then(res => res.json())
+      .then(response => {
+        const promoObj = {
+          promocode: 'HAPPYBIRTHDAY',
+          promobanner: response.response.bannerimage,
+          discounttype: response.response.type,
+          discountvalue: response.response.discount,
+          details: response.response.details,
+          expirydate: moment().add(7, 'days').format('MM-DD-YYYY'),
+        }
+        this.state.promoList.push(promoObj)
+        this.setState({birthdayBanner: `${Base_url}/${response.response.bannerimage}`})
+      })
+    }
+  }
+
   fetchPromos = () => {
     ApiService.get_promocodes(guest.businessid)
     .then(res => res.json())
     .then(response => {
       if(response.status)
-       this.setState({promoList: response.response})
+       this.setState({promoList: response.response}, () => {
+         this.checkBirthdayPromo()
+       })
     })
   }
 
@@ -309,9 +334,12 @@ class Guest_profile extends Component {
     let listView = []
     items.map(item => {
       listView.push(
-        <div>
-          {item.itemname}
-        <div onClick={() => this.reorderItem(item)}           className="reorder-btn">Reorder
+        <div className="items">
+         <div>Item - {item.itemname}</div>
+         <div>Description - {item.itemdescription}</div>
+         <div>Price - ${JSON.parse(item.itemprice) + JSON.parse(item.ingredientPrice)}</div>
+        <div onClick={() => this.reorderItem(item)} 
+        className="reorder-btn">Reorder
         </div>
         </div>
       )
@@ -331,7 +359,7 @@ class Guest_profile extends Component {
   render() {
     const { userdata, promoList } = this.state
     const citiList = Object.values(this.state.allCities)
-    // console.log(this.state.userdata.saved_cards);
+    //console.log(this.state.promoList);
 
     return (
       <div>
@@ -554,10 +582,18 @@ class Guest_profile extends Component {
               }
 
               {this.state.screen == "myoffers" && 
+                
                 <div className="promolist-container">
                  <div className="colored">
                     Offers
                   </div>
+
+                  {isBirthday() && <center>
+                  <div className="happy_birthday">
+                    <div className="head-bday-text">Happy birthday {guest.firstname}</div>
+                    <img src={this.state.birthdayBanner} />
+                  </div>
+                  </center> }
                   {promoList.map(data => (
                     <div key={data._id} className="promo-list">
                     <Row>

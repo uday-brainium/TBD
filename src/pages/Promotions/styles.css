@@ -36,3 +36,10 @@
     letter-spacing: 2px;
     text-transform: uppercase;
 }
+
+.delete-promo {
+    float: right;
+    margin-top: -20px;
+    color: red;
+    cursor: pointer;
+}

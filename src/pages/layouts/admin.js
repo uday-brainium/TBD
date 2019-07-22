@@ -498,7 +498,7 @@ class AdminLayout extends Component {
                     <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Notifications</a></li>
                     {usertype != 'subuser' || privilage == 'admin' ?
                       <div>
-                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Social Media Post</a></li>
+                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('social_posts')}>Social Media Post</a></li>
 
                       </div> : ''
                     }

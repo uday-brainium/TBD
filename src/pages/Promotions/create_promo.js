@@ -70,8 +70,19 @@ export default class create_promo extends Component {
       this.setState({loading: false})
       this.fetchList()
       this.setState({promocode: '', discounttype: 'percentage', discountvalue: '', promotionDetails: '', expirydate: ''}, () => {
-        notify.show('Promocode has beed added successfully', 'success', 3000);
+        notify.show('Promocode has beed added successfully', 'success', 3000)
       })
+    })
+  }
+
+  deletePromo = (promoid) => {
+    this.setState({loading: true})
+    ApiService.delete_promo(promoid)
+    .then(res => res.json())
+    .then(response => {
+      console.log(response);
+      this.setState({loading: false})
+      this.fetchList()
     })
   }
 
@@ -96,6 +107,7 @@ export default class create_promo extends Component {
                   <div>Discount - {data.discounttype === "doller" ? `$${data.discountvalue}` : `${data.discountvalue}%`} off</div>
                   <div>Expire - {data.expirydate}</div>
                   <div>Description - {data.details}</div>
+                  <div onClick={() => this.deletePromo(data._id)} className="delete-promo">Delete</div>
                 </div>
                 ))
                }

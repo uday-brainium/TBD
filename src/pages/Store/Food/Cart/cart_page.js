@@ -13,6 +13,8 @@ import Modify_modal from './modify_modal'
 import Delivery_modal from './delivery_pop'
 import './cart.css'
 import Promotion from './promotion'
+import {isBirthday} from './../../../components/isBirthday'
+import {Base_url} from './../../../../utilities/config'
 
 const path = window.location.pathname
 const storeName = path.split('/')[1];
@@ -32,7 +34,8 @@ let totalPrice = 0
     modifyItem: {},
     promoList: [],
     promoDiscount: 0,
-    hidePromos: false
+    hidePromos: false,
+    birthdayBanner: ''
   }
 
   getCartDetails = () => {
@@ -64,12 +67,37 @@ let totalPrice = 0
       this.fetchPromoCodes()
   }
 
+  birthdayPromo = async() => {
+  const isBday = isBirthday()
+  if(isBday) {
+   ApiService.birthday_promo_fetch(user.businessid)
+    .then(res => res.json())
+    .then(response => {
+      const bdayObj = {
+        birthday: true,
+        promocode: 'HAPPYBIRTHDAY',
+        banner: response.response.bannerimage,
+        details: response.response.details,
+        discounttype: response.response.type,
+        discountvalue: response.response.discount
+      }
+     this.state.promoList.push(bdayObj)
+     this.setState({birthdayBanner: response.response.bannerimage})
+    })
+  }
+  
+  }
+
   fetchPromoCodes = () => {
     ApiService.get_promocodes(user.businessid)
     .then(res => res.json())
     .then(response => {
       if(response.status == 200)
-        this.setState({promoList: response.response})
+        this.setState({promoList: response.response}, () => {
+          this.birthdayPromo()
+          console.log(this.state.promoList);
+          
+        })
     })
   }
 
@@ -137,13 +165,15 @@ let totalPrice = 0
     this.setState({deliveryModal: true})
   }
 
-  saveOrder = (deliveryAddress) => {
+  saveOrder = (deliveryAddress, paymentObj) => {
+    console.log("PAYMENT-OBJ", paymentObj);
+    
     this.setState({loading: true})
     let {cart, promoDiscount} = this.state
     const userid = user._id
     const businessId = user.businessid
    
-    ApiService.add_order(userid, deliveryAddress, promoDiscount, businessId, cart)
+    ApiService.add_order(userid, deliveryAddress, promoDiscount, businessId, cart, paymentObj)
     .then(res => res.json())
     .then(response => {
       if(response.status == 200) {
@@ -191,7 +221,6 @@ let totalPrice = 0
       return totalPrice = totalPrice + (parseInt(data.itemprice) * data.count)
     })
     const overAllPrice = JSON.parse(totalPrice) + JSON.parse(this.ingredientsTotal()) - promoDiscount
-    console.log((overAllPrice));
     
     return (
       <div>
@@ -211,7 +240,7 @@ let totalPrice = 0
         <Loader loading={this.state.loading} background='no-fill' />
         <Modify_modal show={this.state.modifyModal} close={() => this.closeModifyModal()} item={this.state.modifyItem} />
         <Delivery_modal 
-          placeOrder={(deliveryAddress) => this.saveOrder(deliveryAddress)} 
+          placeOrder={(deliveryAddress, payment) => this.saveOrder(deliveryAddress, payment)} 
           show={this.state.deliveryModal} userdata={user} 
           close={() => this.setState({deliveryModal: false})} 
           overallPrice = {overAllPrice}
@@ -261,7 +290,14 @@ let totalPrice = 0
             </div> : 
             <h2 className="order-placed">Order placed successfully.</h2>
           }
-         
+
+          {isBirthday() == true &&
+          <div className="birthday-banner-container">
+            <div className="birthday-head">Happy Birthday {user.firstname}</div>
+            <div className="birthday-sub">We have added a spacial discount promocode for you</div>
+            <img src={`${Base_url}/${this.state.birthdayBanner}`} />
+          </div>
+          }
           </Col>
 
           <Col lg={4} md={4} sm={4} xs={12}>
@@ -275,7 +311,7 @@ let totalPrice = 0
               </div>
 
               {!this.state.hidePromos ?
-                this.state.promoList.map(data => (
+                this.state.promoList.reverse().map(data => (
                     <Promotion key={data._id} promo={data} onApply={(promo) => this.applyPromocode(promo)} />
                 )) :
                 <div className="applied">Promocode applied successfully</div>

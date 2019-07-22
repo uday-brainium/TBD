@@ -34,7 +34,9 @@ export default class ConfirmPop extends Component {
             <div className="time-modal-container">
             <center>
               <div className="modal-desc-text">
-                By making table ready user will notified that there table is ready to sit.
+               {!this.props.delete ?
+                'By making table ready user will notified that there table is ready to sit.'
+               : 'This post will be deleted !'}
               </div>
               <div className="row btn-row">
                   <button onClick={() => this.props.onSave(this.props.data)} style={{backgroundColor: '#ff6400', marginRight: 10}} className="col wait-time-btn">Continue</button>

@@ -951,7 +951,7 @@ class ApiService {
     );
   }
 
-  static add_order(guestid, deliveryaddress, promodiscount, businessid, data) {
+  static add_order(guestid, deliveryaddress, promodiscount, businessid, data, payment) {
     
     return fetch(
       Config.Api_Address + 'guests/add_orders',
@@ -967,7 +967,8 @@ class ApiService {
          guestid,
          businessid,
          deliveryaddress,
-         promodiscount
+         promodiscount,
+         payment
         })
       }
     );
@@ -1269,6 +1270,174 @@ class ApiService {
       }
     );
   }
+
+  static birthday_promo_fetch(businessid){
+    return fetch(
+      Config.Api_Address+'users/birthday_promotion',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+           businessid
+        })
+      }
+    )
+  }
+
+  static delete_promo(promoid){
+    return fetch(
+      Config.Api_Address+'users/delete_promo',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+           promoid
+        })
+      }
+    )
+  }
+  static add_social_post(data){
+    return fetch(
+      Config.Api_Address+'social/add_post',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      }
+    )
+  }
+
+  static fetch_social_posts(data){
+    return fetch(
+      Config.Api_Address+'social/fetch_posts',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          businessid: data.businessid,
+          skip: data.skip,
+          limit: data.limit
+        })
+      }
+    )
+  }
+
+  static  delete_social_post(postid) {
+    return fetch(
+      Config.Api_Address+'social/delete_post',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({postid})
+      }
+    )
+  }
+
+  static  react_on_post(postid, guestid, react) {
+    return fetch(
+      Config.Api_Address+'social/post_react',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postid, guestid, react
+        })
+      }
+    )
+  }
+
+  static  add_comment(data) {
+    return fetch(
+      Config.Api_Address+'social/add_comment',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postid : data.postid,
+          guestid : data.guestid,
+          comment: data.comment,
+          guestname: data.guestname,
+          datetime: data.datetime
+        })
+      }
+    )
+  }
+
+  static  delete_comment(data) {
+    return fetch(
+      Config.Api_Address+'social/delete_comment',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postid : data.postid,
+          guestid : data.guestid,
+          commentid: data.commentid
+        })
+      }
+    )
+  }
+
+  static  post_reward(data) {
+    return fetch(
+      Config.Api_Address+'social/add_social_reward',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          guestid : data.guestid,
+          datetime: data.datetime
+        })
+      }
+    )
+  }
+
+  static  refund_amount(amount, chargId) {
+    return fetch(
+      'https://api.stripe.com/v1/refunds',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": 'Bearer sk_test_0kb7ef0szWdvnew2LN459SSn00nWhMx4LH'
+        },
+        body: qs.stringify({
+          charge : chargId,
+          amount,
+          reason: 'requested_by_customer',
+        })
+      }
+    )
+  }
+
 
 }
 

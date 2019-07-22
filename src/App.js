@@ -54,6 +54,20 @@ const Reservations = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const SocialPosts = Loadable({
+  loader: () => import("./pages/SocialPosts"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const SocialPostsDetails = Loadable({
+  loader: () => import("./pages/SocialPosts/post_details"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
 const PromoCode = Loadable({
   loader: () => import("./pages/Promotions/create_promo"),
   loading: LoadingView,
@@ -438,8 +452,11 @@ class App extends React.Component {
           <AdminLayout path="/reservation/" component={Reservation_admin} />
           <AdminLayout path="/my_orders/" component={Myorders} />
           <AdminLayout path="/promotion/" component={PromoCode} />
+          <AdminLayout path="/social_posts/" component={SocialPosts} />
+          <AdminLayout path="/social_posts/:id" component={SocialPostsDetails} />
           
           {/* //Routes of guest user  */}
+          <Route path="/:id/post" component={SocialPostsDetails} />
           <Route path="/:id/reservation" component={Reservations} />
           <Route path="/:id/mycart" component={CartPage} />
           <Route path="/:id/foods" component={FoodStore} />

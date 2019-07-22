@@ -101,7 +101,13 @@ export default class Delivery_modal extends Component {
     ApiService.chargeStripe(body)
     .then(res => res.json())
     .then((response) => {
-      this.props.placeOrder()
+      //console.log('PAYMENT-LOG', response);
+      const paymentObj = {
+        chargeId: response.id,
+        amount: response.amount,
+        status: response.status
+      }
+      this.props.placeOrder(this.state.chosenAddress, paymentObj)
     })
   }
 
