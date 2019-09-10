@@ -1,0 +1,27 @@
+.price-div {
+    margin-top: 40px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.available {
+    color: green
+}
+.book-event {
+    margin-top: 30px;
+    border-radius: 20px;
+    padding: 5px;
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.already-booked {
+    margin: 15px;
+    background-color: lightblue;
+    border-radius: 10px;
+    padding: 10px;
+}
+.bokking-done {
+    margin: 15px;
+    background-color: lightblue;
+    border-radius: 10px;
+}

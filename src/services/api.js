@@ -1,5 +1,6 @@
 import Config from "../config";
 import axios from 'axios'
+import moment from 'moment'
 import qs from 'qs'
 let token = localStorage.getItem('access-token-tbd')
 
@@ -1436,6 +1437,308 @@ class ApiService {
         })
       }
     )
+  }
+
+  static  book_event(data) {
+    return fetch(
+      Config.Api_Address+'events/book_event_ticket',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          eventid : data.eventid,
+          userid: data.userid,
+          username: data.username,
+          paid: data.paid,
+          bookedon: new Date()
+        })
+      }
+    )
+  }
+
+  static  get_sales_per_hour(date) {
+    return fetch(
+      Config.Api_Address+'reports/sales_per_hour',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          date: moment(date).format('YYYY-MM-DD')
+        })
+      }
+    ).then(res => res.json())
+  }
+
+  static  reservations_per_hour(date) {
+    return fetch(
+      Config.Api_Address+'reports/reservations_per_hour',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          date: moment(date).format('YYYY-MM-DD')
+        })
+      }
+    ).then(res => res.json())
+  }
+
+  static  sales_per_item(date) {
+    return fetch(
+      Config.Api_Address+'reports/sales_per_item',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          date: moment(date).format('YYYY-MM-DD')
+        })
+      }
+    ).then(res => res.json())
+  }
+
+  static  social_post_per_hour(date) {
+    return fetch(
+      Config.Api_Address+'reports/social_post_per_hour',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          date: moment(date).format('YYYY-MM-DD')
+        })
+      }
+    ).then(res => res.json())
+  }
+
+  static  monthly_reports(year) {
+    return fetch(
+      Config.Api_Address+'reports/sales_reservation_social_per_year',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          year
+        })
+      }
+    ).then(res => res.json())
+  }
+
+  static revenue_reports(year) {
+    return fetch(
+      Config.Api_Address+'reports/revenue_per_year',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          year
+        })
+      }
+    ).then(res => res.json())
+  }
+
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  //
+  //  SUPER ADMIN PART
+  //
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+  static sa_login(data) {
+    return fetch(
+      Config.Api_Address+'super-admin/login',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+  static edit_header(data) {
+    return fetch(
+      Config.Api_Address+'super-admin/set-home-header',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+  static fetch_header() { 
+    return fetch(
+      Config.Api_Address+'super-admin/get-home-header',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      }
+    ).then(res => res.json())
+  }
+
+  static fetch_testimonial() {
+    return fetch(
+      Config.Api_Address+'super-admin/get-testimonial',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      }
+    ).then(res => res.json())
+  }
+
+  static add_testimonial(data) {
+    return fetch(
+      Config.Api_Address+'super-admin/set-testimonial',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+  static delete_testimonial(id) {
+    return fetch(
+      Config.Api_Address+'super-admin/delete-testimonial',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({id})
+      }
+    ).then(res => res.json())
+  }
+
+  static fetch_aboutUs() {
+    return fetch(
+      Config.Api_Address+'super-admin/get-about',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      }
+    ).then(res => res.json())
+  }
+
+  static update_aboutUs(data) {
+    return fetch(
+      Config.Api_Address+'super-admin/set-about',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+  static landing_card_update(data) {
+    return fetch(
+      Config.Api_Address+'super-admin/set-middle-section',
+      {
+        method: "POST",
+        headers: {
+       
+          // 'content-type': 'multipart/form-data'
+        },
+        body: data
+      }
+    ).then(res => res.json())
+  }
+
+  static landing_card_fetch() {
+    return fetch(
+      Config.Api_Address+'super-admin/get-middle-section',
+      {
+        method: "POST",
+        headers: {
+       
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        
+      }
+    ).then(res => res.json())
+  }
+
+  static send_contact_email(data) {
+    return fetch(
+      Config.Api_Address+'super-admin/send-email',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+  static set_user_active(userId) {
+    return fetch(
+      Config.Api_Address+'users/set_user_active',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({userId})
+      }
+    ).then(res => res.json())
+  }
+
+  static set_user_deactive(userId) {
+    return fetch(
+      Config.Api_Address+'users/set_user_deactive',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({userId})
+      }
+    ).then(res => res.json())
   }
 
 

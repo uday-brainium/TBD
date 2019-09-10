@@ -20,9 +20,9 @@ import logo from '../../images/logo.png'
 import logo2 from '../../images/logo2.png'
 import userImage from '../../images/user.png'
 import noUserImage from './../../images/profile-no-image.jpg'
+import './styles.css'
 
-
-class AdminLayout extends Component {
+class SuperAdminLayout extends Component {
   constructor(props) {
     super(props)
 
@@ -85,22 +85,23 @@ class AdminLayout extends Component {
   }
 
   componentDidMount() {
-    // console.log(this.props.match.params)
-    if (localStorage.getItem('access-token-tbd') !== null) {
+     console.log('token', localStorage.getItem('sa-authtoken'))
+
+    if (localStorage.getItem('sa-authtoken') !== null) {
       this.setState({
         tokenPresent: true
       })
-    }
+    
 
-    if (localStorage.getItem('full-name') !== null) {
-      this.setState({
-        userName: localStorage.getItem('full-name')
-      })
+    if (localStorage.getItem('sa-username') !== null) {
+        this.setState({
+          userName: localStorage.getItem('sa-username')
+        })
     }
-    let data = localStorage.getItem('userdata')
-    let url = JSON.parse(data).data.url
-    this.setState({ userData: JSON.parse(data) })
-    this.setState({ storeUrl: url })
+    let data = localStorage.getItem('sa-userdata')
+    //let url = JSON.parse(data).data.url
+   // this.setState({ userData: JSON.parse(data) })
+ //   this.setState({ storeUrl: url })
     // set logo image
     if (window.innerWidth < 767) {
       this.setState({
@@ -137,23 +138,14 @@ class AdminLayout extends Component {
         businessProfileSet: false
       })
     }
-
+  } else {
+    <Redirect to='/sa_login' />
+    this.props.history.push('/sa_login')
+  }
     // scroll handler
     window.addEventListener('scroll', this.scrollHandler, { passive: true })
-    this.setUserOnline()
-    setInterval(() => {
-      this.setUserOnline()
-    }, 10000)
   }
 
-  setUserOnline = () => {
-    const userid = localStorage.getItem('user-id')
-    ApiService.set_user_active(userid)
-    .then(res => {
-      console.log("es", res);
-    })
-  }
-  
   componentWillUnmount() {
     window.removeEventListener('scroll', this.scrollHandler)
   }
@@ -186,7 +178,8 @@ class AdminLayout extends Component {
           'display': 'none'
         }
       });
-    } else {
+    }
+    else {
       this.setState({
         popoverOpen: !this.state.popoverOpen,
         elementClass: 'hamburgerAL spine',
@@ -341,52 +334,20 @@ class AdminLayout extends Component {
 
   // logout
   logout() {
-    try {
-      ApiService.logout(localStorage.getItem('access-token-tbd'))
-        .then(res => res.json())
-        .then(response => {
-          // console.log(response)
-          if (response.success) {
-            // notify.show( response.message, 'success', 3000)
-            //setTimeout(() => {
-            localStorage.removeItem('access-token-tbd')
-            localStorage.removeItem('full-name')
-            localStorage.removeItem('user-id')
-            localStorage.removeItem('user-type')
-            localStorage.removeItem('subuser-access')
-            localStorage.removeItem('profile-image-path')
-            this.setState({
-              redirectedHome: true
-            })
-            // this.props.history.push('/')
-            //}, 4000)
-          }
-          else {
-            // notify.show( response.message, 'error', 5000);
-          }
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    }
-    catch (error) {
-      console.log(error)
+        localStorage.removeItem('sa-authtoken')
+        localStorage.removeItem('sa-username')
+        localStorage.removeItem('sa-userdata')
+        
+        this.props.history.push('/sa_login')
+        // this.setState({
+        //   redirectedHome: true
+        // })
     }
 
-    /*localStorage.removeItem('access-token-tbd')
-    localStorage.removeItem('full-name')
-    this.setState({
-        redirectedHome: true
-    })*/
-  }
 
   render() {
-    let usertype = localStorage.getItem('user-type')
-    let privilage = localStorage.getItem('subuser-access')
+
     let data = this.state.userData
-    let foodPickUp = data.data != null ? data.data.foodpickupservice : false
-    let eventService = data.data != null ? data.data.eventbooking : false
-    let reservation = data.data != null ? data.data.tablereservationservice : false
 
     // component to be rendered
     const DisplayComp = this.props.component
@@ -440,15 +401,14 @@ class AdminLayout extends Component {
                                   {/* <div class="sideMenuToggle"></div> */}
                                   <nav className="navigationAL" style={this.state.menuBodystyle}>
                                     <ul className="primary">
-                                      <li><a onClick={(e) => this.popoverLinkClicked('profile')}>My Profile</a></li>
                                       <li><a onClick={this.logout}>Logout</a></li>
                                     </ul>
                                   </nav>
                                   <div className="welcomeUser">
-                                    <div className="userPhoto"><img src={this.state.profilePicture} alt="" /></div>
-                                    <div className="userName">Welcome {this.state.userName}</div><br></br>
+
+                                    <div className="userName">Welcome : {this.state.userName}</div>
                                   </div>
-                                </div>                 
+                                </div>
                               </div>
                             </div>
                           </Col>
@@ -473,83 +433,22 @@ class AdminLayout extends Component {
                     </div>
                   </div>
                   <ul className="dashboardMenu">
-                    <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Dashboard</a></li>
-                    {/*}<li><a className="" onClick={(e) => this.showSubMenu('edit-profile')}>Edit Profile</a>
-                                            <span className={this.state.editProfileIcon} onClick={(e) => this.showSubMenu('edit-profile')}></span>
-                                            <ul style={this.state.editProfileSubMenuStyle}>
-                                                <li><a className="viewProfile" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Banner Photo</a></li>
-                                                <li><a className="editProfile" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Menu</a></li>
-                                            </ul>
-                                        </li>*/}
-
-                    <li><a className="" onClick={(e) => this.sideMenuLinkClicked('changepassword')}>Change Password</a></li>
-                    {usertype != 'subuser' || privilage == 'admin' ?
-                      <li><a className="" onClick={(e) => this.showSubMenu('business-profile')}>Business Profile</a>
+                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}>Dashboard</a></li>
+                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}>Reports</a></li>
+                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Account Managemen</a></li>
+                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Fees & Charges</a></li>
+                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> API Keys</a></li>
+                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Contact Us Page</a></li>
+                     
+                      <li><a className="" onClick={(e) => this.showSubMenu('business-profile')}>Page settings</a>
                         <span className={this.state.editBusinessProfileIcon} onClick={(e) => this.showSubMenu('business-profile')}></span>
                         <ul style={this.state.editBusinessSubMenuStyle}>
-                          <li><a onClick={(e) => this.sideMenuLinkClicked(this.state.storeUrl)}>View Profile</a></li>
-                          <li><a onClick={(e) => this.sideMenuLinkClicked(BusinessProfileLink)}>Edit Profile</a></li>
-                          <li><a onClick={(e) => this.sideMenuLinkClicked('edit_banner')}>Upload Banner Photo</a></li>
-                          <li><a onClick={(e) => this.sideMenuLinkClicked('store_feature')}>Features/Loyality</a></li>
-                          <li><a onClick={(e) => this.sideMenuLinkClicked('edit_offer')}>Instant/Point Promo</a></li>
-                          <li><a onClick={(e) => this.sideMenuLinkClicked('promotions')}>Birthday Promotion</a></li>
+                          <li><a onClick={(e) => this.sideMenuLinkClicked('sa_edit_landing_page')}>Landing page</a></li>
+                          <li><a onClick={(e) => this.sideMenuLinkClicked('sa_edit_about')}>About page</a></li>
+                          <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Terms & Privacy Policy</a></li>
                         </ul>
-                      </li> : ''
-                    }
-
-                    {usertype != 'subuser' || privilage == 'manager' || privilage == 'admin' ?
-                      <div>
-                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('reports')}>Reports</a></li>
-                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Payment History</a></li>
-                      </div> : ''
-                    }
-
-
-
-                    <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Notifications</a></li>
-                    {usertype != 'subuser' || privilage == 'admin' ?
-                      <div>
-                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('social_posts')}>Social Media Post</a></li>
-
-                      </div> : ''
-                    }
-                    {foodPickUp ?
-                      <li><a onClick={(e) => this.sideMenuLinkClicked('menu')}>Food Menu</a></li> : ''
-                    }
-
-                    {usertype != 'subuser' || privilage == 'manager' || privilage == 'admin' || privilage == "associate" ?
-                      <div>
-                        {foodPickUp &&
-                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('my_orders')}>My Orders</a></li>
-                        }
-
-                        {reservation ?
-                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('Reservation')}>Reservations</a></li> : ''}
-                      </div> : ''
-                    }
+                      </li>
                     
-
-                    {usertype != 'subuser' || privilage == 'manager' || privilage == 'admin' ?
-                      <div> 
-                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('promotion')}>Promotions</a></li>
-                      </div> : ''
-                    }
-                    
-                    {(usertype != 'subuser' || privilage == 'manager' || privilage == 'admin') && eventService ?
-                      <div>
-                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('events')}>Events managment</a></li>
-                      </div> : ''
-                    }
-                    {usertype != 'subuser' || privilage == 'admin' ?
-                      <div>
-                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('list_sub_users')}>Manage Sub User</a></li>
-                      </div> : ''
-                    }
-                    <div style={{color: '#fff', fontWeight: 'bold'}}>
-                    <li>
-                      <Link to={'/sa_login'} className="">Superadmin</Link>
-                    </li>
-                    </div>
                   </ul>
                 </div>
                 {/*<AdminLeftMenuView menuDisplayed={this.state.leftMenuOpen} hideOverlay={this.hideOverlay} topBarFixed={this.state.fixedTopBar} menuClicked={this.state.menuLinkClicked} />*/}
@@ -567,4 +466,4 @@ class AdminLayout extends Component {
   }
 }
 
-export default withRouter(AdminLayout)
+export default withRouter(SuperAdminLayout)

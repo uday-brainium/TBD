@@ -1,0 +1,14 @@
+.attending {
+  padding: 5px;
+  margin-left: 10px;
+  border-radius: 5px;
+  color: #ffffff;
+  background-color: darkblue;
+  font-size: 12px;
+  cursor: pointer;
+}
+.no-attend {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}

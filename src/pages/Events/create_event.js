@@ -99,6 +99,10 @@ class Add_events extends Component {
       eventbanner: this.state.eventBanner,
       totalcapacity: this.state.attendeecapacity,
       freeformembers: this.state.entryfee,
+      weeklyeventstartend: {
+          startdate: this.state.weeklystartdate,
+          enddate: this.state.weeklyenddate
+        },
       weeklyevent: [
         {weekday_1: this.state.weekday_1,
         weektime_start_1: this.state.weektime_start_1,
@@ -120,7 +124,7 @@ class Add_events extends Component {
         weektime_end_6: this.state.weektime_end_6},
         {weekday_7: this.state.weekday_7,
         weektime_start_7: this.state.weektime_start_7,
-        weektime_end_7: this.state.weektime_end_7 }       
+        weektime_end_7: this.state.weektime_end_7 },
       ],
       eventonce: {
         date: this.state.oncedate,
@@ -129,7 +133,9 @@ class Add_events extends Component {
       },
       eventday: {
         timestart: this.state.timestart,
-        timeend: this.state.timeend
+        timeend: this.state.timeend,
+        datestart: this.state.dailystartedate,
+        dateend: this.state.dailyenddate
       }
     }
     ApiService.add_new_event(evetData)
@@ -184,7 +190,7 @@ class Add_events extends Component {
             <div className="row">
             <div className="col-lg-2 col-md-2 col-sm-2 col-xs-0"> </div>
 
-             <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12"> 
+             <div className="col-lg-8 col-md-8 col-sm-8 col-xs-12" style={{marginBottom: 15 }}> 
               <div className="banner-container">
               <div className="event-banner">
               <img src={this.state.eventBanner} width="100%" height="100%"/> 
@@ -229,7 +235,7 @@ class Add_events extends Component {
               <span class="label-small left">Choose date</span>
                 <div className="inputOuter">
                 <div className="">
-                    <input name="oncedate" className="date-picker" type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                    <input name="oncedate" className="date-picker" min={moment().format('YYYY-MM-DD')} type="date" placeholder="Event date" onChange={this.handleChange} required/>
                 </div>
                 
                 </div>
@@ -274,6 +280,7 @@ class Add_events extends Component {
             }
 
             {this.state.eventtype == 'daily' &&
+            <div>
               <div className="row animated fadeInDown">
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="inputOuter">
@@ -306,10 +313,28 @@ class Add_events extends Component {
                 </div>
               </div>
             </div>
+
+            <div className="row animated fadeInDown">
+              <div className="col-lg-6 col-md-6 col-sm-6">
+                <div className="inputOuter">
+                <span class="label-small left">Event start date</span>
+                  <input name="dailystartedate" min={moment().format('YYYY-MM-DD')} className="date-picker" type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                </div>
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6">
+                <div className="inputOuter">
+                <span class="label-small left">Event end date</span>
+                 <input name="dailyenddate" className="date-picker" min={moment().format('YYYY-MM-DD')} type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                </div>
+              </div>
+            </div>
+
+            </div>
             } 
 
             {this.state.eventtype == "weekly" &&
-              this.state.fieldArray.map((data, index) => (
+            <div>
+              {this.state.fieldArray.map((data, index) => (
                 <div className="row animated fadeInDown">
                   <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                   <span className="label-small left">Select day</span>
@@ -323,7 +348,7 @@ class Add_events extends Component {
                         <option value="wednesday">Wednesday</option>
                         <option value="thursday">Thursday</option>
                         <option value="friday">Friday</option>
-                        <option value="satarday">Saturday</option>
+                        <option value="saturday">Saturday</option>
                       </select>
                     </div>
                   
@@ -380,7 +405,22 @@ class Add_events extends Component {
                   
                   </div>
                 </div>
-              )) 
+              )) }
+                <div className="row animated fadeInDown">
+                  <div className="col-lg-6 col-md-6 col-sm-6">
+                    <div className="inputOuter">
+                    <span class="label-small left">Event start date</span>
+                      <input name="weeklystartdate" min={moment().format('YYYY-MM-DD')} className="date-picker" type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                    </div>
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-6">
+                    <div className="inputOuter">
+                    <span class="label-small left">Event end date</span>
+                    <input name="weeklyenddate" min={moment().format('YYYY-MM-DD')} className="date-picker" type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                    </div>
+                  </div>
+                </div>
+              </div>
             }
 
 

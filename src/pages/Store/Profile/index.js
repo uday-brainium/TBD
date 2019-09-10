@@ -20,7 +20,7 @@ import moment from 'moment'
 
 const path = window.location.pathname
 const storeName = path.split('/')[1];
-const guest = JSON.parse(localStorage.getItem('guest-userdata'))
+let guest = JSON.parse(localStorage.getItem('guest-userdata'))
 
 class Guest_profile extends Component {
 
@@ -359,6 +359,7 @@ class Guest_profile extends Component {
   render() {
     const { userdata, promoList } = this.state
     const citiList = Object.values(this.state.allCities)
+    guest = JSON.parse(localStorage.getItem('guest-userdata'))
     //console.log(this.state.promoList);
 
     return (

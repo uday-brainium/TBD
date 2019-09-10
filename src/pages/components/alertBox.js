@@ -5,8 +5,6 @@ export default class AlertBox extends Component {
 
 
   render() {
-    console.log("props", this.props.type);
-    
     return (
       <div>
         <Modal

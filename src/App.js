@@ -11,6 +11,7 @@ import reducers from './reducer';
 
 import MainLayout from "./pages/layouts/main";
 import AdminLayout from "./pages/layouts/admin";
+import SuperAdmin from "./pages/layouts/superadmin";
 import ProtectedLayout from "./pages/layouts/protected";
 
 import LoadingView from "./pages/views/loading";
@@ -97,6 +98,14 @@ const FoodStore = Loadable({
   delay: 300, // 0.3 seconds
   timeout: 10000 // 10 seconds
 });
+
+const Reports = Loadable({
+  loader: () => import("./pages/Reports/index"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
 
 const StoreEvents = Loadable({
   loader: () => import("./pages/Store/event_list"),
@@ -376,6 +385,34 @@ const RecursiveExample = Loadable({
 });
 
 
+const SuperAdminLogin = Loadable({
+  loader: () => import("./pages/superadmin/Login"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const SA_dashboard = Loadable({
+  loader: () => import("./pages/superadmin/Dashboard"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const SA_Landing_page = Loadable({
+  loader: () => import("./pages/superadmin/Dashboard"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const SA_About_page = Loadable({
+  loader: () => import("./pages/superadmin/Dashboard/aboutUs"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
 
 
 
@@ -453,8 +490,15 @@ class App extends React.Component {
           <AdminLayout path="/my_orders/" component={Myorders} />
           <AdminLayout path="/promotion/" component={PromoCode} />
           <AdminLayout path="/social_posts/" component={SocialPosts} />
+          <AdminLayout path="/reports/" component={Reports} />
           <AdminLayout path="/social_posts/:id" component={SocialPostsDetails} />
-          
+
+          {/* Routes for Super Admin */}
+          <Route path="/sa_login" component={SuperAdminLogin} />
+          <SuperAdmin path="/sa_dashboard" component={SA_About_page} />
+          <SuperAdmin path="/sa_edit_about" component={SA_About_page} />
+          <SuperAdmin path="/sa_edit_landing_page" component={SA_Landing_page} />
+ 
           {/* //Routes of guest user  */}
           <Route path="/:id/post" component={SocialPostsDetails} />
           <Route path="/:id/reservation" component={Reservations} />

@@ -1,0 +1,9 @@
+.leftSide {
+    min-height: 700px
+}
+li a {
+    cursor: pointer;
+}
+.dashboardMenu {
+    margin-top: 50px !important;
+}

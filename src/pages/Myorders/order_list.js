@@ -12,8 +12,6 @@ export default class Order_list extends Component {
   }
 
   showAddress = (target) => {
-    console.log(target);
-
     this.setState({ show: !this.state.show, target })
   }
 
@@ -30,9 +28,9 @@ export default class Order_list extends Component {
     return (
       <div className="list-container">
         {this.props.orders.length > 0 ?
-          this.props.orders.map(data => {
+          this.props.orders.map((data, i) => {
             return (
-              <Card key={data._id} className="order-card">
+              <Card key={i} className="order-card">
                 <Card.Header className="card-head">
                   <Row>
                     <Col className="head-cols">
@@ -85,9 +83,9 @@ export default class Order_list extends Component {
                     </Col>
                   </Row>
 
-                    {data.order.items.map(item => {
+                    {data.order.items.map((item, i) => {
                       return (
-                        <Row className="item-box">
+                        <Row key={i} className="item-box">
                           <Col>
 
                             <div>
@@ -120,7 +118,7 @@ export default class Order_list extends Component {
 
                 )
               }) :
-          <Empty text="No reservation found !" />
+          <Empty text="No orders found !" />
                 }
       </div>
             );

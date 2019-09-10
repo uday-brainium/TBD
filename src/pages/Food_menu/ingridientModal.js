@@ -10,7 +10,7 @@ export default class Ingridient_modal extends Component {
 
   renderPriceField = () => {
     let decimal = []
-    for(let i = 1; i < 21; i++ ){
+    for(let i = 0; i < 21; i++ ){
       decimal.push(<option value={i/4} key={i}>$ {i / 4}</option>)
     }
     return decimal
@@ -50,7 +50,7 @@ export default class Ingridient_modal extends Component {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              Add ingredients
+            Add Ingredients & Up Charges
           </Modal.Title>
           </Modal.Header>
           <Modal.Body style={{width: '100%', padding: 0}}>
@@ -63,7 +63,7 @@ export default class Ingridient_modal extends Component {
             <Row>
               <Col lg={3} md={3} sm={3} xs={3}>
                 <div className="input-label">
-                  price
+                Up Charge
                 </div>
               </Col>
 

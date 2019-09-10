@@ -10,9 +10,10 @@ import './../../styles/style_sheet.css'
 import './store.css'
 import Header from './header'
 import Navigation from './navigation'
+import EventBookModal from './../Store/Events/eventBookModal'
 
 // let token = localStorage.getItem('access-token-tbd')
-// let userid = localStorage.getItem('user-id')
+let userdata = JSON.parse(localStorage.getItem('guest-userdata'))
 
 let path = window.location.pathname
 let storeName = path.split('/')[1];
@@ -27,7 +28,9 @@ class Event_list extends Component {
         'display': 'none'
       },
       animateComponent: true,
-      loading: false
+      loading: false,
+      bookingModal: false,
+      eventData: {}
     };
   }
 
@@ -48,7 +51,9 @@ class Event_list extends Component {
             ApiService.getEventList(businessid)
             .then((res) => res.json())
             .then((response) => {
-              this.setState({events: response.response.reverse(), loading: false})
+              this.setState({events: response.response.reverse(), loading: false}, () => {
+                this.comingFromReservation()
+              })
             })
           })
           if(this.state.animateComponent == false && this.state.events == '') {this.setState({loading: true})}
@@ -59,6 +64,21 @@ class Event_list extends Component {
       .catch(function (error) {
         console.log('err---------', error)
       })
+  }
+
+  comingFromReservation = () => {
+    let path = window.location.search
+    let eventid = path.replace('?', '')
+
+    this.state.events.map(data => {
+      if(data._id == eventid) {
+        this.setState({eventData: data}, () => {
+          this.setState({bookingModal: true})
+        })   
+      }
+    })
+
+    
   }
   
   currentPage = () => {
@@ -72,12 +92,31 @@ class Event_list extends Component {
     })
   }
 
+  bookEvent = (eventData) => {
+    console.log("eventID", eventData);
+    this.setState({eventData}, () => this.setState({bookingModal: true}))
+  }
+
+  onBooking = (eventID) => {
+    if(!userdata) {
+      alert('userid not found !')
+    } 
+    console.log("eventID", eventID, userdata._id);
+    
+  }
+
+  imageErr= (e) => {
+    e.target.src = require('./../../images/event-placeholder.png')
+  }
+
   render() {  
-    const {events} =this.state
+    const {events, eventData} =this.state
+    userdata = JSON.parse(localStorage.getItem('guest-userdata'))
     return (
       <div className="">
         <div className="backoverlay" onClick={this.hideOverlay} style={this.state.overlayStyle}></div>
         <Loader loading={this.state.loading} background='no-fill' />
+        <EventBookModal event={eventData} show={this.state.bookingModal} close={() => this.setState({bookingModal: false})} onBooking={(eventid) => this.onBooking(eventid)}/>
        {this.state.storeDetails != null &&
           <Header 
           storebanner = {this.state.storeDetails.storebanner}
@@ -90,8 +129,7 @@ class Event_list extends Component {
           timings = {this.state.storeDetails.timings}
           closedon = {this.state.storeDetails.closedon}
          />
-       }
-        
+       } 
         <div className="heading"><i class="far fa-calendar-alt"></i> Event list </div>
         <div className="post_type_div">
         <div className="container">
@@ -111,7 +149,7 @@ class Event_list extends Component {
                               <i className="fas fa-calendar-check"></i> Date: {data.eventonce.date}
                             </p>
                             <p>
-                              <i className="far fa-clock"></i>  Time: {moment(data.eventonce.starttime).format('hh:mm a')} - {moment(data.eventonce.endtime).format('hh:mm a')}
+                              <i className="far fa-clock"></i>  Time: {data.eventonce.starttime}  - {moment(data.eventonce.endtime).format('hh:mm a')}
                             </p>
                           </div> :
                           data.eventtype == 'weekly' ?
@@ -139,8 +177,11 @@ class Event_list extends Component {
               </div>
           
                 <div className="post_img">
-                  <img className="event-image" src={`${Base_url}${data.eventbanner}`} />
-                </div>
+                {data.eventbanner ? 
+                  <img onError={this.imageErr} className="event-image" src={`${Base_url}${data.eventbanner}`} /> :
+                  <img className="event-image" src={require('./../../images/event-placeholder.png')} />
+              } 
+              </div>
                 <div className='body-content'>
                   <div className="post_middle_sec">
                       <p>
@@ -160,15 +201,15 @@ class Event_list extends Component {
                   <p>Free for members: {data.freeformembers ? 'yes' : 'No'}</p>
                   <p>Capacity: {data.totalcapacity} person</p>
                 </div>
-                <div className="post_reaction_box">
+                <div className="post_reaction_box" style={{paddingTop: 10}}>
                   <Row>
                     <Col md={6} sm={8} xs={6}>
-                        <ul>
-                          <li className="going btn btn-primary">GOING</li>
+                        <ul onClick={() => this.bookEvent(data)}>
+                          <li className="going btn btn-primary">Book event</li>
                         </ul>
                     </Col>
                     <Col  md={6} sm={4} xs={6}>
-                        <div className="reactions">25 Attending</div>
+                        <div className="reactions">{data.bookedusers ? data.bookedusers.length : 0} Attending</div>
                     </Col>
                     </Row>
                   </div>

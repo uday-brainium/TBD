@@ -28,7 +28,8 @@ class Reservations extends Component {
     bookingDetails: {},
     userReservation: [],
     filterTab: 0,
-    stage: 0
+    stage: 0,
+    eventList: []
   }
 
 
@@ -74,6 +75,12 @@ class Reservations extends Component {
       .then(response => {
         this.setState({ bookingDetails: response.response })
       })
+    
+    ApiService.getEventList(this.state.storeDetails.businessid)
+    .then(res => res.json())
+    .then(response => {
+     this.setState({eventList: response.response})
+    })
   }
 
   getUserReservation = () => {
@@ -99,13 +106,93 @@ class Reservations extends Component {
         const dateTime = Date.parse(dateTimeString)
     //    console.log(data);
 
-        events.push(
-          { title: `${data.reservation.tables} Tables`, date: dateTime }
-        )
+        // events.push(
+        //   { title: `${data.reservation.tables} Tables`, date: dateTime }
+        // )
       })
+
+      if(this.state.eventList) {
+        this.state.eventList.map((data, i) => {
+          console.log("Lopp -LOG", data);
+          if(data.eventtype == 'once') {
+            events.push(
+              { title: `${data.title}`, date: data.eventonce.date, event: `${data._id}`}
+            )
+          } else if(data.eventtype == 'daily') {
+            const dates =  this.getDates(data.eventday.datestart, data.eventday.dateend)
+            dates.map(date => {
+              events.push(
+                { title: `${data.title}`, date: date, event: `${data._id}`}
+              )
+            })
+          } else if(data.eventtype == 'weekly') {
+            var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+      
+            const startDate = data.weeklyeventstartend.startdate
+            const endDate = data.weeklyeventstartend.enddate
+            const datesBetween = this.getDates(startDate, endDate)
+           
+            datesBetween.map(date => {
+              const d1 = new Date(date)
+              const day = days[d1.getDay()]
+              const weekday1 = data.weeklyevent[0] ? data.weeklyevent[0].weekday_1 : 'otherday'
+              const weekday2 = data.weeklyevent[1] ? data.weeklyevent[1].weekday_2 : 'otherday'
+              const weekday3 = data.weeklyevent[2] ? data.weeklyevent[2].weekday_3 : 'otherday'
+              const weekday4 = data.weeklyevent[3] ? data.weeklyevent[3].weekday_4 : 'otherday'
+              const weekday5 = data.weeklyevent[4] ? data.weeklyevent[4].weekday_5 : 'otherday'
+              const weekday6 = data.weeklyevent[5] ? data.weeklyevent[5].weekday_6 : 'otherday'
+              const weekday7 = data.weeklyevent[6] ? data.weeklyevent[6].weekday_7 : 'otherday'
+
+              if(weekday1 == day) {
+                events.push(
+                  { title: `${data.title}`, date: date, event: `${data._id}`}
+                )
+              } else if(weekday2 == day) {
+                events.push(
+                  { title: `${data.title}`, date: date, event: `${data._id}`}
+                )
+              } else if(weekday3 == day) {
+                events.push(
+                  { title: `${data.title}`, date: date, event: `${data._id}`}
+                )
+              } else if(weekday4 == day) {
+                events.push(
+                  { title: `${data.title}`, date: date, event: `${data._id}`}
+                )
+              } else if(weekday5 == day) {
+                events.push(
+                  { title: `${data.title}`, date: date, event: `${data._id}`}
+                )
+              } else if(weekday6 == day) {
+                events.push(
+                  { title: `${data.title}`, date: date, event: `${data._id}`}
+                )
+              } else if(weekday7 == day) {
+                events.push(
+                  { title: `${data.title}`, date: date, event: `${data._id}`}
+                )
+              }
+              
+            })
+            
+          }
+        })
+      }
     }
     return events
   }
+
+   getDates = (startDate, stopDate) => {
+    var dateArray = [];
+    var currentDate = moment(startDate);
+    var stopDate = moment(stopDate);
+    while (currentDate <= stopDate) {
+        dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
+        currentDate = moment(currentDate).add(1, 'days');
+    }
+    return dateArray;
+}
+
 
   changeTab = (tab) => {
     this.setState({stage: tab, filterTab: tab}, () => {
@@ -116,6 +203,13 @@ class Reservations extends Component {
   closeModal = () => {
     this.setState({reservationModal: false})
     this.getUserReservation()
+  }
+
+  onEventClick = (info) => {
+    var eventObj = info.event;
+    const eventid = eventObj._def.extendedProps.event
+    this.props.history.push(`events?${eventid}`)
+    console.log("Event", eventid);  
   }
 
   render() {
@@ -202,6 +296,7 @@ class Reservations extends Component {
                      defaultView="dayGridMonth" 
                      plugins={[ dayGridPlugin ]} 
                      events={this.renderEvents()}
+                     eventClick = {(info) => this.onEventClick(info)}
                     />
 
                     <div className="">

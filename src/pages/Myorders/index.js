@@ -23,8 +23,8 @@ export default class Myorders extends Component {
     loading: false,
     filter: '',
     datePicker: false,
-    startDate: null,
-    endDate: null,
+    startDate: new Date(new Date().setHours(0)) ,
+    endDate: new Date(new Date().setHours(12)),
     orderData: [],
     limit: 10,
     skip: 0,
@@ -46,21 +46,22 @@ export default class Myorders extends Component {
     this.fetchOrders()
   }
 
+
   fetchOrders = () => {
     this.setState({loading: true})
     const {filter, startDate, endDate, limit, skip} = this.state
     const data = {
       userId,
       status: filter,
-      startDate,
-      endDate,
+      startDate: startDate != null ? new Date(new Date(startDate).setHours(0) ) : null,
+      endDate: endDate != null ?  new Date(new Date(endDate).setHours(12)) : null,
+
       limit,
       skip
     }
     ApiService.ordersByResturent(data)
     .then(res => res.json())
     .then(response => {
-      console.log('orders', response);
       this.setState({ orderData: response.response,  totalOrder: response.count, loading: false })
     })
   }
@@ -72,7 +73,7 @@ export default class Myorders extends Component {
   }
 
   changeDateRange = (value) => {
-    this.setState({ startDate: new Date(value.selection.startDate).toLocaleDateString(), endDate: new Date(value.selection.endDate).toLocaleDateString() })
+    this.setState({ startDate: new Date(value.selection.startDate), endDate: new Date(value.selection.endDate) })
   }
 
   clearDateFilter = () => {
@@ -149,7 +150,7 @@ export default class Myorders extends Component {
       .then(res => res.json())
       .then(response => {
         if(response.status == "succeeded") {
-          console.log('Refund-test', response);
+        //  console.log('Refund-test', response);
           this.changeOrderStep(orderId, selectedStatus)
           this.setState({
             loading: false, 
@@ -157,7 +158,7 @@ export default class Myorders extends Component {
             alertMsg: 'Refund successfull',
             alertType: 'ok'
           }, () => {
-            setTimeout(() => {
+              setTimeout(() => {
               this.setState({alertBox: false})
             }, 1500)
           })
@@ -220,7 +221,7 @@ export default class Myorders extends Component {
             </Col>
             <Col lg={6} md={6} sm={6} xs={6}>
               <i className="fas fa-calendar-week inside-input"></i>
-              <input className="daterange-input" onClick={() => this.setState({ datePicker: true })} value={this.state.startDate ? `${this.state.startDate} - ${this.state.endDate}` : `Start date - End Date`} />
+              <input className="daterange-input" onClick={() => this.setState({ datePicker: true })} value={this.state.startDate ? `${new Date(this.state.startDate).toLocaleDateString()} - ${new Date(this.state.endDate).toLocaleDateString()}` : `Start date - End Date`} />
               <div className="date-cross" onClick={this.clearDateFilter}><i className="far fa-times-circle"></i></div>
               <Modal id="dateModal" style={{ backgroundColor: 'transparent' }} show={this.state.datePicker} onHide={() => this.setState({ datePicker: false })}>
                 <Modal.Body style={{ backgroundColor: 'transparent' }}>

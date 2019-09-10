@@ -91,3 +91,7 @@
         text-align: center;
     }
 }
+
+.innerWrapper .leftSide {
+    min-height: 700px !important;
+}

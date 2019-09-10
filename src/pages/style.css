@@ -1,0 +1,24 @@
+.contact-us-container {
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 10px;
+    margin: 10px;
+}
+.contact-us-container label {
+    margin-bottom: 0px !important;
+}
+.contact-us-container input {
+    margin-bottom: 10px;
+}
+.contact-us-container select {
+    margin-left: 20px;
+    width: 60%;
+}
+.contact-us-container input[type=submit] {
+    margin-top: 10px;
+    width: 100%;
+    background-color: orangered;
+    border-radius: 10px;
+    color: #fff;
+    height: 40px;
+}

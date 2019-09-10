@@ -51,7 +51,7 @@ class Create_sub_users extends Component {
       lastname: this.state.lastname,
       email: this.state.email,
       mobile: this.state.mobile,
-      privilage: this.state.priviliage
+      privilage: this.state.priviliage,
     }
     if(!this.validate()) {
       notify.show('Email is invalid', 'error', 3000);

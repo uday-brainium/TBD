@@ -63,7 +63,11 @@ class Edit_event extends Component {
           onceendtime: this.state.editData.eventonce.endtime != null ? moment(this.state.editData.eventonce.endtime) : moment(),
           oncedate: this.state.editData.eventonce.date,
           timestart: moment(this.state.editData.eventday.timestart),
-          timeend: moment(this.state.editData.eventday.timeend)
+          timeend: moment(this.state.editData.eventday.timeend),
+          weeklystartdate: this.state.editData.weeklyeventstartend != null ? this.state.editData.weeklyeventstartend.startdate : moment() ,
+          weeklyenddate: this.state.editData.weeklyeventstartend != null ? this.state.editData.weeklyeventstartend.enddate : moment(),
+          dailystartedate: this.state.editData.eventday != null ? this.state.editData.eventday.datestart : moment(),
+          dailyenddate: this.state.editData.eventday != null ? this.state.editData.eventday.dateend : moment()
           //fieldArray: this.state.editData.weeklyevent
          }, () => {
          // console.log("oncestarttime", this.state.oncestarttime);
@@ -163,6 +167,10 @@ class Edit_event extends Component {
       eventbanner: this.state.eventBanner,
       totalcapacity: this.state.totalcapacity,
       freeformembers: this.state.entryfee,
+      weeklyeventstartend: {
+        startdate: this.state.weeklystartdate,
+        enddate: this.state.weeklyenddate
+      },
       weeklyevent: [
         {weekday_1: this.state.weekday_1,
         weektime_start_1: this.state.weektime_start_1,
@@ -193,7 +201,9 @@ class Edit_event extends Component {
       },
       eventday: {
         timestart: this.state.timestart,
-        timeend: this.state.timeend
+        timeend: this.state.timeend,
+        datestart: this.state.dailystartedate,
+        dateend: this.state.dailyenddate
       }
     }
   return eventData
@@ -348,12 +358,12 @@ class Edit_event extends Component {
                     </div>
                   </div>
                 </div>
-               
               </div>
             </div>
             }
 
             {this.state.eventtype == 'daily' &&
+            <div>
               <div className="row animated fadeInDown">
               <div className="col-lg-6 col-md-6 col-sm-6">
                 <div className="inputOuter">
@@ -386,11 +396,27 @@ class Edit_event extends Component {
                 </div>
               </div>
             </div>
+              <div className="row animated fadeInDown">
+                <div className="col-lg-6 col-md-6 col-sm-6">
+                  <div className="inputOuter">
+                  <span class="label-small left">Event start date</span>
+                    <input name="dailystartedate" value={this.state.dailystartedate} min={moment().format('YYYY-MM-DD')} className="date-picker" type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                  </div>
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-6">
+                  <div className="inputOuter">
+                  <span class="label-small left">Event end date</span>
+                  <input name="dailyenddate" value={this.state.dailyenddate}className="date-picker" min={moment().format('YYYY-MM-DD')} type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                  </div>
+                </div>
+              </div>
+            </div>
             } 
 
-            <div>
+
             {this.state.eventtype == "weekly" &&
-              this.state.fieldArray.map((data, index) => (
+            <div>
+              {this.state.fieldArray.map((data, index) => (
 
                 <div key={index} className="row animated fadeInDown">
                   <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -461,9 +487,25 @@ class Edit_event extends Component {
                   
                   </div>
                 </div>
-              )) 
-            }
+              ))}
+ 
+              <div className="row animated fadeInDown">
+                <div className="col-lg-6 col-md-6 col-sm-6">
+                  <div className="inputOuter">
+                  <span class="label-small left">Event start date</span>
+                    <input name="weeklystartdate" min={moment().format('YYYY-MM-DD')} className="date-picker" value={this.state.weeklystartdate} type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                  </div>
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-6">
+                  <div className="inputOuter">
+                  <span class="label-small left">Event end date</span>
+                  <input name="weeklyenddate" min={moment().format('YYYY-MM-DD')} value={this.state.weeklyenddate} className="date-picker" type="date" placeholder="Event date" onChange={this.handleChange} required/>
+                  </div>
+                </div>
+              </div>
             </div>
+            }
+          
 
 
             <div className="row">

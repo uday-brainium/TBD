@@ -8,6 +8,8 @@ import Loader from './../components/simpleloader'
 import Skeleton from 'react-skeleton-loader';
 import Empty from './../components/empty'
 import Pagination from "react-js-pagination";
+import './style.css'
+import AttendeeModal from './attendeeModal'
 
 let base_image_url = "https://www.doublesat.com:8080/"
 
@@ -31,7 +33,10 @@ class Events extends Component {
       limit: 10,
       currentpage: 1,
 
-      loading: false
+      loading: false,
+
+      attendeeModal: false,
+      attendingList: []
     };
   }
 
@@ -127,12 +132,20 @@ class Events extends Component {
     this.props.history.push('/add_new_event')
   }
 
+  showAttendee = (event) => {
+    const attendees = event.bookedusers
+    console.log('att', attendees);
+    this.setState({attendingList: attendees}, () => {
+      this.setState({attendeeModal: true})
+    })
+  }
+
   render() {
     const eventList = this.state.eventList
     .map((eventList, index) => {
         return (
           <div className="tableRow" key={index}>
-            <div>{eventList.title}</div>
+            <div>{eventList.title} <span onClick={() => this.showAttendee(eventList)} className="attending">Attending - {eventList.bookedusers.length}</span></div>
             <div>{eventList.eventtype}</div>
             {/* <div><img src={`${base_image_url}${eventList.eventbanner}`} /></div> */}
             <div className="edit-delete">
@@ -146,7 +159,7 @@ class Events extends Component {
         <div className="right">
         <Notifications />
         <Loader loading={this.state.loading}/>
-        
+        <AttendeeModal show={this.state.attendeeModal} attending={this.state.attendingList} close={() => this.setState({attendeeModal: false})} />
           <div className="rightSideHeader">
             <ul className="breadcrumbNavigation">
                 <li><i className="fas fa-calendar-week breadcumb-icon"></i></li>

@@ -47,7 +47,7 @@ class AddItemPage extends React.Component {
       loading: false,
       ingredientModal: false,
       ingredientname: '',
-      ingredientprice: 0.5,
+      ingredientprice: 0,
       ingredientArray: [],
       included: ''
     };
@@ -183,7 +183,10 @@ class AddItemPage extends React.Component {
       included: this.state.included
     }
     this.state.ingredientArray.push(array)
-    console.log('array', this.state.ingredientArray);
+    setTimeout(() => {
+      this.setState({ingredientprice: 0})
+    }, 500)
+   // console.log('array', this.state.ingredientArray);
   }
 
   removeingredients = (name) => {
