@@ -5,23 +5,27 @@ import ApiService from './../../services/api'
 import moment from 'moment'
 import './styles.css'
 
-
-const data = [{"name":"January","value":45, 'reservation': 12},{"name":"February","value":66, 'reservation': 55},{"name":"March","value":12, 'reservation': 33},{"name":"April","value":5, 'reservation': 30},{"name":"May","value":4, 'reservation': 10},{"name":"June","value":4,'reservation': 67},{"name":"July","value":15,'reservation': 90},{"name":"August","value":5, 'reservation': 25},{"name":"September","value":0, 'reservation': 60},{"name":"October","value":0, 'reservation': 7},{"name":"November","value":0, 'reservation': 9},{"name":"December","value":0, 'reservation': 60}]
+const userData = JSON.parse(localStorage.getItem('userdata'))
+const id = userData ? userData.data._id : ''
 
 export default class MonthlyReport extends Component {
 
   state = {
     year: '2019',
-    graphData: []
+    graphData: [],
+    businessId: ''
   }
 
   componentDidMount() {
-    this.fetchGraphData()
+    const businessId = this.props.businessId 
+    this.setState({businessId: businessId ? businessId : id}, () => {
+      this.fetchGraphData()
+    })
   }
 
   fetchGraphData = () => {
-    const { year } = this.state
-    ApiService.monthly_reports(year).then(res => {
+    const { year, businessId } = this.state
+    ApiService.monthly_reports(year, businessId).then(res => {
       if (res.status === 200) {
         this.setState({ graphData: res.result })
       }
@@ -30,7 +34,6 @@ export default class MonthlyReport extends Component {
 
   yearChange = (e) => {
     const year = e.target.value
-    console.log('date', year);
     
     this.setState({ year }, () => {
       this.fetchGraphData()

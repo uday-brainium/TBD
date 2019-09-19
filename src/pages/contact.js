@@ -65,16 +65,16 @@ class ContactPage extends React.Component {
             <Col className="contact-us-container">
             <form onSubmit={this.sendMail}>
               <div>
-                <label>From email</label>
-                <input type="email" onChange={this.changeField} name="email" placeholder="Enter your e-mail address" required/>
+                <label>Your email</label>
+                <input className="contact-input" type="email" onChange={this.changeField} name="email" placeholder="Enter your e-mail address" required/>
               </div>
               <div>
-                <label>From name</label>
-                <input type="text" name="name" onChange={this.changeField} placeholder="Enter your name" required/>
+                <label>Your name</label>
+                <input className="contact-input" type="text" name="name" onChange={this.changeField} placeholder="Enter your name" required/>
               </div>
               <div>
                 <label>Reason</label>
-                  <select name="reason" onChange={this.changeField}>
+                  <select className="contact-input" name="reason" onChange={this.changeField}>
                     <option value="general">General Questions </option>
                     <option value="support">Customer Support</option>
                     <option value="inquiry">Third Party Inquiry</option>
@@ -82,7 +82,7 @@ class ContactPage extends React.Component {
               </div>
               <div>
                 <label>Message</label>
-                <textarea name="message" onChange={this.changeField} required></textarea>
+                <textarea className="contact-input area" name="message" onChange={this.changeField} required></textarea>
               </div>
               <input type="submit" name="submit" value="Send" />
 

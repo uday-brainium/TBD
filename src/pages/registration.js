@@ -469,7 +469,7 @@ class RegistrationPage extends React.Component {
         <Minheader />
         <section className="registrationSection">
           <div className="registrationWrapperOuter">
-            <header>Create your TBD account</header>
+            <header>Create your account</header>
 
             <div className="registrationWrapper">
             

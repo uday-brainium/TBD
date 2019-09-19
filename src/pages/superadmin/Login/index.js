@@ -7,7 +7,7 @@ export default class Login extends Component {
   loginRes = (res) => {
     if(res.status == 200) {
       this.saveLocalData(res.response).then(res => {
-        this.props.history.push('/sa_dashboard')
+        this.props.history.push('/sa_main_page')
       })
     } else {
       alert('Login failed')

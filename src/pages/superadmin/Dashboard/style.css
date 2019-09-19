@@ -50,6 +50,44 @@
   opacity: 1 !important;
   height: auto !important;
 }
+.table-overflow {
+    overflow-y: scroll
+}
+
+.search-btn {
+    background: #57c5e9;
+    border: 1px solid;
+    color: #fff;
+    padding: 8px;
+    border-radius: 5px;
+    width: 100%;
+}
+.zip-entry {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+}
+.result-box {
+  height: 400px;
+  overflow-y: scroll;
+  margin: 10px;
+}
+.monitor-btn {
+    background-color: #316fa1;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.message-list {
+    padding: 10px;
+    text-align: left;
+    box-shadow: 0 0 1px 0px black;
+    border-radius: 5px;
+    margin: 10px;
+}
 
 @media only screen and (max-width: 600px) {
     .page-container {

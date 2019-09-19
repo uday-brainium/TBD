@@ -152,11 +152,11 @@ class HeaderView extends React.Component {
                           {/* <h3>Start your</h3>
                           <h1>business</h1>
                           <p>With TBD Landing Page</p> */}
-                          <Link to='/'>{buttontext}</Link>
+                          <Link to='/registration'>{buttontext}</Link>
                         </div>
                         <div className="phoneImg">
                           <img src={phoneImg} alt="" />
-                        </div>
+                        </div>  
                       </div>
                     </Col>
                   </Row>

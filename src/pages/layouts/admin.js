@@ -341,6 +341,7 @@ class AdminLayout extends Component {
 
   // logout
   logout() {
+    localStorage.removeItem('userdata')
     try {
       ApiService.logout(localStorage.getItem('access-token-tbd'))
         .then(res => res.json())

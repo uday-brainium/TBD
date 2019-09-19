@@ -414,7 +414,34 @@ const SA_About_page = Loadable({
 });
 
 
+const SA_main_page = Loadable({
+  loader: () => import("./pages/superadmin/Dashboard/onlineUsers"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
 
+
+const SA_business_stats = Loadable({
+  loader: () => import("./pages/superadmin/Reports/monitor"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const SA_report_page = Loadable({
+  loader: () => import("./pages/superadmin/Reports"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const SA_contact_messages = Loadable({
+  loader: () => import("./pages/superadmin/Dashboard/contact_us"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
 
 /*const MainLayout = Loadable({
     loader: () => import('./pages/layouts/main'),
@@ -497,7 +524,12 @@ class App extends React.Component {
           <Route path="/sa_login" component={SuperAdminLogin} />
           <SuperAdmin path="/sa_dashboard" component={SA_About_page} />
           <SuperAdmin path="/sa_edit_about" component={SA_About_page} />
+          <SuperAdmin path="/sa_contact_messages" component={SA_contact_messages} />
           <SuperAdmin path="/sa_edit_landing_page" component={SA_Landing_page} />
+          <SuperAdmin path="/sa_main_page" component={SA_main_page} />
+          <SuperAdmin path="/sa_reports_page" component={SA_report_page} />
+          <SuperAdmin path="/sa_monitor_business" component={SA_business_stats} />
+
  
           {/* //Routes of guest user  */}
           <Route path="/:id/post" component={SocialPostsDetails} />

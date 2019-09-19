@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Base_url } from './../../utilities/config'
 import './../../styles/style_sheet.css'
 import './store.css'
+import ApiService from "../../services/api";
 
 
 export default class Store_header extends Component {
@@ -11,6 +12,24 @@ export default class Store_header extends Component {
     super(props);
     this.state = {
     };
+  }
+
+  componentDidMount() {
+    
+    const logged = localStorage.getItem('guest-userdata')
+    if(logged) {
+      const userId = JSON.parse(localStorage.getItem('guest-userdata'))._id
+      ApiService.set_guest_user_active(userId)
+      .then(res => {
+        console.log("User set to active", res);
+      })
+        setInterval(() => {
+          ApiService.set_guest_user_active(userId)
+          .then(res => {
+            console.log("User set to active", res);
+          })
+        }, 60000)
+    } 
   }
 
   render() {

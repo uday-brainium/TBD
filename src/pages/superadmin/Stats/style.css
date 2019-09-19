@@ -1,0 +1,21 @@
+.filter-row {
+    margin: 10px;
+    padding: 10px;
+}
+.year-select {
+    width: 100%;
+    padding: 1px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+.table-overflow {
+    overflow-y: scroll
+}
+
+@media only screen and (max-width: 600px) {
+    .bar-chart {
+        width: 100%;
+        margin-left: -25px;
+        overflow-y: scroll;
+    }
+  }

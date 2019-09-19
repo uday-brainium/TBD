@@ -433,8 +433,8 @@ class SuperAdminLayout extends Component {
                     </div>
                   </div>
                   <ul className="dashboardMenu">
-                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}>Dashboard</a></li>
-                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}>Reports</a></li>
+                      <li><a className="" onClick={(e) => this.sideMenuLinkClicked('sa_main_page')}>Dashboard</a></li>
+                      <li><a className="" onClick={(e) => this.sideMenuLinkClicked('sa_reports_page')}>Reports</a></li>
                       <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Account Managemen</a></li>
                       <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Fees & Charges</a></li>
                       <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> API Keys</a></li>
@@ -445,6 +445,7 @@ class SuperAdminLayout extends Component {
                         <ul style={this.state.editBusinessSubMenuStyle}>
                           <li><a onClick={(e) => this.sideMenuLinkClicked('sa_edit_landing_page')}>Landing page</a></li>
                           <li><a onClick={(e) => this.sideMenuLinkClicked('sa_edit_about')}>About page</a></li>
+                          <li><a onClick={(e) => this.sideMenuLinkClicked('sa_contact_messages')}>Contact messages</a></li>
                           <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Terms & Privacy Policy</a></li>
                         </ul>
                       </li>

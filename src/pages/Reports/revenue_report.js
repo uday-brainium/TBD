@@ -4,20 +4,27 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'rec
 import ApiService from './../../services/api'
 import './styles.css'
 
+  const userData = JSON.parse(localStorage.getItem('userdata'))
+  const id = userData ? userData.data._id : ''
+
 export default class RevenueReport extends Component {
 
   state = {
     year: '2019',
-    graphData: []
+    graphData: [],
+    businessId: ''
   }
 
   componentDidMount() {
-    this.fetchGraphData()
+    const businessId = this.props.businessId 
+    this.setState({businessId: businessId ? businessId : id}, () => {
+      this.fetchGraphData()
+    })
   }
 
   fetchGraphData = () => {
-    const { year } = this.state
-    ApiService.revenue_reports(year).then(res => {
+    const { year, businessId } = this.state
+    ApiService.revenue_reports(year, businessId).then(res => {
       if (res.status === 200) {
         this.setState({ graphData: res.result })
       }

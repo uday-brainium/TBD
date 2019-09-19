@@ -100,7 +100,6 @@ export default class Step2 extends Component {
   }
 
   renderStates() {
-    
     for(var key in this.state.states) {
       if (this.state.states.hasOwnProperty(key)) {
        if(this.state.statejsx.length < 51) {

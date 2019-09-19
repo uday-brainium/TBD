@@ -5,22 +5,28 @@ import ApiService from './../../services/api'
 import moment from 'moment'
 import './styles.css'
 
+const userData = JSON.parse(localStorage.getItem('userdata'))
+const id = userData ? userData.data._id : ''
 
 
 export default class SalesPerItem extends Component {
 
   state = {
     date: new Date(),
-    graphData: []
+    graphData: [],
+    businessId: ''
   }
 
   componentDidMount() {
-    this.fetchGraphData()
+    const businessId = this.props.businessId 
+    this.setState({businessId: businessId ? businessId : id}, () => {
+      this.fetchGraphData()
+    })
   }
 
   fetchGraphData = () => {
-    const { date } = this.state
-    ApiService.sales_per_item(date).then(res => {
+    const { date, businessId } = this.state
+    ApiService.sales_per_item(date, businessId).then(res => {
       if (res.status === 200) {
         this.setState({ graphData: res.result })
       }

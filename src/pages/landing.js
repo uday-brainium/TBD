@@ -74,7 +74,7 @@ class LandingPage extends React.Component {
               <div className="col-sm-12">
                 <article>
                   <header>
-                    About <span>TBD</span>
+                    About 
                   </header>
                   <h4>{title}</h4>
                   <p>{content}</p>
@@ -104,7 +104,7 @@ class LandingPage extends React.Component {
                   <div className="content">
                     <div className="free">
                       {ReactHtmlParser(middleContent)}
-                      <Link to={'/'}>{middleBtn}</Link>
+                      <Link to={'/registration'}>{middleBtn}</Link>
                       {/* <h1>Free really means free.</h1>
                       <h3>It’s not a trial, and you don’t need a credit card.</h3>
                       <h4>Where can I get some?</h4>

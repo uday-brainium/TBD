@@ -4,22 +4,27 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
 import ApiService from './../../services/api'
 import './styles.css'
 
-
+const userData = JSON.parse(localStorage.getItem('userdata'))
+const id = userData ? userData.data._id : ''
 
 export default class SocialPostPerHour extends Component {
 
   state = {
     date: new Date(),
-    graphData: []
+    graphData: [],
+    businessId: ''
   }
 
   componentDidMount() {
-    this.fetchGraphData()
+    const businessId = this.props.businessId 
+    this.setState({businessId: businessId ? businessId : id}, () => {
+      this.fetchGraphData()
+    })
   }
 
   fetchGraphData = () => {
-    const {date} = this.state
-    ApiService.social_post_per_hour(date).then(res => {
+    const {date, businessId} = this.state
+    ApiService.social_post_per_hour(date, businessId).then(res => {
       if(res.status === 200) {
         this.setState({graphData: res.result})
       }

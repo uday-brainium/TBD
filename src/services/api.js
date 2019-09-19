@@ -1459,7 +1459,7 @@ class ApiService {
     )
   }
 
-  static  get_sales_per_hour(date) {
+  static  get_sales_per_hour(date, businessId) {
     return fetch(
       Config.Api_Address+'reports/sales_per_hour',
       {
@@ -1469,13 +1469,14 @@ class ApiService {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: qs.stringify({
-          date: moment(date).format('YYYY-MM-DD')
+          date: moment(date).format('YYYY-MM-DD'), 
+          businessId
         })
       }
     ).then(res => res.json())
   }
 
-  static  reservations_per_hour(date) {
+  static  reservations_per_hour(date, businessId) {
     return fetch(
       Config.Api_Address+'reports/reservations_per_hour',
       {
@@ -1485,13 +1486,14 @@ class ApiService {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: qs.stringify({
-          date: moment(date).format('YYYY-MM-DD')
+          date: moment(date).format('YYYY-MM-DD'),
+          businessId: businessId
         })
       }
     ).then(res => res.json())
   }
 
-  static  sales_per_item(date) {
+  static  sales_per_item(date, businessId) {
     return fetch(
       Config.Api_Address+'reports/sales_per_item',
       {
@@ -1501,13 +1503,14 @@ class ApiService {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: qs.stringify({
-          date: moment(date).format('YYYY-MM-DD')
+          date: moment(date).format('YYYY-MM-DD'), 
+          businessId
         })
       }
     ).then(res => res.json())
   }
 
-  static  social_post_per_hour(date) {
+  static  social_post_per_hour(date, businessId) {
     return fetch(
       Config.Api_Address+'reports/social_post_per_hour',
       {
@@ -1517,13 +1520,14 @@ class ApiService {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: qs.stringify({
-          date: moment(date).format('YYYY-MM-DD')
+          date: moment(date).format('YYYY-MM-DD'),
+          businessId
         })
       }
     ).then(res => res.json())
   }
 
-  static  monthly_reports(year) {
+  static  monthly_reports(year, businessId) {
     return fetch(
       Config.Api_Address+'reports/sales_reservation_social_per_year',
       {
@@ -1533,13 +1537,14 @@ class ApiService {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: qs.stringify({
-          year
+          year,
+          businessId
         })
       }
     ).then(res => res.json())
   }
 
-  static revenue_reports(year) {
+  static revenue_reports(year, businessId) {
     return fetch(
       Config.Api_Address+'reports/revenue_per_year',
       {
@@ -1549,7 +1554,8 @@ class ApiService {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: qs.stringify({
-          year
+          year,
+          businessId
         })
       }
     ).then(res => res.json())
@@ -1727,6 +1733,20 @@ class ApiService {
     ).then(res => res.json())
   }
 
+  static set_guest_user_active(userId) {
+    return fetch(
+      Config.Api_Address+'users/set_guest_user_active',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({userId})
+      }
+    ).then(res => res.json())
+  }
+
   static set_user_deactive(userId) {
     return fetch(
       Config.Api_Address+'users/set_user_deactive',
@@ -1741,8 +1761,105 @@ class ApiService {
     ).then(res => res.json())
   }
 
+  static get_online_business() {
+    return fetch(
+      Config.Api_Address+'super-admin/get-active-users',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      }
+    ).then(res => res.json())
+  }
+
+  static get_online_guests() {
+    return fetch(
+      Config.Api_Address+'super-admin/get-active-guest-users',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      }
+    ).then(res => res.json())
+  }
+
+  static businessRevenue(data) {
+    return fetch(
+      Config.Api_Address+'reports/business_revenue',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+  static businessList() {
+    return fetch(
+      Config.Api_Address+'reports/business_list',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify()
+      }
+    ).then(res => res.json())
+  }
+
+  static businessLoyality(data) {
+    return fetch(
+      Config.Api_Address+'reports/loyalty_cards',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+  static filteredBusinessList(data) {
+    return fetch(
+      Config.Api_Address+'reports/business_filter',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+  static fetch_contact_messages(data) {
+    return fetch(
+      Config.Api_Address+'super-admin/list-contact',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+
+
 
 }
-
 
 export default ApiService;
