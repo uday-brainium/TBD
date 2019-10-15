@@ -92,7 +92,7 @@ export default class Step3 extends Component {
           <div className="label-small left">* Discount type</div>
             <select name="discounttype" value={this.state.discounttype} onChange={this.typeChange}>
               <option value="percentage">Percentage discount</option>
-              <option value="doller">Doller discount</option>
+              <option value="doller">Dollar discount</option>
             </select>
           </div>
         

@@ -443,6 +443,36 @@ const SA_contact_messages = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const Sa_account_management = Loadable({
+  loader: () => import("./pages/superadmin/AcountManagment/index"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+
+const SA_fees = Loadable({
+  loader: () => import("./pages/superadmin/AcountManagment/charges"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const SA_privacy = Loadable({
+  loader: () => import("./pages/superadmin/Dashboard/privacy"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+const AdminPayments = Loadable({
+  loader: () => import("./pages/Payment"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
+
 /*const MainLayout = Loadable({
     loader: () => import('./pages/layouts/main'),
     loading: LoadingView,
@@ -519,6 +549,7 @@ class App extends React.Component {
           <AdminLayout path="/social_posts/" component={SocialPosts} />
           <AdminLayout path="/reports/" component={Reports} />
           <AdminLayout path="/social_posts/:id" component={SocialPostsDetails} />
+          <AdminLayout path="/payments/" component={AdminPayments} />
 
           {/* Routes for Super Admin */}
           <Route path="/sa_login" component={SuperAdminLogin} />
@@ -529,8 +560,11 @@ class App extends React.Component {
           <SuperAdmin path="/sa_main_page" component={SA_main_page} />
           <SuperAdmin path="/sa_reports_page" component={SA_report_page} />
           <SuperAdmin path="/sa_monitor_business" component={SA_business_stats} />
+          <SuperAdmin path="/sa_account_management" component={SA_fees} />
+          <SuperAdmin path="/sa_api_keys" component={Sa_account_management} />
+          <SuperAdmin path="/sa_charges" component={SA_fees} />
+          <SuperAdmin path="/sa_privacy_terms" component={SA_privacy} />
 
- 
           {/* //Routes of guest user  */}
           <Route path="/:id/post" component={SocialPostsDetails} />
           <Route path="/:id/reservation" component={Reservations} />

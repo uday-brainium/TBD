@@ -51,7 +51,7 @@ export default class Delivery_modal extends Component {
     ApiService.addNewAddress(data)
     .then(res => res.json())
     .then(response => {
-      console.log('Hello world', response);
+     // console.log('Hello world', response);
       if(response.status == 200) {
        const data = response.response
        localStorage.setItem('guest-userdata', JSON.stringify(data))
@@ -92,7 +92,9 @@ export default class Delivery_modal extends Component {
 
   }
 
-  onToken = token => {    
+  onToken = token => {
+    console.log("TOKEN", token);
+        
     const body = {
       currency: "aud",
       amount: (this.props.overallPrice * 100),
@@ -101,7 +103,7 @@ export default class Delivery_modal extends Component {
     ApiService.chargeStripe(body)
     .then(res => res.json())
     .then((response) => {
-      //console.log('PAYMENT-LOG', response);
+      console.log('PAYMENT-LOG', response);
       const paymentObj = {
         chargeId: response.id,
         amount: response.amount,

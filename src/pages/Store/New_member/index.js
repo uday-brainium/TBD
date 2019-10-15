@@ -4,7 +4,7 @@ import Navigation from '../navigation'
 import ApiService from './../../../services/api'
 import Loader from '../../components/simpleloader'
 import Title_head from './../page_title_head'
-import Footer from './../footer'
+// import Footer from './../footer'
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import Notifications, { notify } from 'react-notify-toast';
 import Price_card from './pricing_cards'
@@ -385,12 +385,13 @@ export default class Became_member extends Component {
                   />
                </Col>
                <Col xs={12} lg={4} md={4} sm={4} className="order-xs-2">
-                  <Price_card 
+                 {this.state.storeDetails && <Price_card 
                     membership = "Silver"
                     userid = {this.state.lastCreatedId}
                     moveToDone = {() => this.setState({step: 3})}
                     serviceProps = {this.state.storeDetails}
                   />
+                 }
                </Col>
                <Col xs={12} lg={4} md={4} sm={4} className="order-xs-1">
                   <Price_card 
@@ -413,7 +414,7 @@ export default class Became_member extends Component {
         </Row>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
         
        <Navigation 
         nav = {this.props.history}

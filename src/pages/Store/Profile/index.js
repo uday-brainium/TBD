@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom"
 import ApiService from './../../../services/api'
 import Loader from '../../components/simpleloader'
 import Title_head from './../page_title_head'
-import Footer from './../footer'
+// import Footer from './../footer'
 import { Row, Col } from 'react-bootstrap';
 import Notifications, { notify } from 'react-notify-toast';
 import * as config from './../../../utilities/config'
@@ -633,7 +633,7 @@ class Guest_profile extends Component {
           </Row>
         </div>
 
-        <Footer />
+        {/* <Footer /> */}
         <Navigation
           nav={this.props.history}
           store={storeName}

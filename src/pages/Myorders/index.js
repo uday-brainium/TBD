@@ -14,6 +14,7 @@ import Pagination from "react-js-pagination";
 import Confirm_pop from './confirm_pop'
 import AlertBox from './../components/alertBox'
 import * as type from './order_types'
+import Payback from './../Payment/payback'
 
 const userId = JSON.parse(localStorage.getItem('userdata')).data._id
 
@@ -126,6 +127,7 @@ export default class Myorders extends Component {
       }
       else if(status === type.COMPLETE) {
         this.changeOrderStep(orderId, status)
+        Payback.initiatePayback(data)
       } 
       else if(status === type.ORDERED) {
         this.changeOrderStep(orderId, status)
@@ -177,6 +179,7 @@ export default class Myorders extends Component {
       })
     }
   }
+
 
   render() {
     const filter = [

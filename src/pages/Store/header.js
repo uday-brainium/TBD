@@ -16,8 +16,8 @@ export default class Store_header extends Component {
 
   componentDidMount() {
     
-    const logged = localStorage.getItem('guest-userdata')
-    if(logged) {
+    const logged = JSON.parse(localStorage.getItem('guest-userdata'))
+    if(logged != null) {
       const userId = JSON.parse(localStorage.getItem('guest-userdata'))._id
       ApiService.set_guest_user_active(userId)
       .then(res => {
@@ -33,6 +33,8 @@ export default class Store_header extends Component {
   }
 
   render() {
+    console.log("TIME-TUESDAY", this.props.timings ? new Date(this.props.timings.tuesdayClose) : '');
+    
     return (
       <div>
         <header className="header innerPage">

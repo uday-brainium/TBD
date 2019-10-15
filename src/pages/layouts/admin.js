@@ -85,6 +85,7 @@ class AdminLayout extends Component {
   }
 
   componentDidMount() {
+    this.checkBlockedStatus()
     // console.log(this.props.match.params)
     if (localStorage.getItem('access-token-tbd') !== null) {
       this.setState({
@@ -98,8 +99,8 @@ class AdminLayout extends Component {
       })
     }
     let data = localStorage.getItem('userdata')
-    let url = JSON.parse(data).data.url
-    this.setState({ userData: JSON.parse(data) })
+    let url = data ? JSON.parse(data).data.url : ''
+    this.setState({ userData: data ? JSON.parse(data) : '' })
     this.setState({ storeUrl: url })
     // set logo image
     if (window.innerWidth < 767) {
@@ -144,6 +145,26 @@ class AdminLayout extends Component {
     setInterval(() => {
       this.setUserOnline()
     }, 10000)
+  }
+
+  checkBlockedStatus = () => {
+    const userid = localStorage.getItem('user-id')
+    const token = localStorage.getItem('access-token-tbd')
+    ApiService.getUserdetails(userid, token)
+    .then(res => res.json())
+    .then(res => {
+      if(res.statusCode == 200) {
+        const blocked = res.data.isBlocked
+        if(blocked) {
+          let confirm = window.confirm('You have no longer access to dashboard please contact super admin.')
+          if(confirm) {
+            this.logout()
+          } else {
+            this.logout()
+          }
+        }
+      }
+    })
   }
 
   setUserOnline = () => {
@@ -501,7 +522,7 @@ class AdminLayout extends Component {
                     {usertype != 'subuser' || privilage == 'manager' || privilage == 'admin' ?
                       <div>
                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('reports')}>Reports</a></li>
-                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('dashboard')}>Payment History</a></li>
+                        <li><a className="" onClick={(e) => this.sideMenuLinkClicked('payments')}>Payment settings</a></li>
                       </div> : ''
                     }
 

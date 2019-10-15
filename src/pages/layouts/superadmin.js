@@ -7,7 +7,6 @@ import {
   Col,
   Nav
 } from 'reactstrap'
-import Notifications, { notify } from 'react-notify-toast'
 
 // import AdminHeaderView from '../views/adminheader'
 // import AdminLeftMenuView from '../views/adminmenu'
@@ -435,18 +434,17 @@ class SuperAdminLayout extends Component {
                   <ul className="dashboardMenu">
                       <li><a className="" onClick={(e) => this.sideMenuLinkClicked('sa_main_page')}>Dashboard</a></li>
                       <li><a className="" onClick={(e) => this.sideMenuLinkClicked('sa_reports_page')}>Reports</a></li>
-                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Account Managemen</a></li>
-                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Fees & Charges</a></li>
-                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> API Keys</a></li>
-                      <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Contact Us Page</a></li>
+                      <li><a className="" onClick={(e) => this.sideMenuLinkClicked('sa_account_management')}> Account Management</a></li>
+                      <li><a className="" onClick={(e) => this.sideMenuLinkClicked('sa_charges')}> Fees & Charges</a></li>
+                      <li><a className="" onClick={(e) => this.sideMenuLinkClicked('sa_api_keys')}> API Keys</a></li>
+                      <li><a className="" onClick={(e) => this.sideMenuLinkClicked('sa_contact_messages')}> Contact Us Page</a></li>
                      
                       <li><a className="" onClick={(e) => this.showSubMenu('business-profile')}>Page settings</a>
                         <span className={this.state.editBusinessProfileIcon} onClick={(e) => this.showSubMenu('business-profile')}></span>
                         <ul style={this.state.editBusinessSubMenuStyle}>
                           <li><a onClick={(e) => this.sideMenuLinkClicked('sa_edit_landing_page')}>Landing page</a></li>
                           <li><a onClick={(e) => this.sideMenuLinkClicked('sa_edit_about')}>About page</a></li>
-                          <li><a onClick={(e) => this.sideMenuLinkClicked('sa_contact_messages')}>Contact messages</a></li>
-                          <li><a className="" onClick={(e) => this.showSubMenu('sa_dashboard')}> Terms & Privacy Policy</a></li>
+                          <li><a className="" onClick={(e) => this.sideMenuLinkClicked('sa_privacy_terms')}> Terms & Privacy Policy</a></li>
                         </ul>
                       </li>
                     

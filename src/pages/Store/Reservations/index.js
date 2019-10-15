@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom"
 import ApiService from './../../../services/api'
 import Loader from '../../components/simpleloader'
 import Title_head from './../page_title_head'
-import Footer from './../footer'
+// import Footer from './../footer'
 import { Row, Col, Modal } from 'react-bootstrap';
 import Notifications, { notify } from 'react-notify-toast';
 import './style.css'
@@ -314,7 +314,7 @@ class Reservations extends Component {
           store={storeName}
           storeData={this.state.storeDetails}
         />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

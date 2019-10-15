@@ -131,7 +131,7 @@ export default class create_promo extends Component {
                       <div className="label-small left">* Discount type</div>
                       <select name="discounttype" value={this.state.discounttype} onChange={this.handleChange} required>
                         <option value="percentage">Percentage discount</option>
-                        <option value="doller">Doller discount</option>
+                        <option value="doller">Dollar discount</option>
                       </select>
                     </div>
 

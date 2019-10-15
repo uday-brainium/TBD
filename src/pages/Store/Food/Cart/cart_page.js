@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom"
 import Navigation from './../../navigation'
 import Title_head from './../../page_title_head'
 import Header from './../../header'
-import Footer from './../../footer'
+// import Footer from './../../footer'
 import { Row, Col, Card } from 'react-bootstrap';
 import Notifications, { notify } from 'react-notify-toast';
 import ApiService from './../../../../services/api'
@@ -166,7 +166,7 @@ let totalPrice = 0
   }
 
   saveOrder = (deliveryAddress, paymentObj) => {
-    console.log("PAYMENT-OBJ", paymentObj);
+  //  console.log("PAYMENT-OBJ", paymentObj);
     
     this.setState({loading: true})
     let {cart, promoDiscount} = this.state
@@ -329,7 +329,7 @@ let totalPrice = 0
         store= {storeName}
         storeData = {this.state.storeDetails}
       />
-      <Footer />
+      {/* <Footer /> */}
       </div>
     );
   }

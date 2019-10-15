@@ -108,6 +108,7 @@ export default class Price_cards extends Component {
               <Payment_btn 
                plan = "Silver"
                price = {silverObj.silver_price * 100}
+               businessid = {this.props.serviceProps.businessid}
                userid = {this.props.userid}
                moveToDone = {this.props.moveToDone}
              />
@@ -118,6 +119,7 @@ export default class Price_cards extends Component {
                plan = "Gold"
                price = {goldObj.gold_price * 100}
                userid = {this.props.userid}
+               businessid = {this.props.serviceProps.businessid}
                moveToDone = {this.props.moveToDone}
              />
             }

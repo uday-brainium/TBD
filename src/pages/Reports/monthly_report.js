@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Row, Col, Table } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts'
 import ApiService from './../../services/api'
-import moment from 'moment'
 import './styles.css'
 
 const userData = JSON.parse(localStorage.getItem('userdata'))

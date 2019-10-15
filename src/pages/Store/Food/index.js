@@ -3,7 +3,7 @@ import Loader from '../../components/simpleloader'
 import Navigation from '../navigation'
 import Title_head from './../page_title_head'
 import Header from '../header'
-import Footer from './../footer'
+// import Footer from './../footer'
 import { Row, Col, Card } from 'react-bootstrap';
 import Notifications, { notify } from 'react-notify-toast';
 import ApiService from './../../../services/api'
@@ -249,7 +249,7 @@ export default class Foods extends Component {
                   <div key={data._id} className="food-item">
                     <div className={data.is_veg === true ? `inline veg` : `inline non-veg`}></div>
                     <div className="inline item">{data.itemtitle}</div>
-                    <div className="inline rating"><Rating /></div> 
+                    {/* <div className="inline rating"><Rating /></div>  */}
                     
                     <div className="inline food-description">{data.itemdescription}</div>
                     <div className={this.state[data._id] > 0 ? `inline order-now` : `inline order-now inactive-btn animatedf`} onClick={() => this.state[data._id] > 0 ? this.addToCart(data) : this.setState({[data._id]: 1})}>Add</div>
@@ -279,7 +279,7 @@ export default class Foods extends Component {
             store= {storeName}
             storeData = {this.state.storeDetails}
            />
-           <Footer />
+           {/* <Footer /> */}
       </div>
     );
   }

@@ -112,6 +112,7 @@ class Event_list extends Component {
   render() {  
     const {events, eventData} =this.state
     userdata = JSON.parse(localStorage.getItem('guest-userdata'))
+    
     return (
       <div className="">
         <div className="backoverlay" onClick={this.hideOverlay} style={this.state.overlayStyle}></div>
@@ -145,11 +146,12 @@ class Event_list extends Component {
                         <p><i className="fab fa-elementor"></i> Event type: {data.eventtype}</p>
                           {data.eventtype == 'once' ?
                           <div>
+                          <span></span>
                             <p>
                               <i className="fas fa-calendar-check"></i> Date: {data.eventonce.date}
                             </p>
                             <p>
-                              <i className="far fa-clock"></i>  Time: {data.eventonce.starttime}  - {moment(data.eventonce.endtime).format('hh:mm a')}
+                              <i className="far fa-clock"></i>  Time: {moment(data.eventonce.starttime).format("hh:mm a")}  - {moment(data.eventonce.endtime).format('hh:mm a')}
                             </p>
                           </div> :
                           data.eventtype == 'weekly' ?
@@ -167,7 +169,7 @@ class Event_list extends Component {
                                 <i className="fas fa-calendar-check"></i> Date: Daily event
                               </p>
                               <p>
-                                <i className="far fa-clock"></i>  Time: {moment(data.eventday.timestart).format('hh:mm a')} - {moment(data.eventonce.timeend).format('hh:mm a')}
+                                <i className="far fa-clock"></i>  Time: {moment(data.eventday.timestart).format('hh:mm a')} - {moment(data.eventday.timeend).format("hh:mm a")}
                               </p>
                             </div> : ''
                           }

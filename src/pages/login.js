@@ -9,16 +9,12 @@ import { Link, withRouter, Redirect, NavLink as RRNavLink } from 'react-router-d
 import Notifications, { notify } from 'react-notify-toast';
 
 import ApiService from '../services/api'
-
 // min header
 import Minheader from './views/minheader'
-
 // footer
 import Footer from './views/footer'
-
 // images
 import logo from '../images/logo.png'
-
 // config file
 import config from '../config'
 
@@ -43,6 +39,7 @@ class LoginPage extends React.Component {
     }
 
     componentDidMount() {
+        
         if (accessToken !== null) {
             this.props.history.push('/dashboard')
         }

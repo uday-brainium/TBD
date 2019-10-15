@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 
 export default class SearchResult extends Component {
   render() {
-    const {result, onMonitor} = this.props
+    const {result, onMonitor, blockUnblock} = this.props
 
     return (
       <div>
@@ -30,7 +30,10 @@ export default class SearchResult extends Component {
                 <p style={{fontSize: 14, marginTop: -2, marginBottom: -2}}>{business.zipcode}</p>
               </Col>
               <Col>
+              <span>
                 <button className="monitor-btn" onClick={() => onMonitor(business._id, business.businessname)}> Monitor </button>
+                <button className={business.isBlocked ? `monitor-btn` : `monitor-btn-block` } onClick={() => blockUnblock(business._id)}>{business.isBlocked ? 'Unblock' : 'Block'}  </button>
+              </span>
               </Col>
             </Row>
           </div> 

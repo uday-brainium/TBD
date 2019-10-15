@@ -3,7 +3,10 @@ import axios from 'axios'
 import moment from 'moment'
 import qs from 'qs'
 let token = localStorage.getItem('access-token-tbd')
+console.log("123", token);
 
+
+const Authorization = "Bearer sk_test_0kb7ef0szWdvnew2LN459SSn00nWhMx4LH"
 
 class ApiService {
   static apiurl = "https://jsonplaceholder.typicode.com/";
@@ -88,16 +91,17 @@ class ApiService {
   }
 
   // profile data
-  static profileData(token, userId) {
+  static profileData(token1, userId) {
 
     return fetch(
-      Config.Api_Address + "users/userdetails/" + userId + "?token=" + token,
+      Config.Api_Address + "users/userdetails/"+userId+"?token="+token,
       {
         // mode: 'no-cors',
         method: "GET",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          'x-access-token': token
         }
       }
     );
@@ -953,6 +957,7 @@ class ApiService {
   }
 
   static add_order(guestid, deliveryaddress, promodiscount, businessid, data, payment) {
+    console.log("PAYMENT OBJ", payment);
     
     return fetch(
       Config.Api_Address + 'guests/add_orders',
@@ -1200,7 +1205,7 @@ class ApiService {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "x-access-token": token,
+          "x-access-token": localStorage.getItem('access-token-tbd'),
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: qs.stringify({
@@ -1682,8 +1687,7 @@ class ApiService {
       {
         method: "POST",
         headers: {
-       
-          // 'content-type': 'multipart/form-data'
+
         },
         body: data
       }
@@ -1857,8 +1861,283 @@ class ApiService {
     ).then(res => res.json())
   }
 
+  static inactivity_reports() {
+    return fetch(
+      Config.Api_Address+'reports/inactivity_report',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      }
+    ).then(res => res.json())
+  }
 
+  static block_unblock_business(businessId) {
+    return fetch(
+      Config.Api_Address+'super-admin/block-unblock-user',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }, 
+        body: qs.stringify({userId: businessId})
+      }
+    ).then(res => res.json())
+  }
 
+  static add_key(key) {
+    return fetch(
+      Config.Api_Address+'super-admin/add_api_key',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }, 
+        body: qs.stringify({key})
+      }
+    ).then(res => res.json())
+  }
+
+  static get_keys() {
+    return fetch(
+      Config.Api_Address+'super-admin/get_key_list',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      }
+    ).then(res => res.json())
+  }
+
+  static remove_key(keyId) {
+    return fetch(
+      Config.Api_Address+'super-admin/delete_api_key',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({id: keyId})
+      }
+    ).then(res => res.json())
+  }
+
+  static active_key(key) {
+    return fetch(
+      Config.Api_Address+'super-admin/activate_api_key',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({key: key})
+      }
+    ).then(res => res.json())
+  }
+  
+  static food_fee(amount, type) {
+    return fetch(
+      Config.Api_Address+'super-admin/add_food_selling_charge',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({amount, type})
+      }
+    ).then(res => res.json())
+  }
+
+  static ticket_fee(amount, type) {
+    return fetch(
+      Config.Api_Address+'super-admin/add_ticket_selling_charge',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({amount, type})
+      }
+    ).then(res => res.json())
+  }
+
+  static loyality_fee(amount, type) {
+    return fetch(
+      Config.Api_Address+'super-admin/add_loyality_card_charge',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({amount, type})
+      }
+    ).then(res => res.json())
+  }
+
+  static reservation_fee(amount, type) {
+    return fetch(
+      Config.Api_Address+'super-admin/add_reservation_charge',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({amount, type})
+      }
+    ).then(res => res.json())
+  }
+
+  static reservation_up_fee(amount, type) {
+    return fetch(
+      Config.Api_Address+'super-admin/add_reservation_up_charge',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({amount, type})
+      }
+    ).then(res => res.json())
+  }
+
+  static fetch_privacy() {
+    return fetch(
+      Config.Api_Address+'super-admin/get_privacy_policy',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      }
+    ).then(res => res.json())
+  }
+
+  static save_privacy(privacy, terms) {
+    return fetch(
+      Config.Api_Address+'super-admin/set_privacy_policy',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({privacy, terms})
+      }
+    ).then(res => res.json())
+  }
+
+  static save_apikey(userId, apikey) {
+    return fetch(
+      Config.Api_Address+'users/add_payment_key',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          'x-access-token': token
+        },
+        body: qs.stringify({userId, apikey})
+      }
+    ).then(res => res.json())
+  }
+
+  static create_connect(data) {
+    return fetch(
+      'https://api.stripe.com/v1/accounts',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": Authorization
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+  static add_stripe_account(userid, account) {
+    return fetch(
+      Config.Api_Address+'users/add_stripe_connect',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          'x-access-token': token
+        },
+        body: qs.stringify({userid, account})
+      }
+    ).then(res => res.json())
+  }
+
+  static generate_stripe_link(id) {
+    return fetch(
+      `https://api.stripe.com/v1/account_links`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": Authorization
+        },
+        body: qs.stringify({
+          account: id,
+          type: 'custom_account_update',
+          failure_url: 'https://doublesat.com',
+          success_url: 'https://doublesat.com'
+        })
+      }
+    ).then(res => res.json())
+  }
+
+  static transfer_money_to_business(toBusiness, amount, details) {
+    return fetch(
+      `https://api.stripe.com/v1/transfers`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": Authorization
+        },
+        body: qs.stringify({
+          currency: 'USD',
+          destination: toBusiness,
+          amount: amount,
+          description: details
+        })
+      }
+    ).then(res => res.json())
+  }
+
+  static fetch_fees() {
+    return fetch(
+      Config.Api_Address+'super-admin/get-fees',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          'x-access-token': token
+        }
+      }
+    ).then(res => res.json())
+  }
 
 }
 

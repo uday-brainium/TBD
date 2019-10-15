@@ -81,7 +81,7 @@ import ApiService from '../../../services/api';
         {isLogged == null && 
          <div>
           <div className="login-header">Login</div>
-          <div className="login-subtext">Login to accese all features</div>
+          <div className="login-subtext">Login to access all features</div>
           <form className="form" onSubmit={this.handleSubmit}>
             <div className="inputOuter">
               <input placeholder="Email address" type="text" name="email" onChange={this.handleChange} />

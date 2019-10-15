@@ -548,7 +548,7 @@ class RegistrationPage extends React.Component {
                         <span>Step 4:</span>
                       </div>
                       <div>
-                        Start Promotion and earn loyalty points
+                        Start promotion and offer loyalty points
                       </div>
                     </li>
                   </ul>

@@ -163,7 +163,7 @@ export default class Step2 extends Component {
         </div>
 
         <div className="inputOuter">
-            <textarea placeholder="EN-60, Shakti tower, Salt Lake Sector-V, Kolkata-700091, Near webel more" name="businessaddress" onChange={(e) => this.props.change(e)}> 
+            <textarea placeholder="Street address" name="businessaddress" onChange={(e) => this.props.change(e)}> 
               
             </textarea>
         </div>

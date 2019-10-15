@@ -6,6 +6,7 @@ import ApiService from '../../../services/api';
 import SearchResult from './searchResult'
 import { Link, withRouter } from "react-router-dom"
 import Loader from './../../components/simpleloader'
+import InactiveReport from './inactiveBusiness'
 
  class Reports extends Component {
 
@@ -61,7 +62,7 @@ import Loader from './../../components/simpleloader'
     this.setState({ selectedOption }, () => {
       this.searchSubmit()
     });
-    console.log(selectedOption);
+    //console.log(selectedOption);
   }
 
   handleChangeState = (selectedOption) => {
@@ -161,6 +162,17 @@ monitor = (businessId, businessName) => {
   })
 }
 
+  blockBusiness = (businessId) => {
+    let ask = window.confirm("Are you sure !");
+    if(ask) {
+      ApiService.block_unblock_business(businessId)
+      .then(res => {
+        if(res.status == 200) {
+          this.searchSubmit()
+        }
+      })
+    }
+  }
   render() {
     const {test, selectedOption, countries, states, cities, countrySeleted, stateSelected, citySelected } = this.state
     return (
@@ -226,10 +238,14 @@ monitor = (businessId, businessName) => {
             </Col>
            </Row> 
 
-            <SearchResult result={this.state.result} onMonitor={(businessId, businessName) => this.monitor(businessId, businessName)}/>
+            <SearchResult
+             result={this.state.result} 
+             onMonitor={(businessId, businessName) => this.monitor(businessId, businessName)}
+             blockUnblock = {(id) => this.blockBusiness(id)}
+            />
           </div>
 
-          
+          <InactiveReport />
         </div>
       </div>
     );

@@ -126,7 +126,7 @@ export default class Edit_offer extends Component {
                   <div className="label-small left">* Discount type</div>
                     <select name="discounttype" value={this.state.discounttype} onChange={this.handleChange}>
                       <option value="percentage">Percentage discount</option>
-                      <option value="doller">Doller discount</option>
+                      <option value="doller">Dollar discount</option>
                     </select>
                   </div>
                

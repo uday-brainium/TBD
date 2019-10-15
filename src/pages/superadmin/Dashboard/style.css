@@ -21,6 +21,7 @@
     padding-left: 10px;
     margin-bottom: 5px;
 }
+
 .editor-box label {
     font-size: 13px
 }
@@ -35,12 +36,13 @@
 .add-testimonial {
     margin-top: 20px
 }
+
 .testimonial-list {
     border: 1px solid lightgray;
     padding: 5px;
     margin-top: 15px;
     overflow: hidden
-}
+} 
 
 .btnText-input {
     margin-top: 10%
@@ -69,12 +71,21 @@
   border: 1px solid #cccccc;
 }
 .result-box {
-  height: 400px;
+  height: 300px;
   overflow-y: scroll;
   margin: 10px;
 }
+
 .monitor-btn {
     background-color: #316fa1;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.monitor-btn-block {
+    background-color: rgb(218, 82, 58);
     border: 1px solid;
     padding: 5px;
     border-radius: 5px;
@@ -87,6 +98,13 @@
     box-shadow: 0 0 1px 0px black;
     border-radius: 5px;
     margin: 10px;
+}
+.area-text {
+    width: 100%;
+    height: 300px;
+    padding: 10px;
+    border-radius: 5px;
+    border-color: darkgray;
 }
 
 @media only screen and (max-width: 600px) {

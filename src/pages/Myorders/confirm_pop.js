@@ -74,7 +74,7 @@ export default class ConfirmPop extends Component {
   render() {
     const { status, data } = this.props
     const { selectRefund, refundAmount } = this.state
-    const chargeId = data.order ? data.order.paymentinfo.chargeId : 0
+    // const chargeId = data.order ? data.order.paymentinfo.chargeId : 0
     return (
       <div>
         <ManagerAuth show={this.state.openAuthenticater} authenticate={(status) => this.authenticate(status)} close={() => this.setState({openAuthenticater: false})}/>
@@ -133,7 +133,7 @@ export default class ConfirmPop extends Component {
                         <Col>
                           <div>
                             <select name="discounttype" onChange={(e) => this.changeField(e, data.order.items)} className="discount-type-select">
-                              <option value="doller">Doller</option>
+                              <option value="doller">Dollar</option>
                               <option value="percent">Percent</option>
                             </select>
 
