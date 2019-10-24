@@ -41,7 +41,6 @@ class Login extends Component {
   }
 
   loginData = (userdata) => {
-    console.log('callback data', userdata);
     this.props.history.push(`profile`)
   }
 

@@ -45,8 +45,8 @@ export default class Store_header extends Component {
                 <div className="businessProfileHeader">
                   <div className="bannerContent">
                     <div className="bannerright">
-                      <span className="counter hidden">{this.props.rating}<span>/5</span> </span>
-                      <div className="votes hidden">{this.props.votes} votes</div>
+                        {/* <span className="counter hidden">{this.props.rating}<span>/5</span> </span>
+                        <div className="votes hidden">{this.props.votes} votes</div> */}
                     </div>
                     <div className="bannerleft">
                       <h1>

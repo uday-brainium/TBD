@@ -540,7 +540,7 @@ class RegistrationPage extends React.Component {
                         <span>Step 3:</span>
                       </div>
                       <div>
-                        Add offers & service to your resturent
+                        Add offers & service to your restaurant
                       </div>
                     </li>
                     <li className={this.state.currentStep === 4 ? 'step active-step animated headShake': 'step'} onClick={() => this.clickOnSteps('4')}>
@@ -548,7 +548,7 @@ class RegistrationPage extends React.Component {
                         <span>Step 4:</span>
                       </div>
                       <div>
-                        Start promotion and offer loyalty points
+                        Start promotion and offer loyality points
                       </div>
                     </li>
                   </ul>

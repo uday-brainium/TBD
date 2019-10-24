@@ -2139,6 +2139,109 @@ class ApiService {
     ).then(res => res.json())
   }
 
+  static delete_business(id) {
+    return fetch(
+      Config.Api_Address+`users/deleteuser/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          // 'x-access-token': token
+        }
+      }
+    ).then(res => res.json())
+  }
+
+  static business_count(id) {
+    return fetch(
+      Config.Api_Address+`users/total_user_registered`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          // 'x-access-token': token
+        }, 
+        body: qs.stringify({businessid: id})
+      }
+    ).then(res => res.json())
+  }
+
+  static orders_count(id) {
+    return fetch(
+      Config.Api_Address+`users/total_orders_placed`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          // 'x-access-token': token
+        }, 
+        body: qs.stringify({businessid: id})
+      }
+    ).then(res => res.json())
+  }
+
+  static events_count(id) {
+    return fetch(
+      Config.Api_Address+`users/total_event_booked`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          // 'x-access-token': token
+        }, 
+        body: qs.stringify({businessid: id})
+      }
+    ).then(res => res.json())
+  }
+
+  static loyality_sold(id) {
+    return fetch(
+      Config.Api_Address+`users/total_loyality_card`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          // 'x-access-token': token
+        }, 
+        body: qs.stringify({businessid: id})
+      }
+    ).then(res => res.json())
+  }
+
+  static update_connect(id, data) {
+    return fetch(
+      `https://api.stripe.com/v1/accounts/${id}/external_accounts`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": Authorization
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
+  static fetch_connect(id) {
+    return fetch(
+      `https://api.stripe.com/v1/accounts/${id}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": Authorization
+        }
+      }
+    ).then(res => res.json())
+  }
+
 }
 
 export default ApiService;

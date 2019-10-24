@@ -3,13 +3,18 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { fetchUserData, set_usertype } from '../actions/user_action'
 import { Route, Link, Redirect, withRouter } from "react-router-dom"
+import ApiService from "../services/api";
 
 
 class DashboardPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      usertype: ''
+      usertype: '',
+      userCount: 0,
+      ordersCount: 0,
+      eventsCount: 0,
+      loyality_sold: 0
     }
   }
 
@@ -18,6 +23,51 @@ class DashboardPage extends React.Component {
     let token = localStorage.getItem('access-token-tbd')
     this.props.fetchUserData(userid, token).then(() => {
       //   console.log("PROPS", this.props);
+    })
+
+    this.fetchStatics()
+    this.orderCount()
+    this.eventCount()
+    this.loyalitySold()
+  }
+
+  fetchStatics = () => {
+    const userId = JSON.parse(localStorage.getItem('userdata')).data._id
+    ApiService.business_count(userId)
+    .then(res => {
+      this.setState({
+        userCount: res.count
+      })
+    })
+  }
+
+  orderCount = () => {
+    const userId = JSON.parse(localStorage.getItem('userdata')).data._id
+    ApiService.orders_count(userId)
+    .then(res => {
+      this.setState({
+        ordersCount: res.count
+      })
+    })
+  }
+
+  eventCount = () => {
+    const userId = JSON.parse(localStorage.getItem('userdata')).data._id
+    ApiService.events_count(userId)
+    .then(res => {
+      this.setState({
+        eventsCount: res.count
+      })
+    })
+  }
+
+  loyalitySold = () => {
+    const userId = JSON.parse(localStorage.getItem('userdata')).data._id
+    ApiService.loyality_sold(userId)
+    .then(res => {
+      this.setState({
+        loyalitySold: res.count
+      })
     })
   }
 
@@ -49,7 +99,7 @@ class DashboardPage extends React.Component {
                 <div className="inner">
                   <div className="counter">
                     <div className="number">
-                      <span>58</span>
+                      <span>{this.state.userCount}</span>
                     </div>
                   </div>
                 </div>
@@ -61,7 +111,7 @@ class DashboardPage extends React.Component {
                 <div className="inner">
                   <div className="counter">
                     <div className="number">
-                      <span>8</span>
+                      <span>{this.state.ordersCount}</span>
                     </div>
                   </div>
                 </div>
@@ -73,7 +123,7 @@ class DashboardPage extends React.Component {
                 <div className="inner">
                   <div className="counter">
                     <div className="number">
-                      <span>12</span>
+                      <span>{this.state.eventsCount}</span>
                     </div>
                   </div>
                 </div>
@@ -85,7 +135,7 @@ class DashboardPage extends React.Component {
                 <div className="inner">
                   <div className="counter">
                     <div className="number">
-                      <span>77</span>
+                      <span>{this.state.loyalitySold}</span>
                     </div>
                   </div>
                 </div>

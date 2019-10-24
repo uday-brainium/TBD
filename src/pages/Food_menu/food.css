@@ -10,6 +10,20 @@
 .cancle {
     background-color: red 
 }
+.nobank-alert {
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+  background-color: orangered;
+  color: #fff;
+}
+
+nobank-text {
+  color: #fff;
+  font-size: 16px;
+
+}
 /* RESPONSIVE PART OF UI */
 
 @media (min-width: 1281px) {}

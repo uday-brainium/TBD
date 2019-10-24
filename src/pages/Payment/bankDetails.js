@@ -9,9 +9,11 @@ export default class BankDetails extends Component {
     ssn: ''
   }
 
-  createAccount = () => {
+  createAccount = (e) => {
+    e.preventDefault()
     const {routing, account, ssn} = this.state
     this.props.createStripe(routing, account, ssn)
+
   }
 
   close = () => {
@@ -25,39 +27,42 @@ export default class BankDetails extends Component {
   }
 
   render() {
-    const {isOpen, error, success} = this.props
+    const {isOpen, error, success, update, } = this.props
     return (
       <center>
          <Modal isOpen={isOpen} toggle={this.close}>
+         <form onSubmit={this.createAccount}>
           <ModalHeader toggle={this.toggle}>Add Bank with Stripe Connect</ModalHeader>
           <ModalBody>
             <p style={{textAlign: 'center', color: 'red', fontSize: 12}} >
-              {error}
+              {error} 
             </p>
             <p style={{textAlign: 'center', color: 'green', fontSize: 12}} >
               {success}
             </p>
             <div className="input-div">
-              <div>
+              {!update && <div>
                  <label>SSN number last 4 digit</label>
                  <input className="bank-input" type="text" onChange={this.changeField} maxLength={4} placeholder="SSN number (Last 4 digit)" name="ssn" />
-              </div>
+              </div> }
 
               <div className="input-div">
                  <label>Routing number</label>
-                 <input className="bank-input" type="text" onChange={this.changeField} placeholder="Routing Number" name="routing" />
+                 <input className="bank-input" type="text" onChange={this.changeField} placeholder="Routing Number" name="routing" required/>
               </div>
 
               <div className="input-div">
                  <label>Account number</label>
-                 <input className="bank-input" type="text" onChange={this.changeField} placeholder="Account Number" name="account" />
+                 <input className="bank-input" type="text" onChange={this.changeField} placeholder="Account Number" name="account" required/>
               </div>
             </div>
+            
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.createAccount}>Submit</Button>{' '}
+            <Button color="primary" name="submit">Submit</Button>
             <Button color="secondary" onClick={this.close}>Cancel</Button>
           </ModalFooter>
+          </form>
         </Modal>
       </center>
     );

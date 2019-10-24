@@ -10,6 +10,7 @@ export const update_guest = (userid, type, paymentInfo)  => {
       ApiService.update_guest(guestData)
       .then(res => res.json())
       .then((response) => {
+        localStorage.setItem('guest-userdata', JSON.stringify(response.response))
         console.log('response',response);
       })
 }

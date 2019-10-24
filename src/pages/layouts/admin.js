@@ -567,11 +567,7 @@ class AdminLayout extends Component {
                         <li><a className="" onClick={(e) => this.sideMenuLinkClicked('list_sub_users')}>Manage Sub User</a></li>
                       </div> : ''
                     }
-                    <div style={{color: '#fff', fontWeight: 'bold'}}>
-                    <li>
-                      <Link to={'/sa_login'} className="">Superadmin</Link>
-                    </li>
-                    </div>
+                   
                   </ul>
                 </div>
                 {/*<AdminLeftMenuView menuDisplayed={this.state.leftMenuOpen} hideOverlay={this.hideOverlay} topBarFixed={this.state.fixedTopBar} menuClicked={this.state.menuLinkClicked} />*/}

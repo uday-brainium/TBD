@@ -54,3 +54,8 @@
     font-size: 18px;
     color: green
 }
+.active_bank {
+    float: left;
+    text-align: left;
+    width: 100%;
+}

@@ -111,7 +111,7 @@ export default class Step3 extends Component {
 
         {this.props.foodpickup &&
         <div className="checkbox-details-text">
-          <p className="info-text"> You need to setup food menu after login for this feture.</p>
+          <p className="info-text"> You need to setup food menu after login for this restaurant.</p>
         </div>}
 
         <div className="singleCheckbox">

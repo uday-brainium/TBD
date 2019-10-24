@@ -39,7 +39,7 @@ class FooterView extends React.Component {
                             </div> */}
               <div className="bottomFooter">
                 <hr />
-                <p className="copyright">Copyright © 2018 TBD, All Rights Reserved. Powered by BIT</p>
+                <p className="copyright">Copyright © 2018 Doublesat, All Rights Reserved. Powered by Doublesat.com</p>
               </div>
             </div>
           </div>

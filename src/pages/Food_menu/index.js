@@ -27,11 +27,26 @@ class Food_menu extends Component {
     searchkey: '',
     offerDelivery: false,
     deliveryCharge: 0,
-    smallPop: false
+    smallPop: false,
+    business: {},
+    isBankAdded: true
   };
 
   componentDidMount() {
     this.updateMenuData()
+    this.fetchStore()
+  }
+
+  fetchStore = () => {
+    ApiService.profileData("", userid)
+    .then(res => res.json())
+    .then(response => {
+      if(response.success) {
+        this.setState({business: response.data, isBankAdded: response.data.payment.stripe_account ? true : false})
+      }
+      console.log("response", response);
+      
+    })
   }
 
   handleChange = (e) => {
@@ -166,7 +181,15 @@ class Food_menu extends Component {
     this.setState({ smallPop: false, offerDelivery: true, deliveryCharge: charge })
   }
 
+  navigateToPayment = () => {
+    this.props.history.push('/payments')
+  }
+
   render() {
+    const { business} = this.state
+    const isBankAdded = business.payment && business.payment.stripe_account && business.payment.stripe_account.id ? true : false 
+    console.log("IS", isBankAdded);
+   // const isBankAdded = true
     const menuList = this.state.menuData
       .map((menuList, index) => {
         return (
@@ -184,6 +207,9 @@ class Food_menu extends Component {
         <Notifications />
         <Small_pop show={this.state.smallPop} saveData={(charge, check) => this.saveDeliveryData(charge, true)} close={this.closeSmallPop} />
         <div>
+          {!isBankAdded &&  <div className="nobank-alert">
+            <span className="nobank-text">No bank added yet food ordering will be disbled ! <a href="javascript:void()" onClick={this.navigateToPayment}> Add now </a></span>
+           </div> }
           <Row className="form gap">
             <Col>
               <div className="singleCheckbox">

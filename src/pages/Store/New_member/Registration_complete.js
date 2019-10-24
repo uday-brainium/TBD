@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom"
 
+class Registration_complete extends Component {
 
-export default class Registration_complete extends Component {
-
+  goToDashBoard = () => {
+    this.props.history.push(`/${this.props.store}`)
+  }
 
   render() {
     return (
@@ -16,10 +19,13 @@ export default class Registration_complete extends Component {
            Thank you to be a member. Now you can enjoy the member services .
           </div>
           <div>
-            <button className="btn btn-info done-btn">Continue</button>
+            <button onClick={this.goToDashBoard} className="btn btn-info done-btn">Continue</button>
           </div>
         </div>
      </div>
     );
   }
 }
+
+
+export default withRouter(Registration_complete)

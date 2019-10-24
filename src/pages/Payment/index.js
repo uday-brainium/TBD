@@ -23,14 +23,20 @@ export default class Payments extends Component {
     city: '',
     userid: '',
     token: '',
-
     error: null,
-    success: null
+    success: null,
+
+    create_isOpen: false,
+    create_error: '',
+    create_success: '',
+
+    default_account_bank: '',
+    default_account_number: ''
   }
 
   componentDidMount() {
     const userData = userId ? JSON.parse(localStorage.getItem('userdata')) : []
-    console.log("userData", userData);
+    // console.log("userData", userData);
     this.setState({
       email: userData.data.email,
       fullname: userData.data.fullName,
@@ -42,32 +48,26 @@ export default class Payments extends Component {
       state: userData.data.state,
       userid: userId,
       token: userId.token,
-      accountId: userData.data.payment.stripe_account ? userData.data.payment.stripe_account.id : ''
+      accountId: userData.data.payment.stripe_account ? userData.data.payment.stripe_account.id : '',
     })
 
+    this.get_active_account(userData)
   }
-  // formSubmit = (e) => {
-  //   e.preventDefault()
-  //   console.log("Helo");
-  //   if(userId) {
-  //     this.setState({loading: true})
-  //     const key = this.state.apikey
-  //     ApiService.save_apikey(userId, key)
-  //     .then(res => {
-  //       if(res.status == 200) {
-  //         this.setState({loading: false, done: true, apikey: ''})
-  //         setTimeout(() => {
-  //           this.setState({done: false})
-  //         }, 5000)
-  //       }
-  //     })
-  //   }    
-  // }
 
-  // changeApi = (e) => {
-  //   const value = e.target.value
-  //   this.setState({apikey: value})
-  // }
+  get_active_account = (userData) => {
+    if (userData.data.payment.stripe_account) {
+      const external_account = userData.data.payment.stripe_account.external_accounts
+      external_account.data.map(account => {
+        if (account.default_for_currency == "true") {
+          this.setState({
+            default_account_bank: account.bank_name,
+            default_account_number: account.last4
+          })
+        }
+      })
+    }
+  }
+
 
   openBankModal = () => {
     this.setState({ isOpen: !this.state.isOpen })
@@ -134,6 +134,9 @@ export default class Payments extends Component {
                   token: this.state.token
                 }
                 localStorage.setItem('userdata', JSON.stringify(data))
+                setTimeout(() => {
+                  window.location.reload()
+                }, 1000)
               }
             })
           this.setState({ loading: false, success: 'Stripe connected account created successfully.', error: null })
@@ -144,28 +147,90 @@ export default class Payments extends Component {
   closeModal = () => {
     this.setState({ isOpen: false })
   }
+  create_closeModal = () => {
+    this.setState({ create_isOpen: false })
+  }
 
   generateLink = () => {
-    const {accountId} = this.state
+    const { accountId } = this.state
     const amount = 100
     const details = "a test transfer"
     ApiService.transfer_money_to_business(accountId, amount, details)
-    .then(res => {
-      console.log("LINK", res);
-      
-    })
+      .then(res => {
+        console.log("LINK", res);
+
+      })
+  }
+
+  update_bank = (route, account, ssn) => {
+    this.setState({ loading: true })
+    const { accountId, fullname, userid, token } = this.state
+    const data = {
+      external_account: {
+        object: 'bank_account',
+        country: 'US',
+        currency: 'USD',
+        account_holder_name: fullname,
+        account_holder_type: 'individual',
+        routing_number: route,
+        account_number: account,
+        default_for_currency: true
+      }
+    }
+    ApiService.update_connect(accountId, data)
+      .then(res => {
+        if (res.error) {
+          this.setState({ error: res.error.message, success: '', loading: false })
+        } else {
+          ApiService.fetch_connect(accountId)
+            .then(res2 => {
+              if (!res2.error) {
+                ApiService.add_stripe_account(userid, res2)
+                  .then(res3 => {
+                    if (res3.status == 200) {
+                      const data = {
+                        data: res3.response,
+                        token: token
+                      }
+                      localStorage.setItem('userdata', JSON.stringify(data))
+                    }
+                  })
+              }
+            })
+
+          this.setState({ success: "Bank account upadated successfully !", error: '' })
+          setTimeout(() => {
+            this.setState({ create_isOpen: false })
+            window.location.reload()
+          }, 2000)
+        }
+      })
+  }
+
+  updateBank = () => {
+    this.setState({ create_isOpen: true })
   }
 
   render() {
-    const { done, isOpen, loading, error, success, accountId } = this.state
+    const { done, isOpen, loading, error, success, accountId, create_isOpen, create_error, create_success } = this.state
     return (
       <div className="content-container">
         <Page_head title="Payments" icon="fas fa-clipboard" />
         <Loader loading={loading} fill="no-fill" />
         <BankInfoModal
+          update={false}
           isOpen={isOpen}
           close={this.closeModal}
           createStripe={(route, account, ssn) => this.createStripe(route, account, ssn)}
+          error={error}
+          success={success}
+        />
+
+        <BankInfoModal
+          update={true}
+          isOpen={create_isOpen}
+          close={this.create_closeModal}
+          createStripe={(route, account, ssn) => this.update_bank(route, account, ssn)}
           error={error}
           success={success}
         />
@@ -193,6 +258,20 @@ export default class Payments extends Component {
                 ID - <span className="account-id">{accountId}</span>
               </p>
 
+              <div>
+                <button className="stripe-create" onClick={this.updateBank}>Update bank account</button>
+              </div>
+
+              <p style={{ marginTop: 10, fontSize: 14 }}>** For more information contact with superadmin with this account ID</p>
+
+              <hr></hr>
+              {/* BANK ACCOUNT DETAILS */}
+              <div className="active_bank">
+                <p><b>Active BANK ACCOUNT</b></p>
+                <span><b>BANK</b> - </span> {this.state.default_account_bank} <br></br>
+                <span><b>ACCOUNT NUMBER</b> - </span> ********{this.state.default_account_number}
+              </div>
+              <hr></hr>
               {/* <button onClick={this.generateLink} className="generate-link">Generate login link</button> */}
             </div>
           }

@@ -156,8 +156,20 @@ export default class Foods extends Component {
     this.setState({cartModal: false})
   }
 
-  render() {
+  renderNoBank = () => {
+    return (
+      <div style={{marginTop: '15%'}}>
+        <center>
+          <h3>Food ordering is disabled !</h3>
+          <span style={{fontSize: 12}}>If you are the owner, please connect your Stripe Account in the Admin Panel.</span>
+        </center>
+      </div>
+    )
+  }
 
+  render() {
+    const data = this.state.storeDetails
+    
     return (
       <div>
            <Header
@@ -172,9 +184,16 @@ export default class Foods extends Component {
             closedon={this.state.storeDetails.closedon}
           />
            <Notifications />
-           <Title_head title="Menu" fa_icon_class="far fa-id-badge" hasRightmenu={true} showcart={true} />
+           <Title_head title="Menu " fa_icon_class="far fa-id-badge" hasRightmenu={true} showcart={true} />
            <Loader loading={this.state.loading} background='no-fill' />
            <Add_to_cart show={this.state.cartModal} data={this.state.selectedFoodData} close={this.closeCartModal}/>
+           
+           {!data ?
+            null :
+           data.isBankAdded == false &&
+            this.renderNoBank() 
+           }
+           {data.isBankAdded &&
            <div className="food-container">
               <Row>
                 <Col lg={3} md={3} sm={0} xs={0} className="food-left-sidebar">
@@ -273,7 +292,7 @@ export default class Foods extends Component {
             </Row>
 
       
-           </div>
+            </div> }
            <Navigation 
             nav = {this.props.history}
             store= {storeName}

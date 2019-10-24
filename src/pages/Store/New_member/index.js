@@ -4,7 +4,7 @@ import Navigation from '../navigation'
 import ApiService from './../../../services/api'
 import Loader from '../../components/simpleloader'
 import Title_head from './../page_title_head'
-// import Footer from './../footer'
+//   import Footer from './../footer'
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import Notifications, { notify } from 'react-notify-toast';
 import Price_card from './pricing_cards'
@@ -376,7 +376,7 @@ export default class Became_member extends Component {
             {this.state.step == 2 &&
              <div id="priceCards" className="animated slideInRight">
              <Row className="flex-column-reverse flex-lg-row flex-md-row flex-sm-row">
-               <Col xs={12} lg={4} md={4} sm={4} className="order-xs-3">
+               <Col xs={12} lg={4} md={4} sm={4} className="order-xs-1">
                   <Price_card 
                     membership = "Gold"
                     userid = {this.state.lastCreatedId}
@@ -384,8 +384,8 @@ export default class Became_member extends Component {
                     serviceProps = {this.state.storeDetails}
                   />
                </Col>
-               <Col xs={12} lg={4} md={4} sm={4} className="order-xs-2">
-                 {this.state.storeDetails && <Price_card 
+               <Col xs={12} lg={4} md={4} sm={4} className="order-xs-1">
+                 {this.state.storeDetails && <Price_card  
                     membership = "Silver"
                     userid = {this.state.lastCreatedId}
                     moveToDone = {() => this.setState({step: 3})}
@@ -407,7 +407,7 @@ export default class Became_member extends Component {
 
             }
             {this.state.step === 3 &&
-              <Register_done />
+              <Register_done store={storeName}/>
             }
            </div>
           </Col>

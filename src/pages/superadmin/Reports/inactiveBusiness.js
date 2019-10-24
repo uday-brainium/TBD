@@ -9,12 +9,28 @@ export default class InactiveReports extends Component {
   }
 
   componentDidMount() {
+    this.fetchList()
+  }
+
+  fetchList = () => {
     ApiService.inactivity_reports()
     .then(res => { 
       if(res.status == 200) {
         this.setState({list: res.data})
       }
     })
+  }
+
+  deleteBusiness = (id) => {
+    const ask = window.confirm('Are you sure to delete business permanently ?')
+    if(ask) {
+      ApiService.delete_business(id)
+      .then(res => {
+        if(res.statusCode == 200) {
+          this.fetchList()
+        }
+      })
+    } 
   }
 
 
@@ -43,6 +59,11 @@ export default class InactiveReports extends Component {
               <Col>
                 <h6>City</h6>
                 <p style={{fontSize: 14, marginTop: -2, marginBottom: -2}}>{business.city}</p>
+              </Col>
+
+              <Col>
+                <h6>Delete</h6>
+                 <button style={{backgroundColor: 'red', color: 'white', fontSize: 12}} onClick={() => this.deleteBusiness(business._id)}>Delete permanently</button>
               </Col>
               {/* <Col>
               <span>
