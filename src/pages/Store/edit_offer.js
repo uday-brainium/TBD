@@ -83,7 +83,7 @@ export default class Edit_offer extends Component {
 
   renderOptions = (type) => {
     let opt = []
-    for(let i = 0; i < 51; i++) {
+    for(let i = 0; i < 101; i++) {
       opt.push(<option key={i} value={i}>{type == "Doller"? `$${i}` : `${i}%`}</option>)
     }
     return opt

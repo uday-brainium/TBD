@@ -2242,6 +2242,21 @@ class ApiService {
     ).then(res => res.json())
   }
 
+    static forgot_password_guest(email) {
+    return fetch(
+      Config.Api_Address+`guests/forgot_password_guest`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          // 'x-access-token': token
+        }, 
+        body: qs.stringify({email})
+      }
+    ).then(res => res.json())
+  }
+
 }
 
 export default ApiService;

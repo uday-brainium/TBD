@@ -238,9 +238,8 @@ export default class Payments extends Component {
           <Row>
             <Col>
               <p style={{ textAlign: 'left' }}>
-                For recieving payment seller/business must have a stripe account
-                we will create a connected stripe account and you need to add your bank account
-                to recieve payments.
+               For receiving payment seller/business must have a connected Stripe Account.
+               To create a Stripe Account add your banking details to receive payments.
              </p>
             </Col>
           </Row>

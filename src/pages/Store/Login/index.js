@@ -6,7 +6,8 @@ import { withRouter } from "react-router-dom"
 import Loader from '../../components/simpleloader'
 import Title_head from './../page_title_head'
 // import Footer from './../footer'
-import { Row, Col, Card, Button } from 'react-bootstrap'
+import { Row, Col, Card } from 'react-bootstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Notifications, { notify } from 'react-notify-toast'
 import Login_form from  './login_form'
 import './login.css'
@@ -18,7 +19,9 @@ class Login extends Component {
 
   state = {
     storeDetails: {},
-    loading: true
+    loading: true,
+    forgotPasswordModal: false,
+    email: ''
   }
 
   componentDidMount() {
@@ -49,7 +52,19 @@ class Login extends Component {
     if(JSON.parse(data))
       this.props.history.push('profile')
   }
-  
+
+  toggleModal = () => {
+    this.setState({forgotPasswordModal: !this.state.forgotPasswordModal})
+  }
+
+  resetPass = () => {
+    ApiService.forgot_password_guest(this.state.email)
+    .then(res => {
+      console.log("res", res);
+      
+    })
+  }
+
   render() {
     return (
         <div>
@@ -74,6 +89,7 @@ class Login extends Component {
           <Col lg={4} xs={0} sm={3}></Col>
           <Col lg={4} xs={12} sm={6}>
             <Login_form redirect="profile" callback={(userdata) => this.loginData(userdata)}/>
+            <p>Forgot your password ? <a onClick={() => this.setState({forgotPasswordModal: true})} href="javascript:void()">Click here</a></p>
           </Col>
           <Col lg={4} xs={0} sm={3}></Col>
         </Row>
@@ -85,6 +101,17 @@ class Login extends Component {
         store= {storeName}
         storeData = {this.state.storeDetails}
       />
+
+      <Modal isOpen={this.state.forgotPasswordModal} toggle={this.toggleModal}>
+        <ModalHeader toggle={this.toggleModal }>Forgot password </ModalHeader>
+        <ModalBody>
+          <input type="text" placeholder="email" onChange={(e) => this.setState({email: e.target.value})}/>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.resetPass}>Reset password</Button>{' '}
+          <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
 
       </div>
     );

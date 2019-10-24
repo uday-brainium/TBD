@@ -109,7 +109,11 @@ class Main_page extends React.Component {
   }
 
   addPost = () => {
-    this.setState({ add_modal: true })
+    if(userdata != null) {
+      this.setState({ add_modal: true })
+    } else {
+      alert('You need to login to post !')
+    }
   }
 
   paginate = (page) => {
@@ -214,7 +218,7 @@ class Main_page extends React.Component {
               <Col lg={4} md={4} sm={6} xs={0}></Col>
               <Col lg={4} md={4} sm={0} xs={0}></Col>
               <Col lg={4} md={4} sm={6} xs={12}>
-                <button className="button" disabled={userdata == null ? true : false} onClick={this.addPost}>Add post</button>
+                <button className="button"  onClick={this.addPost}>Add post</button>
               </Col>
             </Row>
             <InfiniteScroll

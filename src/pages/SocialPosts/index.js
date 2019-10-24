@@ -85,7 +85,7 @@ export default class Social_posts extends Component {
                           {/* <div className="photo"><img src="http://portal.bilardo.gov.tr/assets/pages/media/profile/profile_user.jpg" alt="" /></div> */}
                           <div className="name-add-time">
                             <h4>{data.guestname}</h4>
-                            <p>Kolkata, India</p>
+                            {/* <p>Kolkata, India</p> */}
                             <p>{new Date(data.createdAt).toLocaleDateString()}</p>
                           </div>
                         </Col>
