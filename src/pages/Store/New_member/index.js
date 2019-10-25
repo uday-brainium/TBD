@@ -375,7 +375,38 @@ export default class Became_member extends Component {
            </center> }
             {this.state.step == 2 &&
              <div id="priceCards" className="animated slideInRight">
-             <Row className="flex-column-reverse flex-lg-row flex-md-row flex-sm-row">
+
+              <div className="row">
+                <div className="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                  <Price_card 
+                    membership = "Gold"
+                    userid = {this.state.lastCreatedId}
+                    moveToDone = {() => this.setState({step: 3})}
+                    serviceProps = {this.state.storeDetails}
+                  />
+                </div>
+
+                <div className="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                  {this.state.storeDetails && <Price_card  
+                      membership = "Silver"
+                      userid = {this.state.lastCreatedId}
+                      moveToDone = {() => this.setState({step: 3})}
+                      serviceProps = {this.state.storeDetails}
+                    />
+                  }
+                </div>
+
+                <div className="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                  <Price_card 
+                    membership = "Free"
+                    userid = {this.state.lastCreatedId}
+                    moveToDone = {() => this.setState({step: 3})}
+                    serviceProps = {this.state.storeDetails}
+                  />
+                </div>
+              </div>
+
+             {/* <Row className="flex-column-reverse flex-lg-row flex-md-row flex-sm-row">
                <Col xs={12} lg={4} md={4} sm={4} className="order-xs-1">
                   <Price_card 
                     membership = "Gold"
@@ -401,10 +432,9 @@ export default class Became_member extends Component {
                     serviceProps = {this.state.storeDetails}
                   />
                </Col>
-             </Row>
+             </Row> */}
              
               </div>
-
             }
             {this.state.step === 3 &&
               <Register_done store={storeName}/>

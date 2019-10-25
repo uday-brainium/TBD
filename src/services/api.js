@@ -6,7 +6,7 @@ let token = localStorage.getItem('access-token-tbd')
 console.log("123", token);
 
 
-const Authorization = "Bearer sk_test_0kb7ef0szWdvnew2LN459SSn00nWhMx4LH"
+const Authorization =  "Bearer sk_test_0kb7ef0szWdvnew2LN459SSn00nWhMx4LH"
 
 class ApiService {
   static apiurl = "https://jsonplaceholder.typicode.com/";

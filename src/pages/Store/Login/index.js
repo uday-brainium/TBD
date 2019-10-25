@@ -21,7 +21,8 @@ class Login extends Component {
     storeDetails: {},
     loading: true,
     forgotPasswordModal: false,
-    email: ''
+    email: '',
+    emailSent: ''
   }
 
   componentDidMount() {
@@ -58,8 +59,10 @@ class Login extends Component {
   }
 
   resetPass = () => {
+    this.setState({loading: true})
     ApiService.forgot_password_guest(this.state.email)
     .then(res => {
+      this.setState({loading: false, emailSent: 'New password has been sent to your email address !'})
       console.log("res", res);
       
     })
@@ -89,7 +92,7 @@ class Login extends Component {
           <Col lg={4} xs={0} sm={3}></Col>
           <Col lg={4} xs={12} sm={6}>
             <Login_form redirect="profile" callback={(userdata) => this.loginData(userdata)}/>
-            <p>Forgot your password ? <a onClick={() => this.setState({forgotPasswordModal: true})} href="javascript:void()">Click here</a></p>
+            <p style={{marginTop: 20, textAlign: 'center'}}>Forgot your password ? <a onClick={() => this.setState({forgotPasswordModal: true})} href="javascript:void()">Click here</a></p>
           </Col>
           <Col lg={4} xs={0} sm={3}></Col>
         </Row>
@@ -105,11 +108,15 @@ class Login extends Component {
       <Modal isOpen={this.state.forgotPasswordModal} toggle={this.toggleModal}>
         <ModalHeader toggle={this.toggleModal }>Forgot password </ModalHeader>
         <ModalBody>
-          <input type="text" placeholder="email" onChange={(e) => this.setState({email: e.target.value})}/>
+          <div>
+            <label>Email: </label><br></br>
+            <input type="text" placeholder="Enter your email" onChange={(e) => this.setState({email: e.target.value})}/>
+          </div>
+          <p style={{color: 'green', marginTop: 10}}>{this.state.emailSent}</p>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={this.resetPass}>Reset password</Button>{' '}
-          <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+          <Button color="secondary" onClick={this.toggleModal}>Close</Button>
         </ModalFooter>
       </Modal>
 

@@ -69,6 +69,7 @@
   }
   
   .price {
+    width: 100%;
     list-style-type: none;
     border: 1px solid #eee;
     margin: 0;
