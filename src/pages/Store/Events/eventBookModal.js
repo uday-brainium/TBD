@@ -256,13 +256,33 @@ export default class Event_booking extends Component {
     return isExpired
   }
 
+  bookEventFree = (eventid) => {
+    let bookdata = {
+      eventid, userid: userdata._id,
+      username: `${userdata.firstname} ${userdata.lastname}`,
+      paid: true
+    }
+    ApiService.book_event(bookdata)
+      .then(result => result.json())
+      .then(responseData => {
+        if(responseData.status == 200) {
+          // console.log("save payment booking", responseData);
+          this.setState({ loading: false, booked: true })
+        }
+      })
+  }
+
   render() {
     const { event, show, close, onBooking } = this.props
     const bookedusers = event.bookedusers ? event.bookedusers.length : 0
     const available = ((event.totalcapacity - bookedusers))
     userdata = JSON.parse(localStorage.getItem('guest-userdata'))
+    const isPaidMember = userdata.membership_type != "Free" ? true : false
+    const freeForMembers = event ? event.freeformembers ? true : false : ''
     // console.log('Once_Ecvent', this.isEventRunning_weekly());
     // console.log("EVENT", this.isEventExpired());
+    console.log("HOl", isPaidMember, freeForMembers);
+    
 
     return (
       <div>
@@ -300,8 +320,11 @@ export default class Event_booking extends Component {
 
                       {available > 0 && !this.state.booked && !this.findAlreadyBooked() == 1 && !this.isEventRunning_daily() && !this.isEventRunning_once() && !this.isEventRunning_weekly() && !this.isEventExpired() ?
                         <div className="book-event">
-                          <PaymentView price={event.ticketprice} onToken={(token) => this.onToken(token, event.ticketprice, event._id)} />
-                        </div> : ''
+                          {freeForMembers && isPaidMember ?
+                          <button> Book now (Free) </button>
+                          : <PaymentView price={event.ticketprice} onToken={(token) => this.onToken(token, event.ticketprice, event._id)} />
+                          }
+                          </div> : ''
                       }
 
                       {this.isEventExpired() &&

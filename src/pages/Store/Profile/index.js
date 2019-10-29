@@ -89,6 +89,7 @@ class Guest_profile extends Component {
       this.fetchAllPlaces()
       this.fetchOrders()
       this.fetchPromos()
+      this.setState({profileImg: `${config.Base_url}${JSON.parse(data).profile_image}`})
     }
   }
 
@@ -166,7 +167,7 @@ class Guest_profile extends Component {
       state: data.state,
       country: data.country,
       cards: data.saved_cards,
-      profileImg: data.profile_image != "" ? `${config.Base_url}${data.profile_image}` : 'https://banner2.kisspng.com/20180615/rtc/kisspng-avatar-user-profile-male-logo-profile-icon-5b238cb002ed52.870627731529056432012.jpg',
+      //profileImg: data.profile_image != "" ? `${config.Base_url}${data.profile_image}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRbcqISo8Z83Vm4_PHJHxvVtUIVKnWeg2MujEyOB4gzHi1MUB9v',
       screen: 'profileinfo'
     })
   }
@@ -286,10 +287,16 @@ class Guest_profile extends Component {
     }
     ApiService.edit_guest_image(data)
       .then(res => res.json())
-      .then(response => {
+      .then(async (response) => {
         this.setState({ loading: false })
         localStorage.setItem('guest-userdata', JSON.stringify(response.response))
-        this.setUserdata()
+        await this.setUserdata()
+
+        setTimeout(() => {
+           let userdata = localStorage.getItem('guest-userdata')
+           let data = JSON.parse(userdata)
+          this.setState({profileImg: `${config.Base_url}${data.profile_image}`})
+        }, 2000)
       })
   }
 
@@ -386,9 +393,8 @@ class Guest_profile extends Component {
             <Col lg={4} md={4} sm={12} xs={12} className="profile-left">
 
               <div className="profile-icon">
-
                 <div className="guest-user-image">
-                  <img src={this.state.profileImg} width="100%" height="100%" />
+                  <img src={this.state.profileImg ? this.state.profileImg : require('./../../../images/profile-image.jpeg')} width="100%" height="100%" />
                   <div className="colored">{userdata.firstname} {userdata.lastname}</div>
                   <i className="far fa-edit image-edit-icon"></i>
 
