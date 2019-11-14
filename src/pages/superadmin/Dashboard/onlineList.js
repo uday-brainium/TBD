@@ -25,7 +25,7 @@ export default class OnlineList extends Component {
           <Col>Total online: <span style={{color: 'green', marginLeft: 10, fontWeight: 'bold'}}>{this.state.list.length}</span></Col>
       </Row>
         
-        <div classNam="table-overflow">
+        <div className="table-overflow">
           <Table>
             <thead>
               <tr>
@@ -37,7 +37,7 @@ export default class OnlineList extends Component {
             </thead>
             <tbody>
               {this.state.list.map(business => (
-                <tr>
+                <tr key={business.businessname}>
                   <td>{business.businessname}</td>
                   <td>{business.email}</td>
                   <td>{business.url}</td>

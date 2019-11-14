@@ -5,15 +5,15 @@ import ApiService from '../../../services/api';
 export default class AddApiKey extends Component {
 
   state = {
-    key: ''
+    key: '',
+    secretKey: ''
   }
 
   formSubmit = (e) => {
     e.preventDefault()
-    const {key} = this.state
-    ApiService.add_key(key)
+    const {key, secretKey} = this.state
+    ApiService.add_key(key, secretKey)
     .then(res => {
-      console.log("res", res);
       this.props.updateList()
     })
   }
@@ -25,7 +25,8 @@ export default class AddApiKey extends Component {
         <div>
           <form onSubmit={this.formSubmit}>
             <label style={{marginBottom: -15, color:'green', marginTop: 10}}>Add a new stripe API key</label><br></br>
-            <input type="text" onChange={(e) => this.setState({key: e.target.value})} name="key" placeholder="Enter API Key" />
+            <input type="text" onChange={(e) => this.setState({key: e.target.value})} name="key" placeholder="Enter API Key" required/>
+            <input type="text" onChange={(e) => this.setState({secretKey: e.target.value})} name="secretKey" placeholder="Enter Secret Key" required/>
             <input style={{marginLeft: 10, width: 100}} type="submit" value="Add Key" />
           </form>
         </div>

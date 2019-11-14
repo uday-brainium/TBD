@@ -6,6 +6,7 @@ import PaymentView from './paymentView'
 import ApiService from '../../../services/api';
 import Loader from './../../components/simpleloader'
 import moment from 'moment';
+import PaymentModal from './paymentModal'
 
 
 let userdata = JSON.parse(localStorage.getItem('guest-userdata'))
@@ -13,7 +14,8 @@ let userdata = JSON.parse(localStorage.getItem('guest-userdata'))
 export default class Event_booking extends Component {
 
   state = {
-    loading: false
+    loading: false,
+    payModal: false
   }
 
   onToken = (token, price, eventid) => {
@@ -21,7 +23,7 @@ export default class Event_booking extends Component {
     let data = {
       currency: 'AUD',
       amount: price * 100,
-      source: token.id
+      source: token
     }
     ApiService.chargeStripe(data)
       .then(res => res.json())
@@ -38,7 +40,7 @@ export default class Event_booking extends Component {
               .then(responseData => {
                 if(responseData.status == 200) {
                   // console.log("save payment booking", responseData);
-                  this.setState({ loading: false, booked: true }, () =>{
+                  this.setState({ loading: false, booked: true, payModal: false }, () =>{
                     this.initiatePayback(responseData.response)
                   })
                 }
@@ -257,6 +259,7 @@ export default class Event_booking extends Component {
   }
 
   bookEventFree = (eventid) => {
+    this.setState({loading: true})
     let bookdata = {
       eventid, userid: userdata._id,
       username: `${userdata.firstname} ${userdata.lastname}`,
@@ -266,7 +269,6 @@ export default class Event_booking extends Component {
       .then(result => result.json())
       .then(responseData => {
         if(responseData.status == 200) {
-          // console.log("save payment booking", responseData);
           this.setState({ loading: false, booked: true })
         }
       })
@@ -277,11 +279,11 @@ export default class Event_booking extends Component {
     const bookedusers = event.bookedusers ? event.bookedusers.length : 0
     const available = ((event.totalcapacity - bookedusers))
     userdata = JSON.parse(localStorage.getItem('guest-userdata'))
-    const isPaidMember = userdata.membership_type != "Free" ? true : false
-    const freeForMembers = event ? event.freeformembers ? true : false : ''
+    const isPaidMember = userdata ? userdata.membership_type != "Free" ? true : false : false
+    const freeForMembers = event ? event.freeformembers : ''
     // console.log('Once_Ecvent', this.isEventRunning_weekly());
     // console.log("EVENT", this.isEventExpired());
-    console.log("HOl", isPaidMember, freeForMembers);
+    console.log("IS FREE", isPaidMember, freeForMembers);
     
 
     return (
@@ -300,6 +302,7 @@ export default class Event_booking extends Component {
           </Modal.Header>
           <Modal.Body style={{ padding: 10, margin: 0 }}>
             <Loader loading={this.state.loading} />
+            <PaymentModal show={this.state.payModal} onToken={(token) => this.onToken(token, event.ticketprice, event._id)} handleClose={() => this.setState({payModal: false})} />
             <Row>
               <Col lg={6} md={6} sm={6} xs={12}>
                 <h6>{event.title}</h6>
@@ -320,9 +323,9 @@ export default class Event_booking extends Component {
 
                       {available > 0 && !this.state.booked && !this.findAlreadyBooked() == 1 && !this.isEventRunning_daily() && !this.isEventRunning_once() && !this.isEventRunning_weekly() && !this.isEventExpired() ?
                         <div className="book-event">
-                          {freeForMembers && isPaidMember ?
-                          <button> Book now (Free) </button>
-                          : <PaymentView price={event.ticketprice} onToken={(token) => this.onToken(token, event.ticketprice, event._id)} />
+                          {freeForMembers == 'true' && isPaidMember == true ?
+                          <button onClick={() => this.bookEventFree(event._id)} className="free-event-btn"> Book now (Free) </button>
+                          : <button onClick={() => this.setState({payModal: true})} className="free-event-btn"> Book now</button>
                           }
                           </div> : ''
                       }

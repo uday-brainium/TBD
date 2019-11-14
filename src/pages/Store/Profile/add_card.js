@@ -29,10 +29,23 @@ export default class Add_card extends Component {
                 <span>Card number</span>
                 <input maxLength="19" name="cardnumber" type="text" onChange={this.props.change}  className="card-input" required/>
                 </div>
-                <div>
-                <span>Name on card</span>
-                <input name="name" type="text" onChange={this.props.change}  className="card-input" required/>
-                </div>
+  
+                <Row>
+                  <Col>
+                  <div>
+                    <span>Name on card</span>
+                    <input name="name" type="text" onChange={this.props.change}  className="card-input" required/>
+                  </div>
+                  </Col>
+
+                  <Col>
+                  <div>
+                    <span>CVV</span>
+                    <input name="cvv" maxLength={3} type="password" onChange={this.props.change}  className="card-input" required/>
+                  </div>
+                  </Col>
+                </Row>
+
                 <Row>
                 
                 <Col>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ApiService from '../../../services/api';
 import { Row, Col } from 'react-bootstrap'
+import ExportToExcel from './exportToExcel'
 
 export default class InactiveReports extends Component {
 
@@ -38,7 +39,15 @@ export default class InactiveReports extends Component {
     const {list} = this.state
     return (
       <div className="editor-box" style={{marginTop: 40}}>
-        <h6>Inactivity reports (Businesses has no sale in past 30 days)</h6>
+        <Row>
+          <Col lg={8}>
+            <h6>Inactivity reports (Businesses has no sale in past 30 days)</h6>
+          </Col>
+          <Col lg={4}>
+            <ExportToExcel data={this.state.list} />
+          </Col>
+        </Row>
+       
         
         <div style={{marginTop: 30}}>
         {list.map(business => (
@@ -75,6 +84,7 @@ export default class InactiveReports extends Component {
           </div>          
         ))}
         </div>
+          
       </div>
     );
   }

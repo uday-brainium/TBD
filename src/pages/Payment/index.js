@@ -50,8 +50,22 @@ export default class Payments extends Component {
       token: userId.token,
       accountId: userData.data.payment.stripe_account ? userData.data.payment.stripe_account.id : '',
     })
-
+    this.getkeys()
     this.get_active_account(userData)
+  }
+
+  getkeys = async () => {
+    const sKey = localStorage.getItem('stripe_secret_key')
+    if (sKey == null) {
+      ApiService.get_keys()
+        .then(res => {
+          if (res.status == 200) {
+            const secret = res.response.selectedKey.secret
+            localStorage.setItem('stripe_secret_key', JSON.stringify(secret))
+            window.location.reload()
+          }
+        })
+    }
   }
 
   get_active_account = (userData) => {
@@ -79,25 +93,25 @@ export default class Payments extends Component {
       type: 'custom',
       country: 'US',
       email: this.state.email,
-      business_type: 'individual',
-      individual: {
-        email: this.state.email,
-        first_name: this.state.fullname,
-        phone: `+1${this.state.phone}`,
-        dob: {
-          day: '20',
-          month: '06',
-          year: '1994'
-        },
-        last_name: this.state.fullname,
-        address: {
-          line1: this.state.address,
-          city: this.state.city,
-          postal_code: this.state.zipcode,
-          state: this.state.state
-        },
-        ssn_last_4: ssn
-      },
+      // business_type: 'company',
+      // individual: {
+      //   email: this.state.email,
+      //   first_name: this.state.fullname,
+      //   phone: `+1${this.state.phone}`,
+      //   dob: {
+      //     day: '20',
+      //     month: '06',
+      //     year: '1994'
+      //   },
+      //   last_name: this.state.fullname,
+      //   address: {
+      //     line1: this.state.address,
+      //     city: this.state.city,
+      //     postal_code: this.state.zipcode,
+      //     state: this.state.state
+      //   },
+      //   ssn_last_4: ssn
+      // },
       business_profile: {
         url: `https://doublesat.com/${this.state.businessUrl}`,
         //industry: 'food_and_drink__restaurants'
@@ -162,9 +176,20 @@ export default class Payments extends Component {
       })
   }
 
-  update_bank = (route, account, ssn) => {
+  set_secret_key = async () => {
+    await ApiService.get_keys()
+      .then(res => {
+        if (res.status == 200) {
+          const secret = res.response.selectedKey.secret
+          localStorage.setItem('stripe_secret_key', JSON.stringify(secret))
+        }
+      })
+  }
+
+  update_bank = async (route, account, ssn) => {
     this.setState({ loading: true })
     const { accountId, fullname, userid, token } = this.state
+    await this.set_secret_key()
     const data = {
       external_account: {
         object: 'bank_account',
@@ -238,8 +263,8 @@ export default class Payments extends Component {
           <Row>
             <Col>
               <p style={{ textAlign: 'left' }}>
-               For receiving payment seller/business must have a connected Stripe Account.
-               To create a Stripe Account add your banking details to receive payments.
+                For receiving payment seller/business must have a connected Stripe Account.
+                To create a Stripe Account add your banking details to receive payments.
              </p>
             </Col>
           </Row>

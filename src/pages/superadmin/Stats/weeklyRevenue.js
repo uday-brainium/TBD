@@ -68,9 +68,9 @@ export default class WeeklyRevenue extends Component {
     
     months.map((month, i) => {
       if(currentMonth == i+1) {
-        monthArr.push(<option value={i+1} selected> {month} </option>)
+        monthArr.push(<option key={i} value={i+1} selected> {month} </option>)
       } else {
-        monthArr.push(<option value={i+1}> {month} </option>)
+        monthArr.push(<option key={i} value={i+1}> {month} </option>)
       }
     })
     return monthArr
@@ -80,7 +80,7 @@ export default class WeeklyRevenue extends Component {
     const businesses = this.state.businessList
     let listArr = []
     businesses.map((data, i) => {
-      listArr.push(<option value={data._id}>{data.businessname}</option>)
+      listArr.push(<option key={i} value={data._id}>{data.businessname}</option>)
     })
 
     return listArr

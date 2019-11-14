@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ApiService from './../../../services/api'
+import Loader from './../../components/simpleloader'
 
 export default class LoginBox extends Component {
   
@@ -7,7 +8,9 @@ export default class LoginBox extends Component {
     email: '',
     password: '',
     error: false,
-    errorCred: false
+    errorCred: false,
+    show: false,
+    loading: false
   }
 
   onChange = (e) => {
@@ -36,10 +39,15 @@ export default class LoginBox extends Component {
     }
   }
 
+
+
   render() {
     const { error, errorCred } = this.state
+    console.log("PROP", this.props);
+    
     return (
       <div className="box-container">
+       <Loader loading={this.state.loading} />
        <img src={require('./../../../images/like-logo.png')} height={100} width={100} />
         <h4 className="header-text"> Login <sub>Superadmin</sub> </h4>
         <form onSubmit={this.handleSubmit}>
@@ -58,6 +66,8 @@ export default class LoginBox extends Component {
           }
           <input type="submit" value="Login" />
         </form>
+
+        <p style={{ marginTop: 20 }}>Forgot superadmin password ? <a style={{ cursor: 'pointer', color: 'blue' }} onClick={() => this.props.reset()}>Reset now</a></p>
       </div>
     );
   }

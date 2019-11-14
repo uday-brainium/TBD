@@ -342,7 +342,10 @@ class SuperAdminLayout extends Component {
         //   redirectedHome: true
         // })
     }
-
+  
+  acSetting = () => {
+    this.props.history.push('/sa_settings')
+  }
 
   render() {
 
@@ -401,6 +404,7 @@ class SuperAdminLayout extends Component {
                                   <nav className="navigationAL" style={this.state.menuBodystyle}>
                                     <ul className="primary">
                                       <li><a onClick={this.logout}>Logout</a></li>
+                                      <li><a onClick={this.acSetting}>Settings</a></li>
                                     </ul>
                                   </nav>
                                   <div className="welcomeUser">

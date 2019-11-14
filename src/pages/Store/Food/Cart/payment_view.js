@@ -7,22 +7,24 @@ import ApiService from '../../../../services/api';
 export default class PaymentView extends Component {
 
   state = {
-    apiKey: ''
+    apiKey: '',
+    secret: ''
   }
 
   componentDidMount() {
     ApiService.get_keys()
       .then(res => {
         if (res.status == 200) {
-          const key = res.response.selectedKey.trim()
-          this.setState({ apiKey: key })
+          const key = res.response.selectedKey.key
+          const secret = res.response.selectedKey.secret
+          this.setState({ apiKey: key, secret })
         }
       })
   }
 
   render() {
     const { props } = this
-    const { apiKey } = this.state
+    const { apiKey, secret } = this.state
     return (
       <div className="payment-view">
         Total amount to be paid -
@@ -36,7 +38,7 @@ export default class PaymentView extends Component {
             amount={props.price * 100} //Amount in cents $9.99
             token={props.onToken}
             stripeKey={apiKey}
-            //image={} //Pop-in header image  
+            //image={} //Pop-in header image   
             billingAddress={false}
           />}
       </div>

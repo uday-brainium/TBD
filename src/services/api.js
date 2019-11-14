@@ -2,13 +2,29 @@ import Config from "../config";
 import axios from 'axios'
 import moment from 'moment'
 import qs from 'qs'
+import SimpleCrypto from "simple-crypto-js";
+
+var _secretKey = "doublesat_encryption_1231231239980";
+var simpleCrypto = new SimpleCrypto(_secretKey);
+
 let token = localStorage.getItem('access-token-tbd')
-console.log("123", token);
+let secret_key = localStorage.getItem('stripe_secret_key')
 
+let str = `Bearer ${secret_key}`
+str = str.replace(/"/g,"");
 
-const Authorization =  "Bearer sk_test_0kb7ef0szWdvnew2LN459SSn00nWhMx4LH"
+const Authorization = str //`Bearer ${secret_key}`
+
+console.log("SECRET_KEY", Authorization);
 
 class ApiService {
+
+  constructor() {
+    console.log("consTRUCTOR");
+    
+  }
+
+
   static apiurl = "https://jsonplaceholder.typicode.com/";
   // static apilink = "http://162.243.110.92:6085/"
 
@@ -860,9 +876,11 @@ class ApiService {
         },
         body: qs.stringify({
           userid: data.userid,
-          cardnumber: data.cardnumber,
+          cardnumber: simpleCrypto.encrypt(data.cardnumber),
           name: data.name,
-          expiry: data.expiry
+          cvv: simpleCrypto.encrypt(data.cvv),
+          month: data.month,
+          year: data.year
         })
       }
     );
@@ -930,7 +948,7 @@ class ApiService {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": 'Bearer sk_test_0kb7ef0szWdvnew2LN459SSn00nWhMx4LH'
+          "Authorization": Authorization
         },
         body: qs.stringify({
           currency: data.currency,
@@ -1888,7 +1906,7 @@ class ApiService {
     ).then(res => res.json())
   }
 
-  static add_key(key) {
+  static add_key(key, secret) {
     return fetch(
       Config.Api_Address+'super-admin/add_api_key',
       {
@@ -1897,7 +1915,7 @@ class ApiService {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded",
         }, 
-        body: qs.stringify({key})
+        body: qs.stringify({key, secret})
       }
     ).then(res => res.json())
   }
@@ -1929,7 +1947,7 @@ class ApiService {
     ).then(res => res.json())
   }
 
-  static active_key(key) {
+  static active_key(key, secret) {
     return fetch(
       Config.Api_Address+'super-admin/activate_api_key',
       {
@@ -1938,7 +1956,7 @@ class ApiService {
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: qs.stringify({key: key})
+        body: qs.stringify({key, secret})
       }
     ).then(res => res.json())
   }
@@ -1998,6 +2016,21 @@ class ApiService {
       }
     ).then(res => res.json())
   }
+
+  static superadmin_login_edit(data) {
+    return fetch(
+      Config.Api_Address+'super-admin/change_login',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify(data)
+      }
+    ).then(res => res.json())
+  }
+
 
   static reservation_up_fee(amount, type) {
     return fetch(
@@ -2214,9 +2247,11 @@ class ApiService {
   }
 
   static update_connect(id, data) {
+    console.log("AUTHORIZATION", Authorization);
+    
     return fetch(
       `https://api.stripe.com/v1/accounts/${id}/external_accounts`,
-      {
+      { 
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -2252,6 +2287,35 @@ class ApiService {
           "Content-Type": "application/x-www-form-urlencoded",
           // 'x-access-token': token
         }, 
+        body: qs.stringify({email})
+      }
+    ).then(res => res.json())
+  }
+
+  static create_token(data) {
+    return fetch( 
+      `https://api.stripe.com/v1/tokens`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": Authorization
+        },
+        body: qs.stringify({card: data})
+      }
+    ).then(res => res.json())
+  }
+
+  static reset_sa_password(email) {
+    return fetch(
+      Config.Api_Address+'super-admin/reset_superadmin_password',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
         body: qs.stringify({email})
       }
     ).then(res => res.json())

@@ -472,6 +472,13 @@ const AdminPayments = Loadable({
   timeout: 10000 // 10 seconds
 });
 
+const superAdminSetting = Loadable({
+  loader: () => import("./pages/superadmin/Settings/index"),
+  loading: LoadingView,
+  delay: 300, // 0.3 seconds
+  timeout: 10000 // 10 seconds
+});
+
 
 /*const MainLayout = Loadable({
     loader: () => import('./pages/layouts/main'),
@@ -564,6 +571,7 @@ class App extends React.Component {
           <SuperAdmin path="/sa_api_keys" component={Sa_account_management} />
           <SuperAdmin path="/sa_charges" component={SA_fees} />
           <SuperAdmin path="/sa_privacy_terms" component={SA_privacy} />
+          <SuperAdmin path="/sa_settings" component={superAdminSetting} />
 
           {/* //Routes of guest user  */}
           <Route path="/:id/post" component={SocialPostsDetails} />

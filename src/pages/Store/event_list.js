@@ -64,6 +64,22 @@ class Event_list extends Component {
       .catch(function (error) {
         console.log('err---------', error)
       })
+
+      this.update_stripe_secret()
+  }
+
+  update_stripe_secret = () => {
+    const sKey = localStorage.getItem('stripe_secret_key')    
+    if (sKey == null) {
+      ApiService.get_keys()
+        .then(res => {
+          if (res.status == 200) {
+            const secret = res.response.selectedKey.secret
+            localStorage.setItem('stripe_secret_key', JSON.stringify(secret))
+            window.location.reload()
+          }
+        })
+    }
   }
 
   comingFromReservation = () => {
@@ -109,6 +125,19 @@ class Event_list extends Component {
     e.target.src = require('./../../images/event-placeholder.png')
   }
 
+  isEventExpired = (event) => {
+    let isExpired = false
+    if (event.eventonce) {
+      const today = new Date().getTime()
+      const eventDate = new Date(event.eventonce.date).getTime()
+
+      if (event.eventtype == "once" && eventDate < today) {
+        isExpired = true
+      }
+    }
+    return isExpired
+  }
+
   render() {  
     const {events, eventData} =this.state
     userdata = JSON.parse(localStorage.getItem('guest-userdata'))
@@ -135,7 +164,9 @@ class Event_list extends Component {
         <div className="post_type_div">
         <div className="container">
         <Row>
-        {events.map((data, i) => 
+        {events.map((data, i) => {
+         if(!this.isEventExpired(data)) {
+          return(
           <Col key={i} md={4} s={4} xs={12}>
             <div className="singleProfile">
               <div className="top_detail">
@@ -173,8 +204,8 @@ class Event_list extends Component {
                               </p>
                             </div> : ''
                           }
-                    </div>
-                  </Col>
+                    </div> 
+                  </Col> 
                 </Row>
               </div>
           
@@ -217,6 +248,9 @@ class Event_list extends Component {
                   </div>
               </div>
             </Col>
+          ) 
+         }
+        }
           )}
           </Row>
           {this.state.events.length < 1 && 
