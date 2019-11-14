@@ -14,7 +14,16 @@
 }
 .api-key {
     margin-bottom: 10px;
+    border-left: 3px solid;
+    border-left-color: green;
 }
+
+.api-key-inactive {
+    margin-bottom: 10px;
+    border-left: 3px solid;
+    border-left-color: rgba(245, 107, 27, 0.829);
+}   
+
 .active-btn1 {
     color: #fff;
     background-color: green;

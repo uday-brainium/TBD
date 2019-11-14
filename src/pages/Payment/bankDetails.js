@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import ApiService from './../../services/api'
 
 export default class BankDetails extends Component {
 
@@ -11,9 +12,19 @@ export default class BankDetails extends Component {
 
   createAccount = (e) => {
     e.preventDefault()
-    const {routing, account, ssn} = this.state
-    this.props.createStripe(routing, account, ssn)
+    this.getKeys()
+  }
 
+  getKeys = () => {
+    ApiService.get_keys()
+    .then(res => {
+      if(res.status == 200) {
+        const secret = res.response.selectedKey.secret
+        localStorage.setItem('stripe_secret_key', JSON.stringify(secret))
+        const {routing, account, ssn} = this.state
+        this.props.createStripe(routing, account, ssn)
+      }
+    })
   }
 
   close = () => {

@@ -18,6 +18,9 @@ import {Base_url} from './../../../utilities/config'
 import './profile.css'
 import moment from 'moment'
 
+
+
+
 const path = window.location.pathname
 const storeName = path.split('/')[1];
 let guest = JSON.parse(localStorage.getItem('guest-userdata'))
@@ -245,7 +248,9 @@ class Guest_profile extends Component {
       userid: this.state.userdata._id,
       cardnumber: this.state.cardnumber,
       name: this.state.name,
-      expiry: `${this.state.month}/${this.state.year}`
+      cvv: this.state.cvv,
+      month: this.state.month,
+      year: this.state.year
     }
     ApiService.saveCard(card)
       .then(res => res.json())
@@ -329,7 +334,6 @@ class Guest_profile extends Component {
       count: data.count
     }
 
-    console.log('data', item);
     localStorage.setItem('cart', JSON.stringify({cart: []}))
     AddToCart(null, item).then(() => {
       this.props.history.push('mycart')
@@ -546,7 +550,7 @@ class Guest_profile extends Component {
                     this.state.cards.length !== 0 ?
                     this.state.cards.map(card => {
                       return (
-                        <Card_list key={card.cardnumber} cardnumber={card.cardnumber} expiry={card.expiry} deleteCard={this.deleteCard} />
+                        <Card_list key={card.cardnumber} cardnumber={card.cardnumber} expiry={`${card.month}/${card.year}`} deleteCard={this.deleteCard} />
                       )
                     }) :
                     <div>

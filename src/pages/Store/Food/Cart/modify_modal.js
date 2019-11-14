@@ -12,7 +12,7 @@ export default class Modify_modal extends Component {
     freeIngredients: [],
     paidIngredients: [],
     selectedIngredients: [],
-    upcharge: false,
+    upcharge: true,
     totalUpcharge: 0,
     allIngredient: [],
     selected: ''
@@ -189,10 +189,10 @@ export default class Modify_modal extends Component {
             }
             
             <span style={{fontSize: 14, color: 'gray'}}>Above ingredients will be added with your item.</span> 
-            <label className="checkbox-react" style={{marginTop: 10}}>Upcharge amount - ${this.countUpcharge()}
+            {/* <label className="checkbox-react" style={{marginTop: 10}}>Upcharge amount - ${this.countUpcharge()}
               <input type="checkbox" name="upcharge" defaultChecked={this.state.upcharge} onChange={this.handleChange} />
               <span className="checkmark"></span>
-            </label>
+            </label> */}
 
             <button onClick={this.saveItem} className="place-order" style={{marginTop: 5, width: '95%'}} disabled={!this.state.upcharge}>
               Modify item

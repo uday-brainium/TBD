@@ -17,7 +17,7 @@ export default class Payment_stripe extends Component {
     ApiService.get_keys()
       .then(res => {
         if (res.status == 200) {
-          const key = res.response.selectedKey.trim()
+          const key = res.response.selectedKey.key.trim()
           this.setState({ apikey: key })
         }
       }) 

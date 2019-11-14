@@ -25,13 +25,16 @@ export default class AccountManagent extends Component {
   }
 
   render() {
+    const {activeKey} = this.state
+    console.log("Active", activeKey);
+    
     return (
       <div className="page-container">
         <h5 className="heading-text"><i className="fas fa-chart-bar"></i> API Keys</h5>
         <hr></hr>
 
         <div className="content">
-          <ActiveKey activeKey={this.state.activeKey} />
+          <ActiveKey Key={activeKey ? activeKey.key : ''} secret={activeKey ? activeKey.secret : ''} />
           <AddKey updateList={() => this.fetchList()}/>
           <KeyList list={this.state.keyList} activeKey={this.state.activeKey} updateList={() => this.fetchList()}/>
           {/* <PayoutCard /> */}

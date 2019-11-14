@@ -15,7 +15,7 @@ export default class PaymentView extends Component {
     ApiService.get_keys()
       .then(res => {
         if (res.status == 200) {
-          const key = res.response.selectedKey.trim()
+          const key = res.response.selectedKey.key.trim()
           this.setState({ apiKey: key })
         }
       })

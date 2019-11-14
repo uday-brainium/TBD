@@ -15,26 +15,27 @@ export default class Store_header extends Component {
   }
 
   componentDidMount() {
-    
     const logged = JSON.parse(localStorage.getItem('guest-userdata'))
-    if(logged != null) {
+    if (logged != null) {
       const userId = JSON.parse(localStorage.getItem('guest-userdata'))._id
       ApiService.set_guest_user_active(userId)
-      .then(res => {
-        console.log("User set to active", res);
-      })
-        setInterval(() => {
-          ApiService.set_guest_user_active(userId)
+        .then(res => {
+          console.log("User set to active", res);
+        })
+      setInterval(() => {
+        ApiService.set_guest_user_active(userId)
           .then(res => {
             console.log("User set to active", res);
           })
-        }, 60000)
-    } 
+      }, 60000)
+    }
   }
+
+
 
   render() {
     console.log("TIME-TUESDAY", this.props.timings ? new Date(this.props.timings.tuesdayClose) : '');
-    
+
     return (
       <div>
         <header className="header innerPage">
@@ -45,7 +46,7 @@ export default class Store_header extends Component {
                 <div className="businessProfileHeader">
                   <div className="bannerContent">
                     <div className="bannerright">
-                        {/* <span className="counter hidden">{this.props.rating}<span>/5</span> </span>
+                      {/* <span className="counter hidden">{this.props.rating}<span>/5</span> </span>
                         <div className="votes hidden">{this.props.votes} votes</div> */}
                     </div>
                     <div className="bannerleft">
@@ -59,7 +60,7 @@ export default class Store_header extends Component {
                         <span className="phoneNumber">
                           {this.props.phone}
                         </span>
-                        
+
                         <span className="time show-time" onClick={() => this.setState({ timeModal: true })}>Opening times
                         </span>
                         <Modal

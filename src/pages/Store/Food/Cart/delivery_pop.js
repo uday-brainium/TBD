@@ -3,8 +3,8 @@ import { Row, Col, Modal } from 'react-bootstrap';
 import ApiService from '../../../../services/api';
 import Loader from './../../../components/simpleloader'
 import PaymentView from './payment_view'
-
-
+import PaymentModal from './../../Events/paymentModal'
+import './../../Events/style.css'
 
 export default class Delivery_modal extends Component {
 
@@ -15,13 +15,28 @@ export default class Delivery_modal extends Component {
     address: '',
     zipcode: '',
     chodeAddress: {},
-    payment: false
+    payment: false,
+    step: 1,
+    deliverOption: false,
+    pickup: true,
+    payModal: false
   }
 
   componentDidMount () {
     const {userdata} = this.props
     if(userdata.address2 != null) {
       this.setState({address: userdata.address2.address, zipcode: userdata.address2.zipcode})
+    }
+
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log("OPTION", this.props.isDelivery, nextProps.isDelivery);
+    
+    if(nextProps.isDelivery) {
+      this.setState({step: 2})
+    } else {
+      this.setState({step: 1})
     }
   }
 
@@ -86,26 +101,22 @@ export default class Delivery_modal extends Component {
 
     address.then(address => {
       this.setState({chosenAddress: address, payment: true})
-
-     // this.props.placeOrder(address)
     })
 
   }
 
-  onToken = token => {
-    console.log("TOKEN", token);
-        
+  onToken = (token, secret) => {        
     const body = {
       currency: "aud",
       amount: (this.props.overallPrice * 100),
-      source: token.id,
+      source: token,
     };
     ApiService.chargeStripe(body)
     .then(res => res.json())
     .then((response) => {
       console.log('PAYMENT-LOG', response);
       const paymentObj = {
-        chargeId: response.id,
+        chargeId: response.id, 
         amount: response.amount,
         status: response.status
       }
@@ -113,11 +124,32 @@ export default class Delivery_modal extends Component {
     })
   }
 
+  handleChange = (e) => {
+    const value = e.target.value
+    const name = e.target.name
+    
+    if(name == "deliverOption" && value == 'on') {
+      this.setState({deliverOption: true, pickup: false})
+    } else if(name == "pickup" && value == 'on') {
+      this.setState({deliverOption: false, pickup: true})
+    }
+   
+  }
+
+  moveToNext = () => {
+    const {deliverOption, pickup } = this.state
+    if(deliverOption == true) {
+      this.setState({step: 2})
+    } else {
+      this.setState({step: 4})
+    }
+  }
+
 
   render() {
     const { userdata, show, close } = this.props
-    const {addNewClick, addressSaved} = this.state
-//    console.log(userdata.address2);
+    const {addNewClick, addressSaved, step} = this.state
+    // console.log(userdata.address2);
     
     return (
       <div>
@@ -130,12 +162,13 @@ export default class Delivery_modal extends Component {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              Delivery address
+             {step == 1 ? 'Payment' : 'Delivery address'}
           </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{ width: '100%' }}>
-            {!this.state.payment ?
+          <Modal.Body style={{ width: '100%' }}>  
+            {!this.state.payment && this.state.step == 2 ?
             <Row>
+              
               <Loader loading={this.state.loading}/>
               <Col lg={6} md={6} sm={6} xs={12}>
                 <div className="my-address">
@@ -199,10 +232,14 @@ export default class Delivery_modal extends Component {
                   }
                 
               </Col>
-            </Row> :
-
-                <PaymentView price={this.props.overallPrice} onToken={this.onToken}/>
-
+            </Row>       
+              : 
+              <div style={{textAlign: 'center'}}>
+                 <PaymentModal show={this.state.payModal} onToken={(token) => this.onToken(token)} handleClose={() => this.setState({payModal: false})} />
+                 <p>Total amount: <span style={{color: 'green', fontWeight: 'bold'}}>${this.props.overallPrice}</span> </p>
+                 <button onClick={() => this.setState({payModal: true})} className="free-event-btn"> Make payment</button>
+              </div>
+            // <PaymentView price={this.props.overallPrice} onToken={this.onToken}/>
             }
           </Modal.Body>
         </Modal>

@@ -25,3 +25,22 @@
     background-color: lightblue;
     border-radius: 10px;
 }
+.free-event-btn {
+    background-color:
+    #47baff;
+    color:
+    #fff;
+    padding: 5px;
+    border: 0px;
+    border-radius: 10px;
+}
+
+.card {
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: linen;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
