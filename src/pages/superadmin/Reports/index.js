@@ -7,6 +7,7 @@ import SearchResult from './searchResult'
 import { Link, withRouter } from "react-router-dom"
 import Loader from './../../components/simpleloader'
 import InactiveReport from './inactiveBusiness'
+import NewBusinesses from './newBusinesses'
 
  class Reports extends Component {
 
@@ -244,6 +245,8 @@ monitor = (businessId, businessName) => {
              blockUnblock = {(id) => this.blockBusiness(id)}
             />
           </div>
+           
+          <NewBusinesses />
 
           <InactiveReport />
         </div>

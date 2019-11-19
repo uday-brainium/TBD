@@ -3,7 +3,7 @@ import ApiService from '../../../services/api';
 import { Row, Col } from 'react-bootstrap'
 import ExportToExcel from './exportToExcel'
 
-export default class InactiveReports extends Component {
+export default class NewBusinesses extends Component {
 
   state = {
     list: []
@@ -14,10 +14,10 @@ export default class InactiveReports extends Component {
   }
 
   fetchList = () => {
-    ApiService.inactivity_reports()
-    .then(res => { 
+    ApiService.get_new_business()
+    .then(res => {
       if(res.status == 200) {
-        this.setState({list: res.data})
+        this.setState({list: Array.reverse(res.response)})
       }
     })
   }
@@ -41,7 +41,7 @@ export default class InactiveReports extends Component {
       <div className="editor-box" style={{marginTop: 40}}>
         <Row>
           <Col lg={8}>
-            <h6>Inactivity reports (Businesses has no sale in past 30 days)</h6>
+            <h6>New registered business (In 30 days)</h6>
           </Col>
           <Col lg={4}>
             <ExportToExcel data={this.state.list} />

@@ -2321,6 +2321,20 @@ class ApiService {
     ).then(res => res.json())
   }
 
+  static get_new_business() {
+    return fetch(
+      Config.Api_Address+'reports/new_business',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify()
+      }
+    ).then(res => res.json())
+  }
+
 }
 
 export default ApiService;

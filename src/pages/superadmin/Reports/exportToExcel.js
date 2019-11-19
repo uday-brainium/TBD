@@ -13,12 +13,12 @@ export default class ExportToExcel extends Component {
         <div>
           <ExcelFile element={<button>Export to Excel</button>}>
                 <ExcelSheet data={this.props.data} name="Inactive Business Reports">
+                    <ExcelColumn label="Name" value="fullName"/>
                     <ExcelColumn label="Business name" value="businessname"/>
                     <ExcelColumn label="Email address" value="email"/>
-                    <ExcelColumn label="Phone no." value="phone"/>
-                    <ExcelColumn label="City" value="city"/>
+                    <ExcelColumn label="Url" value="url"/>
                 </ExcelSheet>
-            </ExcelFile>
+            </ExcelFile>  
         </div>
     );
   }
