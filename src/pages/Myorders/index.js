@@ -16,15 +16,15 @@ import AlertBox from './../components/alertBox'
 import * as type from './order_types'
 import Payback from './../Payment/payback'
 
-const userId = JSON.parse(localStorage.getItem('userdata')).data._id
 
+const userId = JSON.parse(localStorage.getItem('userdata')).data._id
 
 export default class Myorders extends Component {
   state = {
     loading: false,
     filter: '',
     datePicker: false,
-    startDate: new Date(new Date().setHours(0)) ,
+    startDate: new Date(new Date().setHours(12)),
     endDate: new Date(new Date().setHours(12)),
     orderData: [],
     limit: 10,
@@ -40,7 +40,8 @@ export default class Myorders extends Component {
 
     alertBox: false,
     alertMsg: '',
-    alertType: ''
+    alertType: '',
+    testdata : []
   }
 
   componentDidMount() {
@@ -48,23 +49,24 @@ export default class Myorders extends Component {
   }
 
 
+
   fetchOrders = () => {
-    this.setState({loading: true})
-    const {filter, startDate, endDate, limit, skip} = this.state
+    this.setState({ loading: true })
+    const { filter, startDate, endDate, limit, skip } = this.state
     const data = {
       userId,
       status: filter,
-      startDate: startDate != null ? new Date(new Date(startDate).setHours(0) ) : null,
-      endDate: endDate != null ?  new Date(new Date(endDate).setHours(12)) : null,
+      startDate: startDate != null ? new Date(new Date(startDate).setHours(24)) : null,
+      endDate: endDate != null ? new Date(new Date(endDate).setHours(48)) : null,
 
       limit,
       skip
     }
     ApiService.ordersByResturent(data)
-    .then(res => res.json())
-    .then(response => {
-      this.setState({ orderData: response.response,  totalOrder: response.count, loading: false })
-    })
+      .then(res => res.json())
+      .then(response => {
+        this.setState({ orderData: response.response, totalOrder: response.count, loading: false })
+      })
   }
 
   changeFilter = (selected) => {
@@ -94,92 +96,91 @@ export default class Myorders extends Component {
   changeOrderStep = (orderid, status) => {
     const data = { orderid, status }
     ApiService.updateOrderStatus(data)
-    .then(res => res.json())
-    .then(response => {
-      console.log(response);
-      if(response.status == 200) {
-        this.fetchOrders()
-        this.setState({confirm_pop: false})
-      }
-    })
+      .then(res => res.json())
+      .then(response => {
+        console.log(response);
+        if (response.status == 200) {
+          this.fetchOrders()
+          this.setState({ confirm_pop: false })
+        }
+      })
   }
 
   changeOrderStatus = (data, status) => {
-    this.setState({selectedStatus: status, orderId: data.order._id, selectedOrder: data})
+    this.setState({ selectedStatus: status, orderId: data.order._id, selectedOrder: data })
     const activeStatus = data.order.status
     const orderId = data.order._id
-   if(activeStatus !== type.COMPLETE && activeStatus !== type.REFUND && activeStatus !== type.NOT_ACCEPTED && activeStatus !== type.CANCELED) {
+    if (activeStatus !== type.COMPLETE && activeStatus !== type.REFUND && activeStatus !== type.NOT_ACCEPTED && activeStatus !== type.CANCELED) {
 
-      if(status === type.NOT_ACCEPTED && activeStatus !== type.NOT_ACCEPTED && activeStatus !== type.READY && activeStatus !== type.ACCEPTED) {
-        this.setState({confirm_pop: true})
-      } 
+      if (status === type.NOT_ACCEPTED && activeStatus !== type.NOT_ACCEPTED && activeStatus !== type.READY && activeStatus !== type.ACCEPTED) {
+        this.setState({ confirm_pop: true })
+      }
       else if (status === type.CANCELED && activeStatus !== type.CANCELED) {
-        this.setState({confirm_pop: true})
-      } 
-      else if(status === type.REFUND) {
-        this.setState({confirm_pop: true})
+        this.setState({ confirm_pop: true })
       }
-      else if(status === type.ACCEPTED) {
+      else if (status === type.REFUND) {
+        this.setState({ confirm_pop: true })
+      }
+      else if (status === type.ACCEPTED) {
         this.changeOrderStep(orderId, status)
       }
-      else if(status === type.READY) {
+      else if (status === type.READY) {
         this.changeOrderStep(orderId, status)
       }
-      else if(status === type.COMPLETE) {
+      else if (status === type.COMPLETE) {
         this.changeOrderStep(orderId, status)
         Payback.initiatePayback(data)
-      } 
-      else if(status === type.ORDERED) {
+      }
+      else if (status === type.ORDERED) {
         this.changeOrderStep(orderId, status)
       }
-   }
+    }
   }
 
   popupContinue = (refundAmount = 0, chargeId = '0') => {
-    const {selectedStatus, orderId} = this.state 
-    if(selectedStatus === type.NOT_ACCEPTED) {
+    const { selectedStatus, orderId } = this.state
+    if (selectedStatus === type.NOT_ACCEPTED) {
       //Send user a message notification
       //REfund the money to customer
       //Charge the resturent $0.35
       this.changeOrderStep(orderId, selectedStatus)
-    } else if(selectedStatus === type.CANCELED) {
+    } else if (selectedStatus === type.CANCELED) {
       //SImply cancel the order
       this.changeOrderStep(orderId, selectedStatus)
-    } else if(selectedStatus === type.REFUND) {
+    } else if (selectedStatus === type.REFUND) {
       console.log(refundAmount, chargeId);
-      this.setState({loading: true})
+      this.setState({ loading: true })
       ApiService.refund_amount(refundAmount * 100, chargeId)
-      .then(res => res.json())
-      .then(response => {
-        if(response.status == "succeeded") {
-        //  console.log('Refund-test', response);
-          this.changeOrderStep(orderId, selectedStatus)
-          this.setState({
-            loading: false, 
-            alertBox: true, 
-            alertMsg: 'Refund successfull',
-            alertType: 'ok'
-          }, () => {
+        .then(res => res.json())
+        .then(response => {
+          if (response.status == "succeeded") {
+            //  console.log('Refund-test', response);
+            this.changeOrderStep(orderId, selectedStatus)
+            this.setState({
+              loading: false,
+              alertBox: true,
+              alertMsg: 'Refund successfull',
+              alertType: 'ok'
+            }, () => {
               setTimeout(() => {
-              this.setState({alertBox: false})
-            }, 1500)
-          })
-        } else {
-          this.setState({
-            loading: false, 
-            alertBox: true, 
-            alertMsg: 'Refund failed !',
-            alertType: 'failed'
-          }, () => {
-            setTimeout(() => {
-              this.setState({alertBox: false})
-            }, 1500)
-          })
-        }
-      })
+                this.setState({ alertBox: false })
+              }, 1500)
+            })
+          } else {
+            this.setState({
+              loading: false,
+              alertBox: true,
+              alertMsg: 'Refund failed !',
+              alertType: 'failed'
+            }, () => {
+              setTimeout(() => {
+                this.setState({ alertBox: false })
+              }, 1500)
+            })
+          }
+        })
     }
   }
-
 
   render() {
     const filter = [
@@ -204,11 +205,11 @@ export default class Myorders extends Component {
         </div>
         <Notifications />
         <AlertBox show={this.state.alertBox} type={this.state.alertType} message={this.state.alertMsg} />
-        <Confirm_pop 
+        <Confirm_pop
           show={this.state.confirm_pop}
-          close={() => this.setState({confirm_pop: false})}
-          status = {this.state.selectedStatus}
-          data = {this.state.selectedOrder}
+          close={() => this.setState({ confirm_pop: false })}
+          status={this.state.selectedStatus}
+          data={this.state.selectedOrder}
           onContinue={(refundAmount, chargeId) => this.popupContinue(refundAmount, chargeId)}
         />
         <Loader loading={this.state.loading} fill="no-fill" />
@@ -244,7 +245,8 @@ export default class Myorders extends Component {
             <i className="fas fa-list"></i> List of orders
           <hr style={{ marginTop: 5 }}></hr>
           </div>
-          <Order_list changeStatus = {(data, status) => this.changeOrderStatus(data, status)} orders={this.state.orderData}/>
+          
+          <Order_list changeStatus={(data, status) => this.changeOrderStatus(data, status)} orders={this.state.orderData} />
         </div>
         <div className="pagination-view">
           <Pagination

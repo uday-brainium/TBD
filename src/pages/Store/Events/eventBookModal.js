@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Row, Col, Modal, Button } from 'react-bootstrap';
-import { Base_url } from './../../../utilities/config'
 import './style.css'
 import PaymentView from './paymentView'
 import ApiService from '../../../services/api';
 import Loader from './../../components/simpleloader'
 import moment from 'moment';
 import PaymentModal from './paymentModal'
-
+import GeneratePdf from './eventTicket';
+import { Base_url, live_url } from './../../../utilities/config'
 
 let userdata = JSON.parse(localStorage.getItem('guest-userdata'))
 
@@ -33,6 +33,8 @@ export default class Event_booking extends Component {
             let bookdata = {
               eventid, userid: userdata._id,
               username: `${userdata.firstname} ${userdata.lastname}`,
+              email: userdata.email,
+              event: this.props.event,
               paid: true
             }
             ApiService.book_event(bookdata)
@@ -42,6 +44,7 @@ export default class Event_booking extends Component {
                   // console.log("save payment booking", responseData);
                   this.setState({ loading: false, booked: true, payModal: false }, () =>{
                     this.initiatePayback(responseData.response)
+                    this.fbShare()
                   })
                 }
               })
@@ -93,8 +96,7 @@ export default class Event_booking extends Component {
     // .then(res => {
 
     // })
-    console.log("Hello", data);
-    
+ 
   }
 
   findAlreadyBooked = () => {
@@ -274,16 +276,72 @@ export default class Event_booking extends Component {
       })
   }
 
+  fbShare = () => {
+    let path = window.location.pathname
+    let extension = path.substring(1)
+
+    const { event, store } = this.props
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: 353429871985553,
+        cookie: true,  // enable cookies to allow the server to access
+        // the session
+        xfbml: true,  // parse social plugins on this page
+        version: 'v2.1' // use version 2.1
+      });
+
+
+      window.FB.ui({
+        method: 'feed',
+        name: ''+event.title+'',
+        link: ''+live_url+'/'+extension+'/events',
+        picture: ' '+Base_url+''+store.storebanner+'',
+        caption: 'Doublesat TBD',
+        description: ''+store.extension+'/events'
+      },  (response) => {
+        if (response) {
+          this.savePost().then(res => {
+            this.earnReward().then((resolve) => {
+              window.location.reload();
+            })
+          })       
+        } else {
+          alert('failed to share post try again')
+          window.location.reload();
+        }
+
+      });
+
+    }.bind(this);
+
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }
+
   render() {
-    const { event, show, close, onBooking } = this.props
+    const { event, show, close, store, onBooking } = this.props
     const bookedusers = event.bookedusers ? event.bookedusers.length : 0
     const available = ((event.totalcapacity - bookedusers))
     userdata = JSON.parse(localStorage.getItem('guest-userdata'))
     const isPaidMember = userdata ? userdata.membership_type != "Free" ? true : false : false
     const freeForMembers = event ? event.freeformembers : ''
+    const transactionFee = this.props.fees.amount ? this.props.fees.amount : 0 
+    const transactionFeeType = this.props.fees.type ? this.props.fees.type : 'Dollar' 
+    
+    const additionPrice = transactionFeeType === "Percent" ? ((transactionFee / 100 ) *  event.ticketprice) : (parseFloat(transactionFee))
+    const eventPrice = (parseFloat(event.ticketprice) + additionPrice)
+    
+    const ticketPrice = !isPaidMember ? parseFloat(eventPrice) : parseFloat(event.ticketprice)
+    // console.log("Additon---", additionPrice, transactionFeeType);
     // console.log('Once_Ecvent', this.isEventRunning_weekly());
     // console.log("EVENT", this.isEventExpired());
-    console.log("IS FREE", isPaidMember, freeForMembers);
+     console.log("IS PAID", isPaidMember);
     
 
     return (
@@ -303,6 +361,7 @@ export default class Event_booking extends Component {
           <Modal.Body style={{ padding: 10, margin: 0 }}>
             <Loader loading={this.state.loading} />
             <PaymentModal show={this.state.payModal} onToken={(token) => this.onToken(token, event.ticketprice, event._id)} handleClose={() => this.setState({payModal: false})} />
+            
             <Row>
               <Col lg={6} md={6} sm={6} xs={12}>
                 <h6>{event.title}</h6>
@@ -312,7 +371,8 @@ export default class Event_booking extends Component {
               </Col>
               <Col lg={6} md={6} sm={6} xs={12}>
                 <center>
-                  <div className="price-div">Ticket price - ${event.ticketprice}</div>
+                  <div className="price-div">Ticket price - ${ticketPrice}</div>
+                  <div className="trans-fee">Transaction fee - ${additionPrice.toFixed(2)} (Included)</div>
                   <div className="available">Available - {event.totalcapacity - bookedusers}</div>
                   {/* <p>{event}</p> */}
                   {userdata ?
@@ -337,14 +397,24 @@ export default class Event_booking extends Component {
                       }
 
                       {this.state.booked ?
-                        <div className="bokking-done">
-                          Event Booking done
+                        <div>
+                          <div className="bokking-done">
+                            Event Booking done
+                            <p style={{color: 'blue', textAlign: 'center'}} onClick={() => GeneratePdf.Ticket(event, store)}>Print Ticket</p>
+                         </div>
+                         <div className="facebook-share" onClick={this.fbShare}>
+                           Share on Facebook
+                        </div>
                       </div> : ''
                       }
 
                       {this.findAlreadyBooked() == 1 && !this.isEventExpired() ?
                         <div className="already-booked">
                           Event already booked
+                          <p style={{color: 'blue', textAlign: 'center'}} onClick={() => GeneratePdf.Ticket(event, store)}>Print Ticket</p>
+                          <div className="facebook-share" onClick={this.fbShare}>
+                           Share on Facebook
+                        </div>
                       </div> : ''
                       }
                       {event.eventtype == 'once' && this.isEventRunning_once() ?

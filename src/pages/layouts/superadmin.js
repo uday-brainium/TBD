@@ -138,7 +138,7 @@ class SuperAdminLayout extends Component {
       })
     }
   } else {
-    <Redirect to='/sa_login' />
+    <Redirect to = '/sa_login' />
     this.props.history.push('/sa_login')
   }
     // scroll handler

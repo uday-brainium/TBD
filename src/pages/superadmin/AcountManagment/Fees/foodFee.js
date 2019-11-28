@@ -56,7 +56,7 @@ export default class FoodFees extends Component {
         <Loader loading={loading} />
         <form onSubmit={this.formSubmit}>
           <div>
-            <label style={{ marginBottom: -15, color: 'green', marginTop: 10, fontSize: 16 }}>Food sale fee</label><br></br>
+            <label style={{ marginBottom: -15, color: 'green', marginTop: 10, fontSize: 16 }}>Free Member Transaction Fee</label><br></br>
             <select className="select-type" value={discounttype} name="discounttype" onChange={this.changeField}>
               <option value="Doller">Dollar</option>
               <option value="Percent">Percentage</option>

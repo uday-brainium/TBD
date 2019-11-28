@@ -5,6 +5,9 @@ import Empty from '../components/empty'
 import { Base_url } from '../../utilities/config'
 import './../Reservation/style.css'
 import * as type from './order_types'
+import OrderReciept from './Reciepts'
+
+
 
 export default class Order_list extends Component {
   state = {
@@ -23,6 +26,8 @@ export default class Order_list extends Component {
     )
   }
 
+
+
   render() {
     const { changeStatus } = this.props
     return (
@@ -34,10 +39,10 @@ export default class Order_list extends Component {
                 <Card.Header className="card-head">
                   <Row>
                     <Col className="head-cols">
-                      <i className="fas fa-user-tie bold" style={{marginRight: 5}}></i> Order by: <span className="bold">{data.user.firstname} {data.user.lastname}</span>
+                      <i className="fas fa-user-tie bold" style={{ marginRight: 5 }}></i> Order by: <span className="bold">{data.user.firstname} {data.user.lastname}</span>
                     </Col>
                     <Col className="head-cols">
-                      <i className="fas fa-calendar-week" style={{marginRight: 5}}></i> Date: <span className="bold">{new Date(data.order.createdAt).toLocaleDateString()}
+                      <i className="fas fa-calendar-week" style={{ marginRight: 5 }}></i> Date: <span className="bold">{new Date(data.order.createdAt).toLocaleDateString()}
                         <span style={{ marginLeft: 5 }}>{moment(data.order.createdAt).format('hh:mm a')}</span></span>
                     </Col>
                     <Col>
@@ -67,60 +72,57 @@ export default class Order_list extends Component {
                         <div onClick={() => changeStatus(data, type.NOT_ACCEPTED)} className={data.order.status == 'NOT_ACCEPTED' ? `r-stage3 stage-active col` : `r-stage3`}>
                           Reject
                             </div>
-                       
-                          <div onClick={() => changeStatus(data, type.CANCELED)} className={data.order.status == 'CANCELED' ? `r-stage1 stage-active col` : `r-stage1`}>
-                            Cancel
+
+                        <div onClick={() => changeStatus(data, type.CANCELED)} className={data.order.status == 'CANCELED' ? `r-stage1 stage-active col` : `r-stage1`}>
+                          Cancel
                            </div>
-                          <div onClick={() => changeStatus(data, type.COMPLETE)} className={data.order.status == 'COMPLETE' ? `r-stage2 stage-active col` : `r-stage2`}>
-                            Completed
+                        <div onClick={() => changeStatus(data, type.COMPLETE)} className={data.order.status == 'COMPLETE' ? `r-stage2 stage-active col` : `r-stage2`}>
+                          Completed
                             </div>
-                          <div onClick={() => changeStatus(data, type.REFUND)} className={data.order.status == 'REFUND' ? `r-stage3 stage-active col` : `r-stage3`}>
-                            Discount/Refund
+                        <div onClick={() => changeStatus(data, type.REFUND)} className={data.order.status == 'REFUND' ? `r-stage3 stage-active col` : `r-stage3`}>
+                          Discount/Refund
                             </div>
 
-                        </div>
+                      </div>
 
                     </Col>
                   </Row>
-
-                    {data.order.items.map((item, i) => {
-                      return (
-                        <Row key={i} className="item-box">
-                          <Col>
-
-                            <div>
-                              Food item: <span>{item.itemname}</span>
-                            </div>
-                            <div>
-                              Description: <span>{item.itemdescription}</span>
-                            </div>
-                            <div>
-                              Quantity: <span>{item.count}</span>
-                            </div>
-                            <div>
-                              Ingredients : {item.selectedIngredients.map(ing => (
-                                <span className="ing">{ing.name}</span>
-                              ))}
-                            </div>
-                            <div>
-                              Date: <span className="gap">{new Date(data.order.createdAt).toLocaleDateString()}</span>
-                              Time: <span>{moment(data.order.createdAt).format('hh:mm a')}</span>
-                            </div>
-                            <div>Cost: <span>$ {item.itemprice}</span></div>
-                          </Col>
-                        </Row>
-                      )
-                    })
-                    }
-
+                  <div className="print-order" onClick={() => OrderReciept.OrderReciept(data)}> PRINT ORDER RECEIPT</div>
+                  {data.order.items.map((item, i) => {
+                    return (
+                      <Row key={i} className="item-box">
+                        <Col>
+                          <div>
+                            Food item: <span>{item.itemname}</span>
+                          </div>
+                          <div>
+                            Description: <span>{item.itemdescription}</span>
+                          </div>
+                          <div>
+                            Quantity: <span>{item.count}</span>
+                          </div>
+                          <div>
+                            Ingredients : {item.selectedIngredients.map(ing => (
+                              <span className="ing">{ing.name}</span>
+                            ))}
+                          </div>
+                          <div>
+                            Date: <span className="gap">{new Date(data.order.createdAt).toLocaleDateString()}</span>
+                            Time: <span>{moment(data.order.createdAt).format('hh:mm a')}</span>
+                          </div>
+                          <div>Cost: <span>$ {item.itemprice}</span></div>
+                        </Col>
+                      </Row>
+                    )
+                  })
+                  }
                 </Card.Body>
               </Card>
-
-                )
-              }) :
+            )
+          }) :
           <Empty text="No orders found !" />
-                }
+        }
       </div>
-            );
-          }
+    );
+  }
 }

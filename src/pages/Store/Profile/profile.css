@@ -143,7 +143,7 @@
 }
 
 .profile-center {
-  width: 20%;
+  width: 100%;
   padding: 10px;
 }
 
@@ -336,6 +336,31 @@
   margin-top: 10px;
   font-weight: bold;
   text-transform: capitalize;
+}
+.event {
+  padding: 5px;
+  border: 1px solid #7ab1fc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.event-text {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.redeem-btn {
+  padding: 20px;
+  background-color: #ef6304;
+  border-color: orange;
+  padding: 5px;
+  text-align: center;
+  margin: 10px
+}
+.redeem-btn:hover {
+  background-color: #ef6307;
+}
+.redeem-btn:active {
+  background-color: #ec853f;
 }
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

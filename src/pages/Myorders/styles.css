@@ -179,6 +179,12 @@
   background-color: #28a745;
   color: #fff;
 }
+.print-order {
+    color: #d69012;
+    margin-left: -15px;
+    cursor: pointer;
+}
+
 @media (max-width: 767px) {
     .r-bottom {
         margin-top: 0px;

@@ -203,9 +203,9 @@ class Cart_page extends Component {
     //  console.log("PAYMENT-OBJ", paymentObj);
 
     this.setState({ loading: true })
-    let { cart, promoDiscount } = this.state
+    let { cart, promoDiscount, storeDetails } = this.state
     const userid = user._id
-    const businessId = user.businessid
+    const businessId = storeDetails.businessid
 
     ApiService.add_order(userid, deliveryAddress, promoDiscount, businessId, cart, paymentObj)
       .then(res => res.json())

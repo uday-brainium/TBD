@@ -1476,6 +1476,8 @@ class ApiService {
           userid: data.userid,
           username: data.username,
           paid: data.paid,
+          event: data.event,
+          email: data.email,
           bookedon: new Date()
         })
       }
@@ -2334,6 +2336,41 @@ class ApiService {
       }
     ).then(res => res.json())
   }
+
+  static my_events(data) {
+    return fetch(
+      Config.Api_Address+'events/my_events',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          guestid : data.guestid,
+          businessid: data.businessid
+        })
+      }
+    ).then(res => res.json())
+  }
+
+  static redeem_event(data) {
+    return fetch(
+      Config.Api_Address+'events/redeem_event',
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: qs.stringify({
+          guestid : data.guestid,
+          eventid : data.eventid
+        })
+      }
+    ).then(res => res.json())
+  }
+
 
 }
 

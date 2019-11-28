@@ -71,7 +71,6 @@ export default class PaymentModal extends Component {
   }
 
   useCard = (card) => {
-    console.log("CARD", card);
     this.setState({
       cardnumber: simpleCrypto.decrypt(card.cardnumber),
       month: card.month,

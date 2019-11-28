@@ -6,7 +6,7 @@ import ApiService from './../../../services/api'
 import Loader from '../../components/simpleloader'
 import Title_head from './../page_title_head'
 // import Footer from './../footer'
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import Notifications, { notify } from 'react-notify-toast';
 import * as config from './../../../utilities/config'
 import Add_card from './add_card'
@@ -14,7 +14,7 @@ import Card_list from './card_list'
 import {AddToCart} from './../../Store/Food/Cart/'
 import Redeme_confirm from './confirm_pop'
 import {isBirthday} from './../../components/isBirthday'
-import {Base_url} from './../../../utilities/config'
+import {Base_url, live_url} from './../../../utilities/config'
 import './profile.css'
 import moment from 'moment'
 
@@ -63,7 +63,8 @@ class Guest_profile extends Component {
     orders: [],
     profileImg: 'http://www.kitsunemusicacademy.com/wp-content/uploads/avatars/1/57e809f0cf20c-bpfull.jpg',
     promoList: [],
-    redemeConfirm: false
+    redemeConfirm: false,
+    myEvents: []
   }
 
 
@@ -81,6 +82,7 @@ class Guest_profile extends Component {
               storeDetails: response.response,
               loading: false
             })
+            this.fetchMyEvents()
           } else {
             this.props.history.push('/')
           }
@@ -94,6 +96,22 @@ class Guest_profile extends Component {
       this.fetchPromos()
       this.setState({profileImg: `${config.Base_url}${JSON.parse(data).profile_image}`})
     }
+  }
+
+  fetchMyEvents = () => {
+    this.setState({loading: true})
+    const data = {
+      guestid: guest._id,
+      businessid: this.state.storeDetails.businessid
+    }
+    ApiService.my_events(data)
+    .then(res => {
+      if(res.status == 200) {
+        this.setState({myEvents: res.response.reverse()}, () => {
+          this.setState({loading: false})
+        })
+      }
+    })
   }
 
   checkBirthdayPromo = () => {
@@ -178,7 +196,7 @@ class Guest_profile extends Component {
   editFieldFn = (field) => {
     this.setState({ [field]: !this.state[field] })
   }
-
+ 
   change = (e) => {
     let name = e.target.name
     let val = e.target.value
@@ -193,7 +211,7 @@ class Guest_profile extends Component {
     this.setState({ [name]: val })
   }
 
-  stateChange = (e) => {
+  stateChange = (e) => { 
     let val = e.target.value;
     let name = e.target.options[e.target.selectedIndex].text;
     this.setState({ currenState: val, state: name })
@@ -241,7 +259,7 @@ class Guest_profile extends Component {
   }
 
 
-  saveCard = (e) => {
+  saveCard = (e) => { 
     e.preventDefault()
     this.setState({ loading: true })
     let card = {
@@ -366,6 +384,73 @@ class Guest_profile extends Component {
     this.setState({selectedPromo: promoid, redemeConfirm: true})
   }
 
+  redeemBtn = (event) => {
+    const ask = window.confirm("This will redeem this ticket and can not be used again ! Are you sure ?")
+    if(ask) {
+      this.setState({loading: true})
+      const data = {
+        guestid: guest._id,
+        eventid: event._id
+      }
+      ApiService.redeem_event(data)
+      .then(res => {
+        if(res.status == 200) {
+          this.fetchMyEvents()
+        }
+      })
+    }
+  }
+
+
+  fbShare = (event) => {
+    let path = window.location.pathname
+    let extension = path.substring(1)
+    const store = this.state.storeDetails
+
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: 353429871985553,
+        cookie: true,  // enable cookies to allow the server to access
+        // the session
+        xfbml: true,  // parse social plugins on this page
+        version: 'v2.1' // use version 2.1
+      });
+
+
+      window.FB.ui({
+        method: 'feed',
+        name: ''+event.title+'',
+        link: ''+live_url+'/'+extension+'/events',
+        picture: ' '+Base_url+''+store.storebanner+'',
+        caption: 'Doublesat TBD',
+        description: ''+store.extension+'/events'
+      },  (response) => {
+        if (response) {
+          this.savePost().then(res => {
+            this.earnReward().then((resolve) => {
+              window.location.reload();
+            })
+          })       
+        } else {
+          alert('failed to share post try again')
+          window.location.reload();
+        }
+
+      });
+
+    }.bind(this);
+
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }
+
+
 
   render() {
     const { userdata, promoList } = this.state
@@ -400,6 +485,7 @@ class Guest_profile extends Component {
                 <div className="guest-user-image">
                   <img src={this.state.profileImg ? this.state.profileImg : require('./../../../images/profile-image.jpeg')} width="100%" height="100%" />
                   <div className="colored">{userdata.firstname} {userdata.lastname}</div>
+                  <div style={{textAlign: 'center', fontWeight: 'bold'}}>{guest.membership_type}</div>
                   <i className="far fa-edit image-edit-icon"></i>
 
                   <input
@@ -420,9 +506,10 @@ class Guest_profile extends Component {
               <div className="profile-menu" onClick={() => this.setState({ screen: 'savedcards' })}>Saved cards </div>
               <div className="profile-menu" onClick={() => this.setState({ screen: 'myorders' })}>My orders </div>
               <div className="profile-menu" onClick={() => this.setState({ screen: 'myoffers' })}>My Offers </div>
+              <div className="profile-menu" onClick={() => this.setState({ screen: 'myevents' })}>My Events </div>
             </Col>
 
-            <Col lg={6} md={6} sm={8} xs={12} className="profile-center">
+            <Col lg={8} md={8} sm={8} xs={12} className="profile-center">
 
               {this.state.screen == "profileinfo" &&
                 <div>
@@ -627,12 +714,77 @@ class Guest_profile extends Component {
                       }
                       </Col>
                     </Row>
-                    <div>
+                      <div>
                         Expire on - {data.expirydate}
                        </div>
                    </div>
                   ))}
                 </div>
+              }
+              {this.state.screen == 'myevents' &&
+                <div className="my-events">
+                  <Row>
+                    {this.state.myEvents.map(event => {
+                    const type = event.eventtype
+                    const evDate = type == 'once' ? moment(event.eventonce.date).format('MM/DD/YYYY') : type == 'daily' ? `${moment(event.eventday.datestart).format('MM/DD/YYYY')} - ${moment(event.eventday.dateend).format('MM/DD/YYYY')}` : type == 'weekly' ? 'Weekly' : null
+                    const evTime = type == 'once' ? `${moment(event.eventonce.starttime).format('hh:mm a')} - ${moment(event.eventonce.endtime).format('hh:mm a')}` : type == 'daily' ? `${moment(event.eventday.timestart).format('hh:mm a')} - ${moment(event.eventday.timeend).format('hh:mm a')}` : type == 'weekly' ? 'Weekly' : null
+                    const weeklyTime = event.weeklyevent.map((weekData, weekIndex) => 
+                    weekData != null ?
+                    <p className="event-text">
+                      {Object.values(weekData)[0]}:   {moment(Object.values(weekData)[1]).format('hh:mm a')} - {moment(Object.values(weekData)[2]).format('hh:mm a')} 
+                    </p>
+                    :
+                    ''
+                    )
+                    return(
+                      <Col lg={6} md={6} sm={6} xs={6}>
+                        <div className="event">
+                          <Row>
+                            <Col lg={8} sm={8} md={8} xs={8}><b style={{marginBottom: 10}}>{event.title}</b></Col>
+                            <Col lg={4} sm={4} md={4} xs={4}><img style={{float: 'right', width: '35px', cursor: 'pointer'}} onClick={() => this.fbShare(event)} src={require('./../../../images/share-icon.png')} /></Col>
+                          </Row>
+                         
+                          <Row>
+                            <Col lg={4} sm={4} md={4} xs={12}>
+                              {event.eventbanner.includes('jpg') || event.eventbanner.includes('png') || event.eventbanner.includes('jpeg') ? 
+                                 <img style={{marginTop: 15}} src={`${Base_url}${event.eventbanner}`} /> :
+                                 <img style={{marginTop: 15}} src={require('./../../../images/event-placeholder.png')} />
+                              }
+                            </Col>
+
+                            <Col lg={8} sm={8} md={8} xs={12}>
+                              <p className="event-text">Amount Paid: ${event.ticketprice}</p>
+                              <p className="event-text">Number of tickets: 1 </p>
+                              {type != 'weekly' && <p className="event-text">Date: {evDate}</p> }
+                              {type != 'weekly' ? <p className="event-text">Time: {evTime}</p> : weeklyTime }
+                              <p className="event-text">Event Type: {event.eventtype}</p>
+                            </Col>
+                          </Row>
+                          <center>
+                            {event.bookedusers.map(user => {
+                              if(user.userid == guest._id) {
+                                if(user.isRedeemed) {
+                                  return (
+                                    <Button className="redeem-btn" style={{backgroundColor: 'gray'}}> Ticket Redeemed</Button>  
+                                  )
+                                } else {
+                                  return (
+                                    <Button onClick={() => this.redeemBtn(event)} className="redeem-btn">Redeem / Check In</Button> 
+                                  )
+                                }
+                              }
+                            }) 
+                          }
+                          </center>
+                          
+                        </div>
+                      </Col>
+                      )
+                    })
+                    }
+                  </Row>
+                </div>
+                
               }
 
             </Col>

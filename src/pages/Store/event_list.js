@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Base_url } from './../../utilities/config'
+import { Base_url, live_url } from './../../utilities/config'
 import ApiService from './../../services/api'
 import Loader from './../components/simpleloader'
 import { Row, Col } from 'react-bootstrap';
@@ -19,9 +19,8 @@ let path = window.location.pathname
 let storeName = path.split('/')[1];
 
 class Event_list extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+
+    state = {
       storeDetails: {},
       events: [],
       overlayStyle: {
@@ -30,18 +29,19 @@ class Event_list extends Component {
       animateComponent: true,
       loading: false,
       bookingModal: false,
-      eventData: {}
+      eventData: {},
+      foodChargeAmount: '',
+      foodChargeType: ''
     };
-  }
 
   componentDidMount() {
-    setTimeout(()=>{
-      this.setState({animateComponent: false})
-    },600)
-
+    // setTimeout(()=> {
+    //   this.setState({animateComponent: false})
+    // },600)
+      console.log('DID-MOUNT', storeName)
     ApiService.getBusinessProfbyUrl(storeName)
       .then(res => res.json())
-      .then(response => {
+      .then(response => {    
         if (response.status == 200) {
           this.setState({
             storeDetails: response.response,
@@ -51,7 +51,7 @@ class Event_list extends Component {
             ApiService.getEventList(businessid)
             .then((res) => res.json())
             .then((response) => {
-              this.setState({events: response.response.reverse(), loading: false}, () => {
+              this.setState({events: response.response, loading: false}, () => {
                 this.comingFromReservation()
               })
             })
@@ -66,6 +66,7 @@ class Event_list extends Component {
       })
 
       this.update_stripe_secret()
+      this.fetch_fees()
   }
 
   update_stripe_secret = () => {
@@ -82,6 +83,19 @@ class Event_list extends Component {
     }
   }
 
+  fetch_fees = () => {
+    ApiService.get_keys()
+    .then(res => {
+     const value = res.response.feeForFood.amount
+     const type = res.response.feeForFood.type
+      this.setState({
+        foodChargeAmount: value,
+        foodChargeType: type 
+      })
+    })
+  }
+
+
   comingFromReservation = () => {
     let path = window.location.search
     let eventid = path.replace('?', '')
@@ -93,8 +107,6 @@ class Event_list extends Component {
         })   
       }
     })
-
-    
   }
   
   currentPage = () => {
@@ -138,26 +150,75 @@ class Event_list extends Component {
     return isExpired
   }
 
+  fbShare = (event) => {
+    let path = window.location.pathname
+    let extension = path.substring(1)
+    const store = this.state.storeDetails
+
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: 353429871985553,
+        cookie: true,  // enable cookies to allow the server to access
+        // the session
+        xfbml: true,  // parse social plugins on this page
+        version: 'v2.1' // use version 2.1
+      });
+
+
+      window.FB.ui({
+        method: 'feed',
+        name: ''+event.title+'',
+        link: ''+live_url+'/'+extension+'/events',
+        picture: ' '+Base_url+''+store.storebanner+'',
+        caption: 'Doublesat TBD',
+        description: ''+store.extension+'/events'
+      },  (response) => {
+        if (response) {
+          this.savePost().then(res => {
+            this.earnReward().then((resolve) => {
+              window.location.reload();
+            })
+          })       
+        } else {
+          alert('failed to share post try again')
+          window.location.reload();
+        }
+
+      });
+
+    }.bind(this);
+
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }
+
   render() {  
-    const {events, eventData} =this.state
+    const {events, eventData, storeDetails, foodChargeAmount, foodChargeType} =this.state
     userdata = JSON.parse(localStorage.getItem('guest-userdata'))
-    
+    const fees = {amount: foodChargeAmount, type: foodChargeType}
+
     return (
       <div className="">
         <div className="backoverlay" onClick={this.hideOverlay} style={this.state.overlayStyle}></div>
         <Loader loading={this.state.loading} background='no-fill' />
-        <EventBookModal event={eventData} show={this.state.bookingModal} close={() => this.setState({bookingModal: false})} onBooking={(eventid) => this.onBooking(eventid)}/>
+        <EventBookModal fees = {fees} store={storeDetails} event={eventData} show={this.state.bookingModal} close={() => this.setState({bookingModal: false})} onBooking={(eventid) => this.onBooking(eventid)}/>
        {this.state.storeDetails != null &&
           <Header 
-          storebanner = {this.state.storeDetails.storebanner}
-          rating = {4.7}
-          votes = {75}
-          businessname = {this.state.storeDetails.businessname}
-          address = {this.state.storeDetails.address}
-          phone = {this.state.storeDetails.phone}
-          modalShow = {this.state.timeModal}
-          timings = {this.state.storeDetails.timings}
-          closedon = {this.state.storeDetails.closedon}
+            storebanner = {this.state.storeDetails.storebanner}
+            rating = {4.7}
+            votes = {75}
+            businessname = {this.state.storeDetails.businessname}
+            address = {this.state.storeDetails.address}
+            phone = {this.state.storeDetails.phone}
+            modalShow = {this.state.timeModal}
+            timings = {this.state.storeDetails.timings}
+            closedon = {this.state.storeDetails.closedon}
          />
        } 
         <div className="heading"><i class="far fa-calendar-alt"></i> Event list </div>
@@ -173,10 +234,14 @@ class Event_list extends Component {
                 <Row>
                   <Col md={12} sm={12} xs={12}>
                     <div className="name-add-time">
-                        <h4><i className="far fa-calendar-alt  event-icon"></i>   {data.title}</h4>
+                      <Row>
+                        <Col lg={10} md={10} sm={10} xs={10}><h4><i className="far fa-calendar-alt  event-icon"></i>   {data.title}</h4></Col>
+                        <Col lg={2} md={2} sm={2} xs={2}><img onClick={() => this.fbShare(data)} style={{float: 'right', cursor: 'pointer'}} src={require('./../../images/share-icon.png')} /></Col>
+                      </Row>
+                        
                         <p><i className="fab fa-elementor"></i> Event type: {data.eventtype}</p>
                           {data.eventtype == 'once' ?
-                          <div>
+                          <div> 
                           <span></span>
                             <p>
                               <i className="fas fa-calendar-check"></i> Date: {data.eventonce.date}
@@ -220,12 +285,12 @@ class Event_list extends Component {
                       <p>
                       <LinesEllipsis
                         text={data.description}
-                        maxLine={typeof this.state[i] == 'undefined' ? 3 : this.state[i]}
+                        maxLine={!this.state[i] ? 3 : this.state[i]}
                         ellipsis=' . . .'
                         trimRight 
                         basedOn='letters'
                       />
-                      <span style={{color: 'blue', fontSize: 12}} onClick={() => this.setState({[i]: this.state[i] > 3 ? 3 : 10})}> { typeof this.state[i] == 'undefined' || this.state[i] == 3 ? 'Read more' : 'read less'} </span>
+                      <span style={{color: 'blue', fontSize: 12}} onClick={() => this.setState({[i]: this.state[i] > 3 ? 3 : 10})}> { typeof this.state[i] == 'undefined' || this.state[i] == 3 ? 'Read more' : 'Read less'} </span>
                       </p>
                   </div>
                 </div>
